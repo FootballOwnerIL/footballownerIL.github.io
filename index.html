@@ -161,7 +161,6 @@ body.kb .nav{display:none!important}
 </head>
 <body>
 <div id="app"></div>
-<form name="feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="form-name" value="feedback"><input name="type"><textarea name="msg"></textarea><input name="contact"><input name="ctx"><input name="bot-field"></form>
 <script>
 try{addEventListener('focusin',e=>{if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))document.body.classList.add('kb')});addEventListener('focusout',()=>{document.body.classList.remove('kb');setTimeout(()=>{try{scrollTo(0,scrollY)}catch(e){}},120)})}catch(e){}
 const KEY='owner_v9',$=document.getElementById('app');
@@ -3038,13 +3037,13 @@ function postDraw(){navFix();try{theme();
    if(view==='game'&&S.screen==='end'&&S.sum&&(S.sum.pos===1||(S.eu&&S.eu.won))&&S.cfd!==S.season){S.cfd=S.season;setTimeout(confetti,250)}if(view==='game'&&S.screen==='stop'&&S.cel&&S.cel.cf&&!S.cel.cfd){S.cel.cfd=1;setTimeout(confetti,250)}
    if(view==='squad'||view==='market'){const e=document.getElementById('pnl');if(e&&window._ps!==(S.buyK||'')+(S.buyI||'')+(S.sellN||'')+(S.mres?'r':'')+(S.mban?'b':'')+(S.rej?'j':'')){e.scrollIntoView({block:'center'})}window._ps=e?(S.buyK||'')+(S.buyI||'')+(S.sellN||'')+(S.mres?'r':'')+(S.mban?'b':'')+(S.rej?'j':''):null}}}catch(e){console.error(e)}}
 
-/* ══ הצעות ודיווח על באגים: נשלח דרך Netlify Forms ══ */
+/* ══ הצעות ודיווח על באגים: נשלח דרך Formspree ══ */
 function fbCtx(){try{return S?('עונה '+S.season+' · '+(clubOf().n)+' · ליגה '+S.lv+' · מסך '+(S.screen||view)):'ללא משחק פעיל'}catch(e){return''}}
 function fbOpen(){fbClose();const d=document.createElement('div');d.id='fbov';d.className='ov';d.innerHTML=`<div class="mdl" style="text-align:right"><h2 class="c" style="margin:0 0 8px">💡 הצעות ודיווח על באגים</h2><select id="fbt" style="width:100%;padding:10px;border-radius:8px;margin-bottom:8px"><option>🐞 באג</option><option>💡 הצעה לשיפור</option><option>⚖️ בעיית איזון</option><option>❓ אחר</option></select><textarea id="fbm" rows="6" placeholder="מה קרה? מה היית רוצה שישתנה? אפשר לפרט כמה שרוצים." style="width:100%;padding:10px;border-radius:8px;box-sizing:border-box"></textarea><input id="fbc" placeholder="איך ליצור קשר (לא חובה)" style="width:100%;padding:10px;border-radius:8px;margin-top:8px;box-sizing:border-box"><div class="mut" style="font-size:11.5px;margin:6px 0">מצורף אוטומטית מידע טכני קצר על המשחק: ${fbCtx()}</div><div id="fbs" class="c" style="min-height:20px;font-weight:700"></div><div class="cc"><button class="btn p" id="fbb" onclick="fbSend()" style="flex:1">שליחה</button><button class="btn" onclick="fbClose()" style="flex:1;text-align:center">סגירה</button></div></div>`;d.onclick=e=>{if(e.target===d)fbClose()};document.body.appendChild(d)}
 function fbClose(){const d=document.getElementById('fbov');if(d)d.remove()}
 async function fbSend(){const m=(document.getElementById('fbm').value||'').trim(),st=document.getElementById('fbs'),b=document.getElementById('fbb');if(m.length<5){st.textContent='כתוב לפחות כמה מילים 🙂';return}
-  const p=new URLSearchParams({'form-name':'feedback','type':document.getElementById('fbt').value,'msg':m,'contact':document.getElementById('fbc').value||'','ctx':fbCtx(),'bot-field':''});b.disabled=true;st.textContent='שולח…';
-  try{const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});if(!r.ok)throw new Error(r.status);st.textContent='✅ נשלח, תודה!';setTimeout(fbClose,1400)}
+  const p={'type':document.getElementById('fbt').value,'message':m,'contact':document.getElementById('fbc').value||'','context':fbCtx(),'_gotcha':''};b.disabled=true;st.textContent='שולח…';
+  try{const r=await fetch('https://formspree.io/f/xyeelgnz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(p)});if(!r.ok)throw new Error(r.status);st.textContent='✅ נשלח, תודה!';setTimeout(fbClose,1400)}
   catch(e){b.disabled=false;let t=document.getElementById('fbt').value+'\n'+m+'\n['+fbCtx()+']';try{navigator.clipboard.writeText(t);st.textContent='לא הצלחתי לשלוח מכאן. הטקסט הועתק ללוח, אפשר להדביק ולשלוח ידנית.'}catch(x){st.textContent='לא הצלחתי לשלוח מכאן. נסה שוב באתר הרגיל.'}}}
 function draw(){let h;if(mg&&view!=='mg'&&S){const v0=view;mgEnd(false);view=v0}if(!S&&view!=='home'&&view!=='hof'&&view!=='ach')view='home';try{ensureIds()}catch(e){}if(S&&S.B)clampS();
   if(S&&S.ro&&S.tv!==1){[...S.ro,...(S.out||[])].forEach(p=>{if(p.tx===undefined)p.tx=rollTx(p.a)});S.tv=1}
