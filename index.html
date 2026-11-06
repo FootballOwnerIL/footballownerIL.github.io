@@ -157,6 +157,11 @@ tr.split td{border-top:3px dashed var(--ac)}
 .mdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px;margin:8px 0}.mdt{position:relative;aspect-ratio:1;border-radius:50%;border:2px solid #2a3a5c;background:#0e1830;color:inherit;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0}.mdt .mdi{font-size:26px;filter:grayscale(1);opacity:.45}.mdt.ok{border-color:#f5c542;background:radial-gradient(circle,#4a3a10,#1c1606);box-shadow:0 0 10px rgba(245,197,66,.45)}.mdt.ok .mdi{filter:none;opacity:1}.mdt.sel{outline:2px solid var(--ac);outline-offset:2px}
 body.kb .nav{display:none!important}
 .lsc{display:flex;justify-content:center;align-items:center;gap:12px;font-size:40px;font-weight:900}.lsc span:first-child,.lsc span:last-child{flex:1;font-weight:400}
+.hfk{border-width:2px}.hfg{font-size:30px;font-weight:900;border:2px solid;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex:none}
+.hfs{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;background:linear-gradient(#18223a,#0a1020);border-radius:10px 10px 4px 4px;border-bottom:6px solid #6b4a2b;padding:10px 8px 4px;margin:6px 0 10px;box-shadow:inset 0 -10px 18px rgba(0,0,0,.35)}
+.hft{text-align:center;min-width:70px}.hfi{font-size:28px;line-height:1.1;letter-spacing:-2px}.hfl{font-size:10px;font-weight:700;margin:2px 0 4px}
+.hfp{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:12px;padding:8px 10px;margin:6px 0}
+.hfx{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}.hfc{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:10px;padding:6px 9px;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px}.hfc>span{color:var(--mut)}.hfc>b{font-size:14px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -738,7 +743,7 @@ const RAW={
 'מכבי קריית גת':'קוזלובסקי|F|by|65|33;זבלין|D|by|63|31;ארד בר|M|il|55|26;ר. מסיקה|M|il|55|37;א. זהבי|D|il|52|30;ש. גינון|M|il|52|24;א. אלתורי|F|il|44|23;אמיר אלה|D|il|43|22;ג. הרמן|G|il|41|26;יאלי שבו|F|il|41|21;אור דעבול|D|il|41|23;פ. חייק|D|il|40|32;עומר יפרח|M|il|38|22;פז שיפמן|M|il|38|20;א. גואטה|M|il|38|21;ב. שושן|D|il|38|26;א. טסה|D|il|38|19;אורי מלכה|F|il|38|20;א. אשרם|D|il|38|23;א. שיפמן|D|il|38|26;א. ספיקנר|F|us|38|24;א. פיניה|M|il|38|28;ד. צדיק|F|il|38|22;ג. גולדנברג|F|il|38|21',
 'מ.ס. אשדוד':'ד. מיכה|M|il|65|34;א. דגני|D|il|62|37;ת. בן־זקן|D|il|62|31;א. תמם|M|il|61|25;ר. אבו חמדאן|G|il|59|24;ר. גורדנה|M|il|59|36;ש. פדידה|M|il|58|29;ש. מזל|F|il|58|24;ר. ואטורי|D|il|57|28;א. חלאילה|F|il|57|28;אבנזר ממטה|F|gh|56|24;מאור ישילירמק|D|il|55|21;ש. חקמון|D|il|54|24;א. דיאקיטה|D|ci|53|22;א. לוי|F|il|50|24;מ. גרצ\'קין|D|il|48|30;מ. עאמר|D|il|47|23;ש. חרוש|M|il|44|24;א. אדרי|M|il|41|21;בן לוי|F|il|40|22;נהוראי דבוש|F|il|38|22;ר. טל|D|il|38|21;ה. בואהן|M|gh|38|20;א. פרץ|F|il|38|20;א. חזות|M|il|38|20;אליה גתון|F|il|38|21',
 'בני יהודה':'א. עטר|F|il|72|39;ר. נחמיאס|D|il|61|30;ש. דרור|F|il|60|31;מתן לוי|D|il|59|24;נ. ברדע|D|il|58|30;ג. בני|M|il|58|25;ש. דבח|D|il|56|28;גיא סיוויליה|M|il|56|24;זה פלורס|F|br|56|27;א. אלמקייס|M|il|55|26;ת. ליטבינוב|G|il|55|28;בן חדדי|M|il|53|23;א. עמנואל|M|ng|53|22;דני עאמר|F|il|50|26;ג\'. אג\'יאפונג|D|il|50|22;ש. נחמני|F|il|49|24;א. שירזי|D|il|48|25;א. טרוסט|M|il|47|27;ז\'. דה סילבה|M|be|46|18;ג\'ונתאס|F|br|43|21;י. פיבן|M|il|40|24;נ. קריב|F|il|38|22;אור יצחק|G|il|38|25;ש. מזרחי|D|il|38|20;נ. עוזנה|D|il|38|19;נ. גיסין|F|il|38|26',
-'מכבי הרצליה':'טום טוליץ\'|M|hr|59|27;א. קיאל|D|il|56|31;ר. אליאס|D|il|56|25;גיא דהן|F|il|56|26;ש. איזן|M|il|54|26;א. סטפנוב|M|bg|53|28;ל. אינברום|F|il|53|30;מאנו אפה|F|ng|51|29;זיו ליי|D|il|50|22;א. גינת|D|il|48|24;מ. אבו פאני|M|il|46|25;שגיא גניס|F|il|44|22;א. יברבאום|M|il|43|25;א. דהן|F|il|42|25;מ. זלמנוביץ\'|G|il|38|32;ר. חזן|D|il|38|21;א. משען|F|il|38|19;א. דוד|D|il|38|19;א. רחיח|M|il|38|23;ש. בלחסן|F|il|38|24;אילי אליהו יבגי|D|il|38|23;ש. בן נשר|G|il|38|20;א. סניאנג|F|gm|38|19;נ. יבגי|F|il|38|21;כרים בדראן|D|il|38|24;ת. בן דוד|D|il|38|20',
+'מכבי הרצליה':'טום טוליץ\'|M|hr|59|27;א. קיאל|D|il|56|31;ר. אליאס|D|il|56|25;גיא דהן|F|il|56|26;ש. איזן|M|il|54|26;א. סטפנוב|M|bg|53|28;ל. אינברום|F|il|53|30;מאנו אפה|F|ng|51|29;זיו ליי|D|il|63|22|130;א. גינת|D|il|48|24;מ. אבו פאני|M|il|46|25;שגיא גניס|F|il|44|22;א. יברבאום|M|il|43|25;א. דהן|F|il|42|25;מ. זלמנוביץ\'|G|il|38|32;ר. חזן|D|il|38|21;א. משען|F|il|38|19;א. דוד|D|il|38|19;א. רחיח|M|il|38|23;ש. בלחסן|F|il|38|24;אילי אליהו יבגי|D|il|38|23;ש. בן נשר|G|il|38|20;א. סניאנג|F|gm|38|19;נ. יבגי|F|il|38|21;כרים בדראן|D|il|38|24;ת. בן דוד|D|il|38|20',
 'מכבי בני ריינה':'מוחמד שאקר|F|il|64|29;עבדאללה ג\'אבר|D|ps|63|33;א. חבשי|D|il|61|31;מ. עוסמאן|M|ng|60|32;א. עמאר|D|il|57|25;מ. גושה|D|il|54|27;מ. שייח\'|M|il|54|30;נ. בזעה|M|il|53|25;ת. קלינאוסקס|F|lt|53|26;א. חזות|M|il|52|27;י. ששון|F|il|52|24;ג\'. דיומנדה|M|ci|51|23;א. כנעני|F|il|51|24;ניר גואטה|D|il|48|24;אוהד ברזילי|F|il|48|28;מור ברמי|D|il|40|23;מ. גבארין|M|il|38|24;ת. טהנה|D|il|38|19;מ. חורי|F|il|38|21;ש. פנחס|G|il|38|25;א. גורן|F|il|38|21;י. אביב|M|il|38|19;מ. ג\'בארין|D|il|38|20;א. אברהים|D|il|38|20;איהאם מאטר|D|il|38|20;יהונתן צייג|D|il|38|19',
 'הפועל כפר שלם':'א. קסטרו|F|co|62|32;מתן בית יעקב|M|il|62|30;א. בן חרוש|D|il|60|36;י. מזרחי|F|il|59|31;ד. ניר|D|il|56|33;א. דאסה|M|il|51|27;אוראל באיה|F|il|51|22;תמיר ברמן|D|un|50|25;דומיניק בראון|D|hr|50|22;עבאס סליפו|M|gh|48|22;איבה רנסום|F|ng|48|23;נ. חסון|M|il|43|24;א. אדרי|M|il|41|20;א. חן|F|il|41|26;ל. שפיגל|D|il|39|18;י. אשכנזי|M|il|39|34;ת. צרפתי|G|il|38|22;א. ויינברג|D|il|38|19;י. הוניו|M|il|38|19;ר. סאביץ\'|F|rs|38|19;א. קבילו|G|il|38|23;י. דנור|M|il|38|19;ג. וייס|G|il|38|20;ר. צ\'קנה|M|il|38|20;ר. ריבל|M|il|38|19',
 'הפועל כפר סבא':'ק. ייאדום|D|gh|56|26;מ. נעמן|D|il|56|28;ד. קדור|M|il|56|26;נ. כהן|D|il|55|24;נ. פליטר|D|il|53|25;א. והאב|D|il|48|20;א. רויזמן|F|il|48|24;איתי בוגנים|F|il|48|25;ר. הראל|D|il|46|22;שראל כהן|M|il|46|21;ב. מכיני|G|un|43|30;ג. בנדמה|M|ci|38|20;ר. בוגנים|F|il|38|23;ש. מרק|G|il|38|21;אופק פרץ|M|il|38|21;ד. דרזי|M|il|38|19;י. קראדי|D|il|38|20;א. גלברד|D|il|38|20;ג. שלח|D|il|38|26;ל. מלכה|M|il|38|22;י. סולל|F|il|38|19;א. סהר|G|il|38|23;י. חמו|D|il|38|20;א. ראובן|F|il|38|22;י. פרידמן|F|il|38|20;ל. שמואלי|F|il|38|19',
@@ -1279,7 +1284,7 @@ const MILE={st:{5:[4,0,0,'+4 אוהדים'],10:[8,0,3,'+8 אוהדים · +3 ע�
 function facMile(k,l){const m=MILE[k]&&MILE[k][l];if(!m)return;S.f+=m[0];S.s+=m[1];S.c+=m[2];const f=FAC.find(x=>x.k===k);chg('🏅 אבן דרך: '+f.n+' רמה '+l+' ('+m[3]+')');S.mnote='🏅 אבן דרך: '+f.n+' רמה '+l+'! '+m[3];clampS()}
 
 function build(k){const f=FAC.find(x=>x.k===k),l=fr(k);if(l>=MAXL||S.bld[k])return;const c=Math.round(f.c[l]*fcb()*100)/100;if(BW()<c){toast('אין מספיק כסף לבנייה');return}S.m-=c;S.bld[k]=1;logS('התחלת לבנות: '+f.n+' רמה '+(l+1)+' ('+fm(c)+')');clampS();save();draw()}
-function finishBuilds(){Object.keys(S.bld||{}).forEach(k=>{const f=FAC.find(x=>x.k===k);if(fr(k)>=MAXL){const rf=Math.round(f.c[MAXL-1]*fcb()*100)/100;S.m+=rf;chg('בניית '+f.n+' בוטלה: המתקן כבר ברמה המקסימלית. הוחזרו '+fm(rf));return}S.fac[k]=Math.min(MAXL,fr(k)+1);chg('הושלם: '+f.n+' רמה '+S.fac[k]);facMile(k,S.fac[k])});S.bld={}}
+function finishBuilds(){Object.keys(S.bld||{}).forEach(k=>{const f=FAC.find(x=>x.k===k);if(fr(k)>=MAXL){const rf=Math.round(f.c[MAXL-1]*fcb()*100)/100;S.m+=rf;chg('בניית '+f.n+' בוטלה: המתקן כבר ברמה המקסימלית. הוחזרו '+fm(rf));return}S.fac[k]=Math.min(MAXL,fr(k)+1);chg('הושלם: '+f.n+' רמה '+S.fac[k]);facMile(k,S.fac[k]);minc('fup')});S.bld={}}
 
 /* ===================== מחירים ===================== */
 /* ===================== בעלים: שווי, יעד כלכלי ומדיניות ===================== */
@@ -1435,7 +1440,12 @@ const domS=(n,b)=>{const r=(S.rv||[]).find(x=>x.n===n);if(r)return r.s;const dr=
 const ALLT=()=>[].concat(...POOLK.map(k=>POOLS[k].map(x=>[x[0],domS(x[0],x[1])])));
 const CUPS0={state:{n:'גביע המדינה',ic:'🏆',r:['שלב ה־32','שמינית גמר','רבע גמר','חצי גמר','הגמר'],pz:[.03,.05,.08,.15,.4]},toto:{n:'גביע הטוטו',ic:'🥤',r:['רבע גמר','חצי גמר','הגמר'],pz:[.02,.03,.08]}};
 const CUPS=new Proxy(CUPS0,{get:(t,k)=>t[k]&&t[k].pz?Object.assign({},t[k],{pz:t[k].pz.map(x=>Math.round(x*PZ()*100)/100)}):t[k]});
-function cupOpp(k,i){const me=clubOf().n,CC=k==='toto'?S.toto:S.cup;if(CC){CC.opp=CC.opp||[];if(CC.opp[i])return CC.opp[i]}const faced=(CC&&CC.opp)||[];let pool=k==='toto'?S.rv.map(r=>[r.n,r.s]):ALLT().filter(x=>x[0]!==me);{const p2=pool.filter(x=>!faced.some(f=>f&&f.n===x[0]));if(p2.length)pool=p2}const pw=k==='state'?[.2,.4,1,2,3.5][i]??3:[1,2.5,4][i]??3,w=pool.map(x=>Math.pow(Math.max(1,x[1]-35),pw));let r=Math.random()*w.reduce((a,b)=>a+b,0),o=pool[pool.length-1];for(let q=0;q<pool.length;q++){r-=w[q];if(r<=0){o=pool[q];break}}const res={n:o[0],s:Math.round(o[1])};if(CC)CC.opp[i]=res;return res}
+/* מודל גביע המדינה: בהגרלה שמשקללת חוזק, הסיכוי של קבוצה להגיע לשלב נקבע מסימולציה של לוח משחקים מלא (K=5.5: קבוצה מהלאומית מגיעה לגמר ב~3% מהעונות) */
+let _cm=null;
+function cupModel(){const me=clubOf().n,key=(S.season||0)+'|'+me;if(_cm&&_cm.key===key)return _cm;const A=ALLT(),n=A.length,K=5.5,N=1500,reach=[0,1,2,3,4,5].map(()=>new Array(n).fill(0)),win=new Array(n).fill(0),ix={};A.forEach((x,i)=>ix[x[0]]=i);
+for(let q=0;q<N;q++){const sl=A.map((x,i)=>i);sl.push(-1,-1);for(let i=sl.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[sl[i],sl[j]]=[sl[j],sl[i]]}let cur=sl;for(let r=0;r<6;r++){for(const t of cur)if(t>=0)reach[r][t]++;const nx=[];for(let i=0;i<cur.length;i+=2){const a=cur[i],b=cur[i+1];if(a<0)nx.push(b);else if(b<0)nx.push(a);else nx.push(Math.random()<1/(1+Math.exp(-(A[a][1]-A[b][1])/K))?a:b)}cur=nx}if(cur[0]>=0)win[cur[0]]++}
+return _cm={key,reach,win,ix}}
+function cupOpp(k,i){const me=clubOf().n,CC=k==='toto'?S.toto:S.cup;if(CC){CC.opp=CC.opp||[];if(CC.opp[i])return CC.opp[i]}const faced=(CC&&CC.opp)||[];let pool=k==='toto'?S.rv.map(r=>[r.n,r.s]):ALLT().filter(x=>x[0]!==me);{const p2=pool.filter(x=>!faced.some(f=>f&&f.n===x[0]));if(p2.length)pool=p2}const pw=k==='state'?0:[1,2.5,4][i]??3,M=k==='state'?cupModel():null,w=k==='state'?pool.map(x=>(M.reach[Math.min(i+1,5)][M.ix[x[0]]]||0)+.15):pool.map(x=>Math.pow(Math.max(1,x[1]-35),pw));let r=Math.random()*w.reduce((a,b)=>a+b,0),o=pool[pool.length-1];for(let q=0;q<pool.length;q++){r-=w[q];if(r<=0){o=pool[q];break}}const res={n:o[0],s:Math.round(o[1])};if(CC)CC.opp[i]=res;return res}
 
 /* ===================== הכנה למשחק ===================== */
 const PREP=[
@@ -1498,7 +1508,7 @@ const _il=0;
 const itemLbl=it=>{if(it.startsWith('ev'))return it==='evA'?'📋 החלטה של תחילת העונה':'📋 החלטה של אמצע העונה';if(it.startsWith('cup')&&+it.slice(3)<3){const c=S.cup;return c&&c.alive&&c.i===+it.slice(3)?'🏆 גביע המדינה · '+CUPS.state.r[c.i]+' (מוכרע אוטומטית)':null}if(it==='totoQ'){const c=S.toto;return c&&c.alive?'🥤 גביע הטוטו: רבע וחצי הגמר מוכרעים אוטומטית, את הגמר אתה משחק':null}window._nf=1;let m;try{m=itemMatch(it)}finally{window._nf=0}if(!m)return null;return(m.kind==='eu'||m.kind==='lp'||m.kind==='lpb'?EUI[S.eu.comp]:m.kind==='cup'?'🏆':m.kind==='toto'?'🥤':m.kind==='derby'?'⚔️':'🔥')+' '+m.lbl};
 function totoAuto(){const c=S.toto;if(!c||!c.alive||c.sim)return;c.sim=1;for(let i=c.i;i<2;i++){const o=cupOpp('toto',i),p=cl(advP(ourStr()-o.s,{fm:usF()})*100,2,98);const ok_=Math.random()*100<p;rg('T',o.n,ok_?0:2,mkScore(ok_?0:2,ourStr()-o.s));if(ok_){c.log.push('✅ '+CUPS.toto.r[i]+' מול '+o.n);c.i++;S.m+=CUPS.toto.pz[i];S.q=(S.q||0)+.6}else{c.log.push('❌ '+CUPS.toto.r[i]+' מול '+o.n);c.alive=0;logS('🥤 הודחתם מגביע הטוטו ב'+CUPS.toto.r[i]);break}}}
 function cupAuto(i){const c=S.cup;if(!c||!c.alive||c.i!==i)return;const o=cupOpp('state',i),p=cl(advP((ourStr()-o.s)*1.8,{fm:usF()})*100,2,98);const ok_=Math.random()*100<p;rg('C',o.n,ok_?0:2,mkScore(ok_?0:2,ourStr()-o.s));if(ok_){c.log.push('✅ '+CUPS.state.r[i]+' מול '+o.n);S.m+=CUPS.state.pz[i];S.f+=1;c.i++;logS('🏆 עליתם ל'+CUPS.state.r[c.i]+' בגביע המדינה')}else{c.log.push('❌ '+CUPS.state.r[i]+' מול '+o.n);c.alive=0;if(i<=1)S.f-=3;logS('🏆 הודחתם מגביע המדינה ב'+CUPS.state.r[i]+' מול '+o.n)}}
-function sellOver(i){const p=S.ro[i];if(!p||S.ro.length<=MAXR||!canSell(p))return;const a=Math.round(price(p)*.85*100)/100;S.m+=a;S.sales=(S.sales||0)+a;S.ro.splice(i,1);chg('נמכר: '+p.n+' ב־'+fm(a));logS('מכרת את '+p.n+' ב־'+fm(a)+' (סגל מעל '+MAXR+')');clampS();save();draw()}
+function sellOver(i){const p=S.ro[i];if(!p||S.ro.length<=MAXR||!canSell(p))return;const a=Math.round(price(p)*.85*100)/100;S.m+=a;S.sales=(S.sales||0)+a;try{saleHook(p,a)}catch(e){};S.ro.splice(i,1);chg('נמכר: '+p.n+' ב־'+fm(a));logS('מכרת את '+p.n+' ב־'+fm(a)+' (סגל מעל '+MAXR+')');clampS();save();draw()}
 function relOver(i){const p=S.ro[i];if(!p||S.ro.length<=MAXR||!canSell(p))return;S.ro.splice(i,1);chg('שוחרר: '+p.n);logS('שחררת את '+p.n+' (סגל מעל '+MAXR+')');save();draw()}
 function relH(){const n=S.ro.length-MAXR;if(n<=0)return'';return `<div class="card" style="border:2px solid #d64545"><b>🚫 הסגל מלא מדי (${S.ro.length}/${MAXR})</b><div class="mut">צריך להוציא עוד ${n} כדי להמשיך. עדיף למכור (מקבלים כסף) ולא לשחרר.</div>${S.ro.map((p,i)=>({p,i})).sort((a,b)=>a.p.r-b.p.r).map(({p,i})=>`<div class="row"><span>${p.fl||''} ${p.n} · ${p.pos} · ${p.r}/~${ptE(p)} · גיל ${p.a}</span><span><button class="btn sm" ${canSell(p)?'':'disabled'} onclick="sellOver(${i})">מכור ${fm(Math.round(price(p)*.85*100)/100)}</button> <button class="btn sm" style="opacity:.6" ${canSell(p)?'':'disabled'} onclick="relOver(${i})">שחרר</button></span></div>`).join('')}</div>`}
 function runQueue(){if(!S||S.screen==='end'||S.screen==='final'||S.fate)return;if(S.ro.length>MAXR){S.hold=1;S.screen='stop';save();draw();return}S.hold=0;while(S.queue&&S.queue.length){const it=S.queue.shift();
@@ -1630,6 +1640,7 @@ function playMatch(F){const m=S.mt;if(m.res)return;if(!F&&m.et)return;if(m.kind=
     if(m.opp&&m.opp.il&&typeof txt==='string')txt='🇮🇱 דרבי ישראלי באירופה! נפגשו שתי קבוצות מהליגה הישראלית ב'+STN[st]+'. '+txt;
     if(S.eu&&S.eu.best)S.euBest=S.eu.best}
   else if(m.kind==='cup'||m.kind==='toto'){const k=m.kind==='cup'?'state':'toto',c=m.kind==='cup'?S.cup:S.toto,C=CUPS[k];
+    try{if(k==='state'&&out===0&&m.opp&&(m.opp.s||0)-ourStr()>=8)minc('gk')}catch(e){}
     if(out===0){money=C.pz[c.i];S.m+=money;S.f+=k==='state'?2:1;if(k==='toto')S.q=(S.q||0)+.6;c.log.push('✅ '+C.r[c.i]+' מול '+m.opp.n+' ('+sc[0]+':'+sc[1]+')');
       if(c.i>=C.r.length-1){c.alive=0;c.won=1;S.f+=k==='state'?8:2;S.s+=k==='state'?4:1;if(k==='state'){S.cupWins=(S.cupWins||0)+1;S.cupWin=99}logS(C.ic+' זכיתם ב'+C.n+(k==='toto'?' (גביע הטוטו)':'!'));txt=k==='state'?'גביע המדינה שלכם! והכרטיס לליגה האירופית איתו.':'זכיתם בגביע הטוטו. לא תואר, אבל הכימיה בשמיים.'}
       else{c.i++;txt='עולים '+stg(C.r[c.i])+'.';if(k==='toto')S.queue.unshift('toto'+c.i)}}
@@ -2207,12 +2218,16 @@ function devOne(p,pl){const YY=S.coach.yg||5.5,perf=S.hitTg?.4:-.2,o=p.r;p.a++;l
     else p.hg=Math.round((p.hg||0)*.5)}
   if(p.a>=27&&p.pt>p.r)p.pt=Math.max(p.r,p.pt-(p.a>=30?2:1));p.pt=Math.max(p.r,Math.round(p.pt));p.dr=p.r-o}
 function retH(){const L=S.ret||[];if(!L.length)return'';const big=L.filter(x=>x.big),sm=L.filter(x=>!x.big);return big.map(x=>`<div class="card" style="padding:6px 10px;margin:4px 0;border-right:3px solid #c9a227;background:linear-gradient(135deg,#3a2e0e,#1a1405);display:flex;align-items:center;gap:8px"><span style="font-size:20px">👏</span><span style="font-size:13px;line-height:1.35"><b>${x.fl||''} ${x.n}</b> פרש מהכדורגל<br><span class="mut" style="font-size:11.5px">${x.pos} · רמה ${x.r} · בן ${x.a}</span></span></div>`).join('')+(sm.length?`<div class="card mut" style="font-size:12px;padding:6px 10px;margin:4px 0">מי פרש בנוסף: ${sm.map(x=>x.n+' ('+x.a+')').join(', ')}</div>`:'')}
-const retCut=p=>34+(p.r>=165?4:p.r>=140?3:p.r>=110?2:p.r>=80?1:0);
-const retPr=(p,a)=>{const d=a-retCut(p);return d<0?0:d>=4?1:[.15,.3,.5,.75][d]};
-const retRisk=p=>{const q=retPr(p,p.a+1);return q<=0?'נמוך':q<.3?'בינוני':'גבוה'};
-const retChip=p=>{const k=retRisk(p);return ' · סיכון פרישה: <b style="color:'+(k==='גבוה'?'#ff5d5d':k==='בינוני'?'#f5b800':'#00e5a8')+'">'+k+'</b>'};
-function retireNow(p,inXI){return Math.random()<retPr(p,p.a)}
-function devPlayers(){S.ret=[];const X=new Set([].concat(...Object.values(lineup().xi)));S.ro.forEach((p,i)=>{devOne(p,X.has(p)||!!p.fp);if(retireNow(p,X.has(p))){const sg=X.has(p)||p.r>=140||(p.js!=null&&S.season-p.js>=5);(S.ret=S.ret||[]).push({n:p.n,pos:p.pos,r:p.r,a:p.a,big:sg,fl:p.fl});(S.retN=S.retN||[]).push(p.n);chg('פרש: '+p.n+' (גיל '+p.a+')');const y=mkP(p.pos,Math.round(LB()-12+ri(0,5)+fl('ac')*2),18,false);y.js=S.season-3;S.ro[i]=y;chg('עלה מהנוער: '+y.n+' ('+y.r+', פוטנציאל מוערך ~'+ptE(y)+')')}})}
+/* פרישה: אף שחקן לא פורש לפני גיל 34. מגיל 34 הסיכון עולה בהדרגה לפי גיל, רמה (שחקן טוב פורש מאוחר) ומצב (שחקן הרכב פורש פחות, שחקן ספסל יותר) */
+const retShift=p=>p.r>=85?3:p.r>=80?2:p.r>=75?1.5:p.r>=70?1:p.r>=60?.5:0;
+const RETC=[[-3,.01],[-2,.02],[-1,.04],[0,.08],[1,.15],[2,.27],[3,.42],[4,.6],[5,.8],[6,1]];
+const retCurve=e=>{if(e<=RETC[0][0])return RETC[0][1];if(e>=6)return 1;for(let i=0;i<RETC.length-1;i++){const [x0,y0]=RETC[i],[x1,y1]=RETC[i+1];if(e<=x1)return y0+(y1-y0)*(e-x0)/(x1-x0)}return 1};
+let _xiC=null;const xiOf=()=>{if(!_xiC){try{_xiC=new Set([].concat(...Object.values(lineup().xi)))}catch(e){_xiC=new Set()}}return _xiC};
+const retPr=(p,a,inXI)=>{if(a<34)return 0;let q=retCurve(a-34-retShift(p));if(inXI===true)q*=.8;else if(inXI===false&&!p.fp)q*=1.25;return Math.min(1,q)};
+const retRisk=p=>{if(p.a<34)return null;const q=retPr(p,p.a+1,S.ro.includes(p)?xiOf().has(p):undefined);return q<.15?'נמוך':q<.4?'בינוני':'גבוה'};
+const retChip=p=>{const k=retRisk(p);if(!k)return '';return ' · סיכון פרישה: <b style="color:'+(k==='גבוה'?'#ff5d5d':k==='בינוני'?'#f5b800':'#00e5a8')+'">'+k+'</b>'};
+function retireNow(p,inXI){return p.a>=34&&Math.random()<retPr(p,p.a,!!inXI)}
+function devPlayers(){_xiC=null;S.ret=[];const X=new Set([].concat(...Object.values(lineup().xi)));S.ro.forEach((p,i)=>{devOne(p,X.has(p)||!!p.fp);if(retireNow(p,X.has(p))){const sg=X.has(p)||p.r>=140||(p.js!=null&&S.season-p.js>=5);(S.ret=S.ret||[]).push({n:p.n,pos:p.pos,r:p.r,a:p.a,big:sg,fl:p.fl});(S.retN=S.retN||[]).push(p.n);chg('פרש: '+p.n+' (גיל '+p.a+')');const y=mkP(p.pos,Math.round(LB()-12+ri(0,5)+fl('ac')*2),18,false);y.js=S.season-3;S.ro[i]=y;chg('עלה מהנוער: '+y.n+' ('+y.r+', פוטנציאל מוערך ~'+ptE(y)+')')}})}
 /* עליות וירידות בין הליגות */
 function lgInit(){const cb=clubOf().n,mine=[cb].concat((S.rv||[]).map(r=>r.n)),ent=n=>{for(const k of POOLK){const e=POOLS[k].find(x=>x[0]===n);if(e)return[e[0],e[1],e[2]]}const r=(S.rv||[]).find(x=>x.n===n);return[n,r?r.b:60,5]};
   S.lgx={};POOLK.forEach(k=>{S.lgx[k]=k===S.pk?mine.map(ent):POOLS[k].filter(x=>!mine.includes(x[0])).map(x=>[x[0],x[1],x[2]])});return S.lgx}
@@ -2255,7 +2270,7 @@ function newSeason(){S.wn=[];if(S.m<0){const it=Math.round(-S.m*.05*100)/100;S.m
   devPlayers();
   (S.out||[]).forEach(p=>{devOne(p,p.lnMin==='high'?true:p.lnMin==='mid'?null:false);const lx=loanFx(p);S.ro.push(p);chg('חזר מהשאלה: '+p.n+' ('+p.r+(p.dr?', '+(p.dr>0?'+':'')+p.dr:'')+')'+lx)});S.out=[];
   {const need=18-ownN();for(let i=0;i<need;i++){const y=mkP(pk(POS),Math.round(LB()-10+ri(0,4)),ri(19,24),false);S.ro.push(y);chg('חתמתם על שחקן חופשי כדי להשלים 18 שחקנים: '+y.n+' ('+y.r+')')}}
-  (S.youthNext||[]).forEach(y=>{minc('yth');const p=mkP(pk(POS),y.r,18,false);p.n=y.n;p.fl='🇮🇱';p.pt=Math.max(p.r,y.pt);p.js=S.season-3;S.ro.push(p);chg('עלה מהנוער: '+p.n+' ('+p.pos+', '+p.r+', פוטנציאל מוערך ~'+ptE(p)+')')});S.youthNext=[];
+  (S.youthNext||[]).forEach(y=>{minc('yth');const p=mkP(pk(POS),y.r,18,false);p.n=y.n;p.fl='🇮🇱';p.ac=1;p.pt=Math.max(p.r,y.pt);p.js=S.season-3;S.ro.push(p);chg('עלה מהנוער: '+p.n+' ('+p.pos+', '+p.r+', פוטנציאל מוערך ~'+ptE(p)+')')});S.youthNext=[];
   if(fr('ac')>=1){const a=fl('ac'),gk=Math.max(0,K()-LB()),y=mkP(pk(POS),Math.round(LB()-16+a*2+ri(0,3)),ri(17,18),false),bs=Math.round(LB()+gk*(.2+.5*a/7.5))+ri(-5,5);if(Math.random()<.08+a*.073){y.sp=1;y.pt=Math.max(y.r+8,bs+ri(10,24)+Math.round(a))}else y.pt=Math.max(y.r+2,bs-ri(4,12));y.js=S.season-3;S.ro.push(y);chg('עלה מהאקדמיה: '+y.n+' ('+y.pos+', '+y.r+', פוטנציאל מוערך ~'+ptE(y)+(y.sp?' 💎':'')+')')}
   if(!spLocked())S.spA=null;genSpons();
   S.log.unshift('עונה '+S.season+' ב'+L.n+': חוזה המאמן נותרו '+Math.max(0,S.coach.y)+' שנים');S.log=S.log.slice(0,6);
@@ -2286,7 +2301,7 @@ function start(id){try{gtag('event','start_game')}catch(e){}const c=CLUBS.find(x
   S={club:id,lv:c.lv,pk:c.pk,B:c.B,season:1,m:c.m,f:c.f,s:c.s,c:50,tg:c.tg,bn:0,exp:'עונת הבכורה שלך. כולם מחכים לראות מה תשבור קודם.',ro:(c.lv<=2&&realSquad(c.n,c.lv?c.k-2:c.k))||mkRo(c.k),rv:POOLS[c.pk].filter(r=>r[0]!==c.n).map(([n,b])=>({n,b,s:Math.round(b+R(-1,1))})),done:[],flags:{},q:0,log:[],lastPos:null,fate:null,fac:{},bld:{},chg:[],si:0,rd:0,out:[],youthNext:[],screen:'stop'};
   S.trk=trkSel;S.pv=2;S.V0=Math.max(.5,S.ro.reduce((a,x)=>a+price(x),0));S.m0=S.m;S.f0=S.f;S.sh=[];try{const kk=clubOf().k;S.st0={R:K(),V:W(),n:CLUBS.length,rank:1+CLUBS.filter(c=>c.k>kk).length}}catch(e){S.st0=null};S.yr=[0,0,0];newCoach(ri(58,70));S.coach.y=2;S.coach.t=1;S.toto=LG().tot?{i:0,alive:1,log:[],won:0}:null;S.cup={i:0,alive:1,log:[],won:0};S.games=[];S.euNext=REAL_EU[c.n]||null;euStart();setEtg();genSpons();
   mkTable();genMarket();genCoaches();setEcon();S.W00=W();genInv();choosing=false;view='game';save();draw()}
-function cupWinnerOther(){const pool=ALLT().filter(x=>x[0]!==clubOf().n),w=pool.map(x=>Math.pow(Math.max(1,x[1]-45),4));let r=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){r-=w[i];if(r<=0)return pool[i][0]}return pool[0][0]}
+function cupWinnerOther(){const M=cupModel(),pool=ALLT().filter(x=>x[0]!==clubOf().n),w=pool.map(x=>(M.win[M.ix[x[0]]]||0)+.05);let r=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){r-=w[i];if(r<=0)return pool[i][0]}return pool[0][0]}
 function euQualAll(){const o=sorted(),ids=o.map(t=>t.id),champ=ids[0];let cw=S.cupWin===99?99:null;S.cupWinName=cw===99?clubOf().n:cupWinnerOther();if(cw==null){const t=S.table.find(x=>x.n===S.cupWinName);cw=t?t.id:-1}
   const q={};q[champ]='UCL';const uel=cw!==champ&&cw!==-1?cw:ids[1];q[uel]='UEL';let n=0;for(const id of ids){if(n>=2)break;if(q[id])continue;q[id]='UECL';n++}return q}
 /* ══ דירוג הליגה באירופה: ספירת העפלות של קבוצות הליגה לשלב הליגה, ושדרוג חד־פעמי של מקומות ההעפלה ══ */
@@ -2439,7 +2454,7 @@ function startMG(i){S.spres=null;const o=S.sp&&S.sp[i];if(!o||spLocked())return;
 function mgH(){const o=mg.o;return topBar()+`<div class="ban" style="background:linear-gradient(135deg,#0c2a3d,#0f3d2e)"><div class="bi">🎮</div><h2>${MGN[mg.t]}</h2><div>${o.co} · ${fm(o.amt)}</div></div><div class="card mut">${MGH[mg.t]}</div><div id="mgb"></div><div id="mgu" style="margin-top:${mg.t==='tap'?'150px':'40px'};padding-top:16px;border-top:1px dashed #888"><button class="btn sm" style="text-align:center;opacity:.75" onclick="mgGU(1)">ויתור (נחשב הפסד)</button></div>`}
 function mgGU(a){const e=document.getElementById('mgu');if(!e)return;if(a)e.innerHTML='<div class="c" style="margin-bottom:6px"><b>בטוח שאתה רוצה לוותר? זה נחשב הפסד.</b></div><button class="btn" style="text-align:center;background:#8e1b1b;color:#fff" onclick="mgEnd(0)">כן, אני מוותר</button><button class="btn p" style="text-align:center" onclick="mgGU(0)">לא, ממשיכים</button>';else e.innerHTML='<button class="btn sm" style="text-align:center;opacity:.75" onclick="mgGU(1)">ויתור (נחשב הפסד)</button>'}
 function mgResult(win,co,pay){try{let d=document.getElementById('mgr');if(d)d.remove();d=document.createElement('div');d.id='mgr';const c=win?'#2eea8a':'#ff5a5a';d.innerHTML=`<div class="bx" style="border-color:${c}"><div style="font-size:64px">${win?'🏆':'💔'}</div><h1 style="color:${c}">${win?'ניצחת!':'הפסדת'}</h1><p style="font-size:16px;margin:6px 0 14px">${win?'החסות של <b>'+co+'</b> נחתמה. '+(pay>0?'נכנסו לקופה <b>'+fm(pay)+'</b>.':''):'<b>'+co+'</b> ביטלה את העסקה והצעות החסות האחרות ירדו.'}</p><button class="btn p" style="width:100%" onclick="document.getElementById('mgr').remove()">המשך</button></div>`;document.body.appendChild(d)}catch(e){}}
-function mgEnd(win){mgClear();if(!mg)return;const o=(mg.o&&mg.o.co)?mg.o:((S.sp&&S.sp[mg.i])||{co:'ספונסר',amt:0});const ded=win?Math.min(Math.round(o.amt*.6*100)/100,mg.pen||0):0,pay=Math.round((o.amt-ded)*100)/100;if(win){S.m+=pay;S.s+=3;S.f+=1;clampS();S.spA={co:o.co,amt:pay,til:S.season};S.sp=[];S.spPen=Math.min(1,(S.spPen||1)+.15);minc('sp')}else{S.s-=2;S.sp.splice(mg.i,1);S.spPen=Math.max(.5,Math.round((S.spPen||1)*.82*100)/100);S.sp.forEach(x=>x.amt=Math.round(x.amt*.82*100)/100)}
+function mgEnd(win){mgClear();if(!mg)return;const o=(mg.o&&mg.o.co)?mg.o:((S.sp&&S.sp[mg.i])||{co:'ספונסר',amt:0});const ded=win?Math.min(Math.round(o.amt*.6*100)/100,mg.pen||0):0,pay=Math.round((o.amt-ded)*100)/100;if(win){S.m+=pay;S.s+=3;S.f+=1;clampS();S.spA={co:o.co,amt:pay,til:S.season};S.sp=[];S.spPen=Math.min(1,(S.spPen||1)+.15);minc('sp');if(S.s>=90)minc('spH')}else{S.s-=2;S.sp.splice(mg.i,1);S.spPen=Math.max(.5,Math.round((S.spPen||1)*.82*100)/100);S.sp.forEach(x=>x.amt=Math.round(x.amt*.82*100)/100)}
   S.spres={ok:!!win,t:win?o.co+' חתמה כספונסרית הראשית שלכם לעונה הזאת: +'+fm(pay)+(ded>0?' (אחרי ניכוי '+fm(ded)+' על קבוצות שנחשפו)':'')+'. עד סוף העונה אין מקום לספונסר נוסף.':'הפסדת במשחק, ו'+o.co+' עזבה. השמועה מתפשטת בשוק: ההצעות הבאות ירדו ב־18% (רמת ההצעות עכשיו '+Math.round((S.spPen||1)*100)+'%).'};
   logS('🤝 '+o.co+' ‒ '+(win?'נחתם':'נכשל'));mgResult(win,o.co,pay);mg=null;clampS();view='club';if(chk()){S.screen='final';view='game'}save();draw()}
 
@@ -2522,7 +2537,7 @@ function mkXPlan(){if(!winOpen())return null;const sx=S.sx||{sell:1,loan:1,clean
   const inc=items.reduce((a,o)=>a+o.amt,0),wg=items.reduce((a,o)=>a+o.wg,0);return{items,inc:Math.round(inc*100)/100,wg:Math.round(wg*100)/100,n0:S.ro.length,n1:virt.length,K0}}
 function xPlanGo(){const pl=mkXPlan();if(!pl||!pl.items.length)return;const msg=[];const fail=[];pl.items.forEach(o=>{const q=findP(o.n);const m0=o.t==='loan'?'loan':o.t==='sell'?'sell':'rel';if(!q)return;if(!canSell(q,m0)){fail.push('⚠️ לא בוצע: '+whyNo(q,m0));return}S.ro.splice(S.ro.indexOf(q),1);
     if(o.t==='loan'){const c=loanClub(q);q.lnMin='high';q.lnR0=q.r;q.lnG=loanRoll(q);q.lnTo=c;q.lnFee=o.amt;(S.out=S.out||[]).push(q);S.m+=o.amt;minc('lo');chg('הושאל ל'+c+': '+q.n);logS('המאמן השאיל את '+q.n+' ל'+c);msg.push('🔁 '+q.n+' הושאל ל'+c+' (+'+fm(o.amt)+')')}
-    else if(o.t==='sell'){S.m+=o.amt;S.sales=(S.sales||0)+o.amt;chg('נמכר: '+q.n);logS('המאמן מכר את '+q.n+' ב־'+fm(o.amt));msg.push('💰 '+q.n+' נמכר ב־'+fm(o.amt))}
+    else if(o.t==='sell'){S.m+=o.amt;S.sales=(S.sales||0)+o.amt;try{saleHook(q,o.amt)}catch(e){};chg('נמכר: '+q.n);logS('המאמן מכר את '+q.n+' ב־'+fm(o.amt));msg.push('💰 '+q.n+' נמכר ב־'+fm(o.amt))}
     else{chg('שוחרר: '+q.n);logS('המאמן שחרר את '+q.n);msg.push('🧹 '+q.n+' שוחרר')}});
   S.mnote=(msg.length?'✅ תוכנית היציאות בוצעה:<br>'+msg.join('<br>'):'🚫 לא בוצעה אף פעולה')+(fail.length?'<br><b style="color:#ff8a80">'+fail.join('<br>')+'</b>':'');if(fail.length)toast(fail[0].replace('⚠️ לא בוצע: ',''));clampS();save();draw()}
 function xPlanH(){const pl=mkXPlan(),sx=S.sx||{sell:1,loan:1,clean:0},T={loan:['🔁','השאלה'],sell:['💰','מכירה'],rel:['🧹','שחרור']},
@@ -2549,7 +2564,7 @@ function setBud(k,v){S.bud=S.bud||{};S.bud[k]=v;save();draw()}
 function setMM(m){S.mm=m;S.buyK=null;save();draw()}
 function setN(n){S.bud=S.bud||{};S.bud.n=n;save();draw()}
 function planRun(quiet){const pl=mkPlan();if(!pl||!pl.buys.length){if(!quiet){S.mnote='🧑‍🏫 אין תוכנית מתאימה בתקציב הנוכחי.';draw()}return 0}
-  S.cbMsg='';const pfail=[];pl.outs.forEach(o=>{const q=findP(o.n);const m0=o.how==='sell'?'sell':'rel';if(!q)return;if(!canSell(q,m0)){pfail.push(whyNo(q,m0));return}S.ro.splice(S.ro.indexOf(q),1);if(o.how==='sell'){S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt}chg((o.how==='sell'?'נמכר: ':'שוחרר: ')+q.n);logS((o.how==='sell'?'המאמן מכר את ':'המאמן שחרר את ')+q.n);S.cbMsg+=(S.cbMsg?'<br>':'')+'🔴 '+(o.how==='sell'?'נמכר: ':'שוחרר: ')+q.n+(o.how==='sell'?' ב־'+fm(o.amt):'')});
+  S.cbMsg='';const pfail=[];pl.outs.forEach(o=>{const q=findP(o.n);const m0=o.how==='sell'?'sell':'rel';if(!q)return;if(!canSell(q,m0)){pfail.push(whyNo(q,m0));return}S.ro.splice(S.ro.indexOf(q),1);if(o.how==='sell'){S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt;try{saleHook(q,o.amt)}catch(e){}}chg((o.how==='sell'?'נמכר: ':'שוחרר: ')+q.n);logS((o.how==='sell'?'המאמן מכר את ':'המאמן שחרר את ')+q.n);S.cbMsg+=(S.cbMsg?'<br>':'')+'🔴 '+(o.how==='sell'?'נמכר: ':'שוחרר: ')+q.n+(o.how==='sell'?' ב־'+fm(o.amt):'')});
   let n=0;pl.buys.forEach(b=>{if(cpYes(b.n,1))n++});clampS();if(pfail.length){S.cbMsg+=(S.cbMsg?'<br>':'')+'<b style="color:#ff8a80">⚠️ לא בוצע: '+pfail.join('<br>⚠️ לא בוצע: ')+'</b>';if(!quiet)toast(pfail[0])}if(!quiet){S.mnote='✅ התוכנית בוצעה:<br>'+S.cbMsg;save();draw()}else save();return n}
 function planGo(){planRun(0)}
 function planH(){const pl=mkPlan();if(!pl)return'';const sg=x=>(x>=0?'+':'−')+fm(Math.abs(x)),cl_=x=>x>=0?'up':'dn',net=Math.round((pl.cost-pl.inc)*100)/100;
@@ -2568,7 +2583,7 @@ function doBuy(mode,quiet){const Lm=S.market[S.buyK],p=Lm&&Lm[S.buyI];if(!p||!wi
   if(!ok){S.negN=(S.negN||0)+1;p.neg=1;p.mk=Math.round((p.mk||1)*1.15*100)/100;S.mban=null;S.rej={k:S.buyK,i:S.buyI,t:'ההצעה על '+p.n+' נדחתה!',s:'המועדון נעלב והעלה את המחיר ב־15%: עכשיו '+fm(lpz(p))+'. אין יותר הנחות על השחקן הזה.'};S.buyK=null;save();return draw()}
   const t0=TW();S.m-=cost;S.tw=Math.max(0,Math.round((t0-cost)*100)/100);S.spend=(S.spend||0)+cost;Lm.splice(S.buyI,1);const np=Object.assign({},p,{dr:0,fx:0});if(p.fa)np.frS=S.season;if(mode!=='loan'&&mode!=='cloan')np.bw=wkey();delete np.neg;delete np.fa;delete np.scout;if(mode==='loan'||mode==='cloan')np.loanIn=1;S.ro.push(np);chg(((mode==='loan'||mode==='cloan')?'הושאל לעונה':'הצטרף')+': '+np.n+' ('+np.r+')');if(S.mor&&np.r>=S.mor.r-3){S.mnote='😌 '+np.n+' הרגיע את החדר. המאמן שוב מחייך';S.mor=null}
   const rel='';
-  logS(((mode==='loan'||mode==='cloan')?'השאלת את ':'החתמת את ')+np.n+' ב־'+fm(cost));S.mnote='✅ '+((mode==='loan'||mode==='cloan')?'השאלתם לעונה':'החתמתם')+' את '+np.fl+' '+np.n+' ('+np.pos+', '+np.r+', פוטנציאל מוערך ~'+ptE(np)+') ב־'+fm(cost)+(rel?'. הסגל היה מלא, ולכן שוחרר '+rel:'');minc('buy');S.mban={ok:1,t:((mode==='loan'||mode==='cloan')?'הושאל!':'נחתם!'),s:np.n+' ('+np.pos+', '+np.r+') ב־'+fm(cost)};S.buyK=null;clampS();save();if(!quiet)draw()}
+  logS(((mode==='loan'||mode==='cloan')?'השאלת את ':'החתמת את ')+np.n+' ב־'+fm(cost));S.mnote='✅ '+((mode==='loan'||mode==='cloan')?'השאלתם לעונה':'החתמתם')+' את '+np.fl+' '+np.n+' ('+np.pos+', '+np.r+', פוטנציאל מוערך ~'+ptE(np)+') ב־'+fm(cost)+(rel?'. הסגל היה מלא, ולכן שוחרר '+rel:'');minc('buy');try{buyHook(np,cost,mode)}catch(e){}S.mban={ok:1,t:((mode==='loan'||mode==='cloan')?'הושאל!':'נחתם!'),s:np.n+' ('+np.pos+', '+np.r+') ב־'+fm(cost)};S.buyK=null;clampS();save();if(!quiet)draw()}
 const scC=()=>Math.max(.02,Math.round((S.B*ES()*.03*(1-fl('sc')*.05)+Math.max(0,S.m)*.003)*100)/100);
 function scoutGo(){const c=scC();if(!winOpen()||S.market.sc||BW()<c||fpBanned())return;const t1=TW();S.m-=c;S.tw=Math.max(0,Math.round((t1-c)*100)/100);S.market.sc=1;for(let i=0;i<3+Math.floor(fl('sc')/2);i++){const A=LB()+Math.max(0,K()-LB())*.8,q=mkP(pk(POS),Math.round(A-ri(6,10)+fl('sc')*2),ri(17,19),true);const pc=Math.max(96+Math.round(fl('sc')*7),Math.round(A)+Math.round(fl('sc')*9));q.pt=cl(Math.round(A)+ri(8,18)+Math.round(fl('sc')),q.r,pc);if(Math.random()<.35+fl('sc')*.06){q.sp=1;q.pt=cl(q.pt+5,q.r,pc)}if(Math.random()<Math.max(0,(fl('sc')-2.5)*.025+(((S.coach&&S.coach.rn)||55)-70)*.002)){q.sp=1;q.pt=cl(Math.round(A)+ri(25,50)+Math.round(fl('sc')*4),q.r,pc+25);q.gem=1}q.scout=1;S.market.pl.unshift(q)}S.mnote='🔍 הסקאוט חזר עם 3 כישרונות צעירים מחו״ל. הם בראש הרשימה.';clampS();save();draw()}
 const rb=p=>p.real?'<span class="rb">✔</span>':'';const fl2=p=>`<span title="לאום">${p.fl||'🇮🇱'}</span>`;
@@ -2613,7 +2628,7 @@ function openSell(i){const p=S.ro[i];if(!p||!winOpen())return;if(S.sellCk!==wkey
 function closeSell(){S.sellN=null;S.sellOff=null;S.loanMode=0;S.loanOff=null;draw()}
 function sellTo(k,counter){const p=findP(S.sellN),o=S.sellOff&&S.sellOff[k];if(!p||!o)return;if(!canSell(p,'sell')){deny(p,'sell');return draw()}
   if(counter){if(o.up){S.sellMsg='⚠️ '+o.club+' כבר התמקחה פעם אחת ולא תעלה שוב.'}else if(Math.random()<.6){o.amt=Math.round(o.amt*1.12*100)/100;o.up=1;S.sellMsg='✅ '+o.club+' הסכימה להעלות ל־'+fm(o.amt)+'.'}else{o.amt=Math.round(o.amt*.92*100)/100;o.up=1;S.sellMsg='❌ '+o.club+' נעלבה והורידה את ההצעה ל־'+fm(o.amt)+'.'}return draw()}
-  o.amt=Math.round(o.amt*(1+invE('sell'))*100)/100;S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt;const sm=starSold(p);S.ro.splice(S.ro.indexOf(p),1);logS('מכרת את '+p.n+' ל'+o.club+' ב־'+fm(o.amt));chg('נמכר ל'+o.club+': '+p.n);S.sellN=null;S.sellOff=null;S.mnote='✅ '+p.n+' נמכר ל'+o.club+' ב־'+fm(o.amt)+sm;clampS();save();draw()}
+  o.amt=Math.round(o.amt*(1+invE('sell'))*100)/100;S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt;try{saleHook(p,o.amt)}catch(e){};const sm=starSold(p);S.ro.splice(S.ro.indexOf(p),1);logS('מכרת את '+p.n+' ל'+o.club+' ב־'+fm(o.amt));chg('נמכר ל'+o.club+': '+p.n);S.sellN=null;S.sellOff=null;S.mnote='✅ '+p.n+' נמכר ל'+o.club+' ב־'+fm(o.amt)+sm;clampS();save();draw()}
 const LTL={big:'קבוצה גדולה',mid:'קבוצה בינונית',small:'קבוצה קטנה'},LML={low:'מעטות',mid:'בינוניות',high:'הרבה'},LDL={low:'איטית',mid:'רגילה',high:'מהירה'};
 function openLoan(){const p=findP(S.sellN);if(!p)return;if(!canSell(p,'loan')){deny(p,'loan');return draw()}
   const me=clubOf().n,A=ALLT().filter(x=>x[0]!==me),used=[],pickT=t=>{let L=A.filter(x=>x[1]<=p.r+1&&x[1]>=p.r-9);L=L.filter(x=>!used.includes(x[0]));let c;if(L.length)c=pk(L)[0];else if(t==='big')c=pk(ECL[p.r>=75?2:1].filter(x=>!used.includes(x)));else{const B2=A.filter(x=>!used.includes(x[0])).sort((x,y)=>t==='small'?x[1]-y[1]:Math.abs(x[1]-p.r)-Math.abs(y[1]-p.r)).slice(0,6);c=pk(B2)[0]}used.push(c);return c};
@@ -2631,7 +2646,7 @@ function cancelLoan(k){const p=(S.out||[])[k];if(!p)return;if(!winOpen()){S.mnot
   S.out.splice(k,1);S.m-=f;S.tw=Math.max(0,(S.tw!=null?S.tw:TW())-f);{const sh=loanShown(p);if(sh>0){p.r+=sh;p.dr=(p.dr||0)+sh;p.pt=Math.max(p.pt,p.r)}}delete p.lnG;delete p.lnTo;delete p.lnMin;delete p.lnFee;delete p.lnR0;S.ro.push(p);chg('ההשאלה בוטלה: '+p.n+' חזר לסגל');logS('ביטלת את השאלת '+p.n);S.mnote='✅ ההשאלה של '+p.n+' בוטלה והוא חזר לסגל'+(f?' (הוחזרו '+fm(f)+')':'')+'.';clampS();save();draw()}
 function loanOut(){const p=findP(S.sellN);if(!p)return;if(!canSell(p,'loan')){deny(p,'loan');return draw()}S.ro.splice(S.ro.indexOf(p),1);p.lnR0=p.r;(S.out=S.out||[]).push(p);chg('הושאל החוצה לעונה: '+p.n);logS('השאלת את '+p.n+' לעונה');S.sellN=null;S.sellOff=null;save();draw()}
 function releaseP(){const p=findP(S.sellN);if(!p)return;if(!canSell(p,'rel')){deny(p,'rel');return draw()}S.ro.splice(S.ro.indexOf(p),1);chg('שוחרר: '+p.n);logS('שחררת את '+p.n);S.sellN=null;S.sellOff=null;save();draw()}
-function accInc(k,yes){const o=S.inc[k];if(!o)return;const p=findP(o.pid);if(yes&&p){if(!canSell(p,'sell')){const w=whyNo(p,'sell');S.mnote='🚫 '+w;toast(w);return draw()}o.amt=Math.round(o.amt*(1+invE('sell'))*100)/100;S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt;const sm=starSold(p);S.ro.splice(S.ro.indexOf(p),1);chg('נמכר ל'+o.club+': '+p.n);logS('מכרת את '+p.n+' ל'+o.club+' ב־'+fm(o.amt));S.mnote='✅ '+p.n+' נמכר ל'+o.club+' ב־'+fm(o.amt)+sm}else if(!yes&&p&&Math.random()<.3){adjP(p.id,-1);S.mnote=p.n+' התאכזב שסירבת להעברה. ▼1'}S.inc.splice(k,1);clampS();save();draw()}
+function accInc(k,yes){const o=S.inc[k];if(!o)return;const p=findP(o.pid);if(yes&&p){if(!canSell(p,'sell')){const w=whyNo(p,'sell');S.mnote='🚫 '+w;toast(w);return draw()}o.amt=Math.round(o.amt*(1+invE('sell'))*100)/100;S.m+=o.amt;S.tw=TW()+o.amt;S.sales=(S.sales||0)+o.amt;try{saleHook(p,o.amt)}catch(e){};const sm=starSold(p);S.ro.splice(S.ro.indexOf(p),1);chg('נמכר ל'+o.club+': '+p.n);logS('מכרת את '+p.n+' ל'+o.club+' ב־'+fm(o.amt));S.mnote='✅ '+p.n+' נמכר ל'+o.club+' ב־'+fm(o.amt)+sm}else if(!yes&&p&&Math.random()<.3){adjP(p.id,-1);S.mnote=p.n+' התאכזב שסירבת להעברה. ▼1'}S.inc.splice(k,1);clampS();save();draw()}
 function starWarn(p){try{const k=K(),top=S.ro.slice().sort((a,b)=>b.r-a.r).slice(0,3),isS=top.includes(p)||p.r>=k+6,t=p.tx;if(!isS&&t!=='fan'&&t!=='cap')return'';let pen=isS?cl(Math.round(3+(p.r-k)*.3),3,9):0;if(t==='fan')pen+=7;if(t==='cap')pen+=4;return `<div class="warn">⚠️ ${p.n} הוא אחד הכוכבים או אהוד על האוהדים. מכירה שלו תרגיז אותם: אוהדים −${pen}. אוהדים נמוכים מאוד מביאים למרד ולסיום הקריירה.</div>`}catch(e){return''}}
 function sellPanel(){const p=findP(S.sellN);if(!p)return'';if(S.loanMode)return loanPanel(p);return starWarn(p)+`<div class="card eu"><div class="cc"><b>📤 ${fl2(p)} ${p.n}${rb(p)}</b><button class="btn sm" onclick="closeSell()">✕</button></div><div class="mut">${p.pos} · גיל ${p.a} · ${p.r} · שווי ${fm(price(p))}</div>${S.sellMsg?'<p><b>'+S.sellMsg+'</b></p>':''}${(S.sellOff||[]).map((o,k)=>`<div class="row"><span>${o.club}<br><b class="up">${fm(o.amt)}</b>${o.up?' <span class="mut">(אחרי מיקוח)</span>':''}</span><span class="cc"><button class="btn sm" onclick="sellTo(${k},0)">✅ לקבל</button><button class="btn sm" ${o.up?'disabled':''} onclick="sellTo(${k},1)">💬 +15%</button></span></div>`).join('')||'<div class="mut">אין כרגע הצעות.</div>'}<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="openLoan()">🔁 להשאיל לעונה</button><button class="btn sm" onclick="releaseP()">🚪 לשחרר בחינם</button></div><div class="mut">מיקוח: סיכוי 45% שיעלו ב־15%, אחרת הם פורשים. השאלה: השחקן מתפתח במקום אחר וחוזר בקיץ.</div></div>`}
 function togFp(i){const p=S.ro[i];if(!p)return;S.fpAsk=null;if(p.fp)delete p.fp;else if(S.ro.filter(x=>x.fp).length<3)p.fp=1;else{S.fpAsk=p.id}save();draw()}
@@ -2644,8 +2659,8 @@ function extendC(){const c=S.coach;if(c.y>=4||S.m<c.sal)return;S.m-=c.sal;c.y+=2
 function interim(){return S.coach.n==='מאמן זמני'}
 const compC=()=>(interim()||S.coach.y<=0)?0:Math.round(S.coach.sal*S.coach.y*.7*10)/10;
 const hireFee=c=>{if(interim()||S.coach.y<=0)return 0;const up=Math.max(0,c.rn-S.coach.rn);return Math.round((S.B*.03+c.sal*(1.5+up/40))*100)/100};
-function fireC(){const comp=compC();if(S.m<comp){toast('אין מספיק כסף לפיצוי הפיטורים: '+fm(comp));return}S.m-=comp;logS('פיטרת את '+S.coach.n);S.coach={n:'מאמן זמני',r:1,rn:LG().lc-17,pn:LG().lc-17,st:'מתפרצות',yg:2,ad:3,pt:1,y:0,t:0,sal:.1};clampS();save();draw()}
-function hireC(i){const c=S.coaches[i],comp=compC()+hireFee(S.coaches[i]);if(BW()<c.sal+comp){toast('אין מספיק כסף למאמן');return}S.m-=c.sal+comp;logS('מינית את '+c.n);S.coach=Object.assign({},c,{y:2,t:0});S.coaches.splice(i,1);clampS();save();draw()}
+function fireC(){const comp=compC();if(S.m<comp){toast('אין מספיק כסף לפיצוי הפיטורים: '+fm(comp));return}S.m-=comp;logS('פיטרת את '+S.coach.n);minc('cf');S.coach={n:'מאמן זמני',r:1,rn:LG().lc-17,pn:LG().lc-17,st:'מתפרצות',yg:2,ad:3,pt:1,y:0,t:0,sal:.1};clampS();save();draw()}
+function hireC(i){const c=S.coaches[i],comp=compC()+hireFee(S.coaches[i]);if(BW()<c.sal+comp){toast('אין מספיק כסף למאמן');return}S.m-=c.sal+comp;logS('מינית את '+c.n);S.coach=Object.assign({},c,{y:2,t:0,hd:1});minc('ch');S.coaches.splice(i,1);clampS();save();draw()}
 function reset(){if(!armed){armed=true;return draw()}armed=false;wipe();S=null;draw()}
 
 /* ===================== אנימציות ===================== */
@@ -2848,110 +2863,220 @@ M=M||{};M.st=M.st||{};M.cl=M.cl||{};M.tc=M.tc||{};M.ach=M.ach||{};M.hof=M.hof||[
 const msave=()=>{try{localStorage.setItem(MK,JSON.stringify(M))}catch(e){}};
 const mst=k=>M.st[k]||0;
 const minc=k=>{M.st[k]=mst(k)+1;msave();achCheck()};
+function saleHook(p,a){const s=M.st;s.sN=mst('sN')+1;s.maxSale=Math.max(mst('maxSale'),Math.round(a));if(p&&p.ac)s.acS=Math.max(mst('acS'),Math.round(a));msave();achCheck()}
+function buyHook(p,c,mode){if(mode==='loan'||mode==='cloan')return;const s=M.st,v=qVal(p).v;s.maxBuy=Math.max(mst('maxBuy'),Math.round(c));if(v>=140)s.buyT=mst('buyT')+1;if(v>=120)s.buyL=mst('buyL')+1;msave();achCheck()}
 const ACH=[
-{id:'w1',ic:'⚽',n:'ניצחון ראשון',d:'נצח משחק ליגה',t:1,v:()=>mst('w')},
-{id:'w100',ic:'💯',n:'100 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:100,v:()=>mst('w')},
-{id:'w500',ic:'🔥',n:'500 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:500,v:()=>mst('w')},
-{id:'w1000',ic:'👑',n:'1000 ניצחונות',d:'סך הניצחונות בכל הקריירות. מועדון הענקים',t:1000,v:()=>mst('w')},
-{id:'t1',ic:'🏆',n:'אליפות ראשונה',d:'זכה באליפות ליגת העל',t:1,v:()=>mst('ti')},
-{id:'t5',ic:'🏆',n:'5 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:5,v:()=>mst('ti')},
-{id:'t10',ic:'🏆',n:'10 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:10,v:()=>mst('ti')},
-{id:'t25',ic:'🏆',n:'25 אליפויות ליגת העל',d:'שושלת. סך האליפויות בכל הקריירות',t:25,v:()=>mst('ti')},
-{id:'tp1',ic:'🥇',n:'אלופת הליגות הנמוכות',d:'זכה באליפות בליגה הלאומית או בליגה א׳',t:1,v:()=>mst('tp')},
-{id:'c1',ic:'🏺',n:'גביע המדינה הראשון',d:'זכה בגביע המדינה',t:1,v:()=>mst('cu')},
-{id:'c5',ic:'🏺',n:'5 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:5,v:()=>mst('cu')},
-{id:'e1',ic:'🌍',n:'זכייה אירופית ראשונה',d:'זכה בגביע אירופי כלשהו',t:1,v:()=>mst('eu')},
-{id:'e3',ic:'🌍',n:'3 גביעים אירופיים',d:'סך הזכיות באירופה',t:3,v:()=>mst('eu')},
-{id:'ucl',ic:'⭐',n:'אלופת אירופה',d:'זכה בליגת האלופות',t:1,v:()=>mst('ucl')},
-{id:'dbl',ic:'✌️',n:'דאבל',d:'אליפות וגביע מדינה באותה עונה',t:1,v:()=>mst('dbl')},
-{id:'edbl',ic:'🌟',n:'דאבל אירופי',d:'אליפות וגביע אירופי באותה עונה',t:1,v:()=>mst('edbl')},
-{id:'und',ic:'🛡️',n:'עונה בלי הפסד',d:'סיים עונת ליגה מלאה בלי להפסיד',t:1,v:()=>mst('und')},
-{id:'giant',ic:'📈',n:'מקבוצה קטנה לענקית',d:'התחל בליגה א׳ וזכה באליפות ליגת העל באותה קריירה',t:1,v:()=>mst('giant')},
-{id:'pr3',ic:'🪜',n:'מטפס ליגות',d:'עלה ליגה 3 פעמים',t:3,v:()=>mst('pr')},
-{id:'pr10',ic:'🚀',n:'עליות סדרתיות',d:'עלה ליגה 10 פעמים',t:10,v:()=>mst('pr')},
-{id:'x5',ic:'💎',n:'שווי פי 5',d:'הגדל את שווי המועדון פי 5 מאז שקנית',t:5,v:()=>mst('bw')},
-{id:'x10',ic:'💎',n:'שווי פי 10',d:'הגדל את שווי המועדון פי 10 מאז שקנית',t:10,v:()=>mst('bw')},
-{id:'w100m',ic:'🏦',n:'מועדון של 100M',d:'שווי המועדון מגיע ל־100 מיליון',t:100,v:()=>mst('maxW')},
-{id:'w250m',ic:'🏦',n:'מועדון של 250M',d:'שווי המועדון מגיע ל־250 מיליון',t:250,v:()=>mst('maxW')},
-{id:'se10',ic:'⏳',n:'10 עונות בקריירה',d:'שרוד 10 עונות עם אותו מועדון',t:10,v:()=>Math.max(mst('maxSe'),S?S.season:0)},
-{id:'se25',ic:'⌛',n:'25 עונות בקריירה',d:'שושלת בעלות של 25 עונות',t:25,v:()=>Math.max(mst('maxSe'),S?S.season:0)},
-{id:'se100',ic:'🕰️',n:'ותיק המגרש',d:'סך 100 עונות בכל הקריירות',t:100,v:()=>mst('se')},
-{id:'ca3',ic:'🎓',n:'3 קריירות',d:'סיים 3 קריירות',t:3,v:()=>mst('ca')},
-{id:'ca10',ic:'🎓',n:'10 קריירות',d:'סיים 10 קריירות',t:10,v:()=>mst('ca')},
-{id:'ap',ic:'🅰️',n:'בעלים בדרגת A+',d:'סיים קריירה בדירוג A+',t:1,v:()=>mst('ap')},
-{id:'st5',ic:'🎯',n:'רצף יעדים',d:'עמוד בשני היעדים 5 עונות ברציפות',t:5,v:()=>mst('bs')},
-{id:'sp1',ic:'🤝',n:'חוזה ספונסר ראשון',d:'נצח משחק ספונסר',t:1,v:()=>mst('sp')},
-{id:'sp25',ic:'🤝',n:'25 חוזי חסות',d:'נצח 25 משחקי ספונסרים',t:25,v:()=>mst('sp')},
-{id:'fac',ic:'🏗️',n:'מתקן מושלם',d:'בנה מתקן לרמה 10',t:1,v:()=>mst('fac5')},
-{id:'facA',ic:'🏟️',n:'מועדון מושלם',d:'כל המתקנים ברמה 10 באותה קריירה',t:6,v:()=>mst('fac5')},
-{id:'rs',ic:'🛟',n:'שרדת על חבל הצלה',d:'השתמש בחבל ההצלה ושרוד עוד עונה',t:1,v:()=>mst('rs')}
+{id:'w1',ic:'⚽',n:'ניצחון ראשון',d:'נצח משחק ליגה',t:1,cat:'lg',v:()=>mst('w')},
+{id:'w100',ic:'💯',n:'100 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:100,cat:'lg',v:()=>mst('w')},
+{id:'w500',ic:'🔥',n:'500 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:500,cat:'lg',v:()=>mst('w')},
+{id:'w1000',ic:'👑',n:'1000 ניצחונות',d:'סך הניצחונות בכל הקריירות. מועדון הענקים',t:1000,cat:'lg',v:()=>mst('w')},
+{id:'t1',ic:'🏆',n:'אליפות ראשונה',d:'זכה באליפות ליגת העל',t:1,cat:'lg',v:()=>mst('ti')},
+{id:'t5',ic:'🏆',n:'5 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:5,cat:'lg',v:()=>mst('ti')},
+{id:'t10',ic:'🏆',n:'10 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:10,cat:'lg',v:()=>mst('ti')},
+{id:'t25',ic:'🏆',n:'25 אליפויות ליגת העל',d:'שושלת. סך האליפויות בכל הקריירות',t:25,cat:'lg',v:()=>mst('ti')},
+{id:'tp1',ic:'🥇',n:'אלופת הליגות הנמוכות',d:'זכה באליפות בליגה הלאומית או בליגה א׳',t:1,cat:'lg',v:()=>mst('tp')},
+{id:'c1',ic:'🏺',n:'גביע המדינה הראשון',d:'זכה בגביע המדינה',t:1,cat:'cup',v:()=>mst('cu')},
+{id:'c5',ic:'🏺',n:'5 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:5,cat:'cup',v:()=>mst('cu')},
+{id:'e1',ic:'🌍',n:'זכייה אירופית ראשונה',d:'זכה בגביע אירופי כלשהו',t:1,cat:'eu',v:()=>mst('eu')},
+{id:'e3',ic:'🌍',n:'3 גביעים אירופיים',d:'סך הזכיות באירופה',t:3,cat:'eu',v:()=>mst('eu')},
+{id:'ucl',ic:'⭐',n:'אלופת אירופה',d:'זכה בליגת האלופות',t:1,cat:'eu',v:()=>mst('ucl')},
+{id:'dbl',ic:'✌️',n:'דאבל',d:'אליפות וגביע מדינה באותה עונה',t:1,cat:'cup',v:()=>mst('dbl')},
+{id:'edbl',ic:'🌟',n:'דאבל אירופי',d:'אליפות וגביע אירופי באותה עונה',t:1,cat:'eu',v:()=>mst('edbl')},
+{id:'und',ic:'🛡️',n:'עונה בלי הפסד',d:'סיים עונת ליגה מלאה בלי להפסיד',t:1,cat:'lg',v:()=>mst('und')},
+{id:'giant',ic:'📈',n:'מקבוצה קטנה לענקית',d:'התחל בליגה א׳ וזכה באליפות ליגת העל באותה קריירה',t:1,cat:'bld',v:()=>mst('giant')},
+{id:'pr3',ic:'🪜',n:'מטפס ליגות',d:'עלה ליגה 3 פעמים',t:3,cat:'bld',v:()=>mst('pr')},
+{id:'pr10',ic:'🚀',n:'עליות סדרתיות',d:'עלה ליגה 10 פעמים',t:10,cat:'bld',v:()=>mst('pr')},
+{id:'x5',ic:'💎',n:'שווי פי 5',d:'הגדל את שווי המועדון פי 5 מאז שקנית',t:5,cat:'eco',v:()=>mst('bw')},
+{id:'x10',ic:'💎',n:'שווי פי 10',d:'הגדל את שווי המועדון פי 10 מאז שקנית',t:10,cat:'eco',v:()=>mst('bw')},
+{id:'w100m',ic:'🏦',n:'מועדון של 100M',d:'שווי המועדון מגיע ל־100 מיליון',t:100,cat:'eco',v:()=>mst('maxW')},
+{id:'w250m',ic:'🏦',n:'מועדון של 250M',d:'שווי המועדון מגיע ל־250 מיליון',t:250,cat:'eco',v:()=>mst('maxW')},
+{id:'se10',ic:'⏳',n:'10 עונות בקריירה',d:'שרוד 10 עונות עם אותו מועדון',t:10,cat:'car',v:()=>Math.max(mst('maxSe'),S?S.season:0)},
+{id:'se25',ic:'⌛',n:'25 עונות בקריירה',d:'שושלת בעלות של 25 עונות',t:25,cat:'car',v:()=>Math.max(mst('maxSe'),S?S.season:0)},
+{id:'se100',ic:'🕰️',n:'ותיק המגרש',d:'סך 100 עונות בכל הקריירות',t:100,cat:'car',v:()=>mst('se')},
+{id:'ca3',ic:'🎓',n:'3 קריירות',d:'סיים 3 קריירות',t:3,cat:'car',v:()=>mst('ca')},
+{id:'ca10',ic:'🎓',n:'10 קריירות',d:'סיים 10 קריירות',t:10,cat:'car',v:()=>mst('ca')},
+{id:'ap',ic:'🅰️',n:'בעלים בדרגת A+',d:'סיים קריירה בדירוג A+',t:1,cat:'car',v:()=>mst('ap')},
+{id:'st5',ic:'🎯',n:'רצף יעדים',d:'עמוד בשני היעדים 5 עונות ברציפות',t:5,cat:'car',v:()=>mst('bs')},
+{id:'sp1',ic:'🤝',n:'חוזה ספונסר ראשון',d:'נצח משחק ספונסר',t:1,cat:'eco',v:()=>mst('sp')},
+{id:'sp25',ic:'🤝',n:'25 חוזי חסות',d:'נצח 25 משחקי ספונסרים',t:25,cat:'eco',v:()=>mst('sp')},
+{id:'fac',ic:'🏗️',n:'מתקן מושלם',d:'בנה מתקן לרמה 10',t:1,cat:'bld',v:()=>mst('fac5')},
+{id:'facA',ic:'🏟️',n:'מועדון מושלם',d:'כל המתקנים ברמה 10 באותה קריירה',t:6,cat:'bld',v:()=>mst('fac5')},
+{id:'rs',ic:'🛟',n:'שרדת על חבל הצלה',d:'השתמש בחבל ההצלה ושרוד עוד עונה',t:1,cat:'eco',v:()=>mst('rs')}
 ];
 ACH.push(
-{id:'w2500',ic:'🌟',n:'2500 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:2500,v:()=>mst('w')},
-{id:'w5000',ic:'🌠',n:'5000 ניצחונות',d:'סך הניצחונות בכל הקריירות. אגדה',t:5000,v:()=>mst('w')},
-{id:'t50',ic:'👑',n:'50 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:50,v:()=>mst('ti')},
-{id:'tst3',ic:'🔱',n:'שלוש אליפויות ברצף',d:'זכה באליפות ליגת העל 3 עונות ברציפות',t:3,v:()=>mst('tstM')},
-{id:'tst5',ic:'🔱',n:'חמש אליפויות ברצף',d:'5 עונות ברציפות עם אליפות',t:5,v:()=>mst('tstM')},
-{id:'tst10',ic:'⚜️',n:'עשר אליפויות ברצף',d:'שושלת: 10 אליפויות ברציפות',t:10,v:()=>mst('tstM')},
-{id:'tp3',ic:'🥇',n:'3 אליפויות בליגות הנמוכות',d:'סך האליפויות בליגה הלאומית וליגה א׳',t:3,v:()=>mst('tp')},
-{id:'tp10',ic:'🥇',n:'10 אליפויות בליגות הנמוכות',d:'סך האליפויות בליגה הלאומית וליגה א׳',t:10,v:()=>mst('tp')},
-{id:'c10',ic:'🏺',n:'10 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:10,v:()=>mst('cu')},
-{id:'c25',ic:'🏆',n:'25 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:25,v:()=>mst('cu')},
-{id:'dbl5',ic:'✌️',n:'5 דאבלים',d:'אליפות וגביע באותה עונה, 5 פעמים',t:5,v:()=>mst('dbl')},
-{id:'tre',ic:'🎖️',n:'שלושער',d:'אליפות, גביע מדינה וגביע אירופי באותה עונה',t:1,v:()=>mst('tre')},
-{id:'uel',ic:'🟠',n:'זוכת הליגה האירופית',d:'זכה בליגה האירופית',t:1,v:()=>mst('uel')},
-{id:'uecl',ic:'🟢',n:'זוכת הקונפרנס ליג',d:'זכה בקונפרנס ליג',t:1,v:()=>mst('uecl')},
-{id:'ucl3',ic:'⭐',n:'3 זכיות בליגת האלופות',d:'סך הזכיות בליגת האלופות',t:3,v:()=>mst('ucl')},
-{id:'ucl5',ic:'🌟',n:'5 זכיות בליגת האלופות',d:'סך הזכיות בליגת האלופות',t:5,v:()=>mst('ucl')},
-{id:'eu10',ic:'🌍',n:'10 גביעים אירופיים',d:'סך הזכיות באירופה',t:10,v:()=>mst('eu')},
-{id:'ep1',ic:'🛫',n:'עונה אירופית ראשונה',d:'השתתף באירופה',t:1,v:()=>mst('ep')},
-{id:'ep10',ic:'🛫',n:'10 עונות באירופה',d:'סך העונות באירופה',t:10,v:()=>mst('ep')},
-{id:'elp',ic:'🎟️',n:'שלב הליגה האירופי',d:'העפל לשלב הליגה במפעל אירופי',t:1,v:()=>mst('elp')},
-{id:'eF',ic:'🏟️',n:'גמר אירופי',d:'הגיע לגמר של מפעל אירופי',t:1,v:()=>mst('eF')},
-{id:'estr5',ic:'🧭',n:'5 עונות רצופות באירופה',d:'השתתף באירופה 5 עונות ברציפות',t:5,v:()=>mst('estrM')},
-{id:'uclS',ic:'🚀',n:'סינדרלה אירופית',d:'זכה בליגת האלופות עם מועדון שהתחיל בליגות הנמוכות',t:1,v:()=>mst('uclS')},
-{id:'reach0',ic:'🏔️',n:'מהתחתית לצמרת',d:'מועדון שהתחיל בליגה א׳ מגיע לליגת העל',t:1,v:()=>mst('reach0')},
-{id:'pr20',ic:'🪜',n:'20 עליות ליגה',d:'סך העליות בכל הקריירות',t:20,v:()=>mst('pr')},
-{id:'und3',ic:'🛡️',n:'3 עונות בלי הפסד',d:'סך עונות ליגה בלי הפסד',t:3,v:()=>mst('und')},
-{id:'perf',ic:'💯',n:'עונה מושלמת',d:'ניצח בכל משחקי הליגה בעונה אחת',t:1,v:()=>mst('perf')},
-{id:'top10',ic:'🥉',n:'10 עונות בטופ 3',d:'סיים בשלושת הראשונות בליגת העל',t:10,v:()=>mst('top3')},
-{id:'x20',ic:'💎',n:'שווי פי 20',d:'הגדל את שווי המועדון פי 20 מאז שקנית',t:20,v:()=>mst('bw')},
-{id:'w50m',ic:'🏦',n:'מועדון של 50M',d:'שווי המועדון מגיע ל־50 מיליון',t:50,v:()=>mst('maxW')},
-{id:'w500m',ic:'🏦',n:'מועדון של 500M',d:'שווי המועדון מגיע ל־500 מיליון',t:500,v:()=>mst('maxW')},
-{id:'w1000m',ic:'💰',n:'מועדון של מיליארד',d:'שווי המועדון מגיע ל־1000 מיליון',t:1000,v:()=>mst('maxW')},
-{id:'se50',ic:'⏳',n:'50 עונות בקריירה',d:'שרוד 50 עונות עם אותו מועדון',t:50,v:()=>Math.max(mst('maxSe'),S?S.season:0)},
-{id:'se200',ic:'⌛',n:'200 עונות',d:'סך העונות בכל הקריירות',t:200,v:()=>mst('se')},
-{id:'ca25',ic:'🎓',n:'25 קריירות',d:'סיים 25 קריירות',t:25,v:()=>mst('ca')},
-{id:'ap5',ic:'🅰️',n:'5 קריירות A+',d:'סיים 5 קריירות בדירוג A+',t:5,v:()=>mst('ap')},
-{id:'aa10',ic:'🏅',n:'10 קריירות מצטיינות',d:'סיים 10 קריירות בדירוג A או A+',t:10,v:()=>mst('aa')},
-{id:'hof12',ic:'🏛️',n:'היכל מלא',d:'מלא את היכל התהילה ב־12 קריירות',t:12,v:()=>M.hof.length},
-{id:'cl5',ic:'🧳',n:'5 מועדונים',d:'נהל 5 מועדונים שונים',t:5,v:()=>Object.keys(M.cl).length},
-{id:'cl15',ic:'🗺️',n:'15 מועדונים',d:'נהל 15 מועדונים שונים',t:15,v:()=>Object.keys(M.cl).length},
-{id:'tc3',ic:'🏆',n:'אלוף עם 3 מועדונים',d:'זכה באליפות ליגת העל עם 3 מועדונים שונים',t:3,v:()=>Object.keys(M.tc).length},
-{id:'tc8',ic:'🏆',n:'אלוף עם 8 מועדונים',d:'זכה באליפות ליגת העל עם 8 מועדונים שונים',t:8,v:()=>Object.keys(M.tc).length},
-{id:'cash100',ic:'💵',n:'100M בקופה',d:'קופה של 100 מיליון',t:100,v:()=>mst('maxM')},
-{id:'cash500',ic:'💶',n:'500M בקופה',d:'קופה של 500 מיליון',t:500,v:()=>mst('maxM')},
-{id:'sale100',ic:'📤',n:'מכירות ב־100M',d:'סך המכירות של שחקנים בכל הקריירות',t:100,v:()=>mst('sale')},
-{id:'buy25',ic:'✍️',n:'25 חתימות',d:'החתם 25 שחקנים',t:25,v:()=>mst('buy')},
-{id:'buy150',ic:'🛒',n:'150 חתימות',d:'החתם 150 שחקנים',t:150,v:()=>mst('buy')},
-{id:'lo10',ic:'🔁',n:'10 השאלות',d:'השאל 10 שחקנים',t:10,v:()=>mst('lo')},
-{id:'sp100',ic:'🤝',n:'100 חוזי חסות',d:'נצח 100 משחקי ספונסרים',t:100,v:()=>mst('sp')},
-{id:'spk10',ic:'🪑',n:'חסות בקלות',d:'חתום על 10 חוזי חסות בלי משחק',t:10,v:()=>mst('spk')},
-{id:'k75',ic:'⚽',n:'הרכב ברמה 75',d:'רמת ההרכב מגיעה ל־75',t:75,v:()=>mst('maxK')},
-{id:'k85',ic:'⚽',n:'הרכב ברמה 85',d:'רמת ההרכב מגיעה ל־85',t:85,v:()=>mst('maxK')},
-{id:'k92',ic:'🚀',n:'הרכב ברמה 92',d:'רמת ההרכב מגיעה ל־92',t:92,v:()=>mst('maxK')},
-{id:'r90',ic:'🌟',n:'שחקן ברמה 90',d:'שחקן מהסגל שלך מגיע לרייטינג 90',t:90,v:()=>mst('maxR')},
-{id:'yth10',ic:'🌱',n:'10 בוגרי אקדמיה',d:'העלה 10 שחקני נוער לסגל',t:10,v:()=>mst('yth')},
-{id:'f95',ic:'📣',n:'אוהדים באקסטזה',d:'מד האוהדים מגיע ל־95',t:95,v:()=>mst('maxF')},
-{id:'c95',ic:'🏙️',n:'העיר כולה איתך',d:'מד העירייה מגיע ל־95',t:95,v:()=>mst('maxC')},
-{id:'s95',ic:'🏷️',n:'מותג מבוקש',d:'מד הספונסרים מגיע ל־95',t:95,v:()=>mst('maxS')},
-{id:'fac3',ic:'🏗️',n:'3 מתקנים מושלמים',d:'שלושה מתקנים ברמה 10 באותה קריירה',t:3,v:()=>mst('fac5')},
-{id:'bs10',ic:'🎯',n:'10 עונות עם יעדים',d:'עמוד בשני היעדים 10 עונות ברציפות',t:10,v:()=>mst('bs')},
-{id:'soldW',ic:'🤑',n:'יציאה ברווח',d:'מכור מועדון בשווי גבוה פי 1.5 מרכישתו',t:1,v:()=>mst('sold')},
-{id:'ret',ic:'🏁',n:'פרישה בכבוד',d:'סיים קריירה בפרישה יזומה',t:1,v:()=>mst('ret')},
-{id:'g1000',ic:'⚽',n:'1000 שערים',d:'סך השערים בכל הקריירות',t:1000,v:()=>mst('gf')},
-{id:'big5',ic:'💥',n:'מחץ של 5 הפרש',d:'נצח משחק בהפרש של 5 שערים ומעלה',t:5,v:()=>mst('bigW')}
+{id:'w2500',ic:'🌟',n:'2500 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:2500,cat:'lg',v:()=>mst('w')},
+{id:'w5000',ic:'🌠',n:'5000 ניצחונות',d:'סך הניצחונות בכל הקריירות. אגדה',t:5000,cat:'lg',v:()=>mst('w')},
+{id:'t50',ic:'👑',n:'50 אליפויות ליגת העל',d:'סך האליפויות בכל הקריירות',t:50,cat:'lg',v:()=>mst('ti')},
+{id:'tst3',ic:'🔱',n:'שלוש אליפויות ברצף',d:'זכה באליפות ליגת העל 3 עונות ברציפות',t:3,cat:'lg',v:()=>mst('tstM')},
+{id:'tst5',ic:'🔱',n:'חמש אליפויות ברצף',d:'5 עונות ברציפות עם אליפות',t:5,cat:'lg',v:()=>mst('tstM')},
+{id:'tst10',ic:'⚜️',n:'עשר אליפויות ברצף',d:'שושלת: 10 אליפויות ברציפות',t:10,cat:'lg',v:()=>mst('tstM')},
+{id:'tp3',ic:'🥇',n:'3 אליפויות בליגות הנמוכות',d:'סך האליפויות בליגה הלאומית וליגה א׳',t:3,cat:'lg',v:()=>mst('tp')},
+{id:'tp10',ic:'🥇',n:'10 אליפויות בליגות הנמוכות',d:'סך האליפויות בליגה הלאומית וליגה א׳',t:10,cat:'lg',v:()=>mst('tp')},
+{id:'c10',ic:'🏺',n:'10 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:10,cat:'cup',v:()=>mst('cu')},
+{id:'c25',ic:'🏆',n:'25 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:25,cat:'cup',v:()=>mst('cu')},
+{id:'dbl5',ic:'✌️',n:'5 דאבלים',d:'אליפות וגביע באותה עונה, 5 פעמים',t:5,cat:'cup',v:()=>mst('dbl')},
+{id:'tre',ic:'🎖️',n:'שלושער',d:'אליפות, גביע מדינה וגביע אירופי באותה עונה',t:1,cat:'eu',v:()=>mst('tre')},
+{id:'uel',ic:'🟠',n:'זוכת הליגה האירופית',d:'זכה בליגה האירופית',t:1,cat:'eu',v:()=>mst('uel')},
+{id:'uecl',ic:'🟢',n:'זוכת הקונפרנס ליג',d:'זכה בקונפרנס ליג',t:1,cat:'eu',v:()=>mst('uecl')},
+{id:'ucl3',ic:'⭐',n:'3 זכיות בליגת האלופות',d:'סך הזכיות בליגת האלופות',t:3,cat:'eu',v:()=>mst('ucl')},
+{id:'ucl5',ic:'🌟',n:'5 זכיות בליגת האלופות',d:'סך הזכיות בליגת האלופות',t:5,cat:'eu',v:()=>mst('ucl')},
+{id:'eu10',ic:'🌍',n:'10 גביעים אירופיים',d:'סך הזכיות באירופה',t:10,cat:'eu',v:()=>mst('eu')},
+{id:'ep1',ic:'🛫',n:'עונה אירופית ראשונה',d:'השתתף באירופה',t:1,cat:'eu',v:()=>mst('ep')},
+{id:'ep10',ic:'🛫',n:'10 עונות באירופה',d:'סך העונות באירופה',t:10,cat:'eu',v:()=>mst('ep')},
+{id:'elp',ic:'🎟️',n:'שלב הליגה האירופי',d:'העפל לשלב הליגה במפעל אירופי',t:1,cat:'eu',v:()=>mst('elp')},
+{id:'eF',ic:'🏟️',n:'גמר אירופי',d:'הגיע לגמר של מפעל אירופי',t:1,cat:'eu',v:()=>mst('eF')},
+{id:'estr5',ic:'🧭',n:'5 עונות רצופות באירופה',d:'השתתף באירופה 5 עונות ברציפות',t:5,cat:'eu',v:()=>mst('estrM')},
+{id:'uclS',ic:'🚀',n:'סינדרלה אירופית',d:'זכה בליגת האלופות עם מועדון שהתחיל בליגות הנמוכות',t:1,cat:'eu',v:()=>mst('uclS')},
+{id:'reach0',ic:'🏔️',n:'מהתחתית לצמרת',d:'מועדון שהתחיל בליגה א׳ מגיע לליגת העל',t:1,cat:'bld',v:()=>mst('reach0')},
+{id:'pr20',ic:'🪜',n:'20 עליות ליגה',d:'סך העליות בכל הקריירות',t:20,cat:'bld',v:()=>mst('pr')},
+{id:'und3',ic:'🛡️',n:'3 עונות בלי הפסד',d:'סך עונות ליגה בלי הפסד',t:3,cat:'lg',v:()=>mst('und')},
+{id:'perf',ic:'💯',n:'עונה מושלמת',d:'ניצח בכל משחקי הליגה בעונה אחת',t:1,cat:'lg',v:()=>mst('perf')},
+{id:'top10',ic:'🥉',n:'10 עונות בטופ 3',d:'סיים בשלושת הראשונות בליגת העל',t:10,cat:'lg',v:()=>mst('top3')},
+{id:'x20',ic:'💎',n:'שווי פי 20',d:'הגדל את שווי המועדון פי 20 מאז שקנית',t:20,cat:'eco',v:()=>mst('bw')},
+{id:'w50m',ic:'🏦',n:'מועדון של 50M',d:'שווי המועדון מגיע ל־50 מיליון',t:50,cat:'eco',v:()=>mst('maxW')},
+{id:'w500m',ic:'🏦',n:'מועדון של 500M',d:'שווי המועדון מגיע ל־500 מיליון',t:500,cat:'eco',v:()=>mst('maxW')},
+{id:'w1000m',ic:'💰',n:'מועדון של מיליארד',d:'שווי המועדון מגיע ל־1000 מיליון',t:1000,cat:'eco',v:()=>mst('maxW')},
+{id:'se50',ic:'⏳',n:'50 עונות בקריירה',d:'שרוד 50 עונות עם אותו מועדון',t:50,cat:'car',v:()=>Math.max(mst('maxSe'),S?S.season:0)},
+{id:'se200',ic:'⌛',n:'200 עונות',d:'סך העונות בכל הקריירות',t:200,cat:'car',v:()=>mst('se')},
+{id:'ca25',ic:'🎓',n:'25 קריירות',d:'סיים 25 קריירות',t:25,cat:'car',v:()=>mst('ca')},
+{id:'ap5',ic:'🅰️',n:'5 קריירות A+',d:'סיים 5 קריירות בדירוג A+',t:5,cat:'car',v:()=>mst('ap')},
+{id:'aa10',ic:'🏅',n:'10 קריירות מצטיינות',d:'סיים 10 קריירות בדירוג A או A+',t:10,cat:'car',v:()=>mst('aa')},
+{id:'hof12',ic:'🏛️',n:'היכל מלא',d:'מלא את היכל התהילה ב־12 קריירות',t:12,cat:'car',v:()=>M.hof.length},
+{id:'cl5',ic:'🧳',n:'5 מועדונים',d:'נהל 5 מועדונים שונים',t:5,cat:'car',v:()=>Object.keys(M.cl).length},
+{id:'cl15',ic:'🗺️',n:'15 מועדונים',d:'נהל 15 מועדונים שונים',t:15,cat:'car',v:()=>Object.keys(M.cl).length},
+{id:'tc3',ic:'🏆',n:'אלוף עם 3 מועדונים',d:'זכה באליפות ליגת העל עם 3 מועדונים שונים',t:3,cat:'car',v:()=>Object.keys(M.tc).length},
+{id:'tc8',ic:'🏆',n:'אלוף עם 8 מועדונים',d:'זכה באליפות ליגת העל עם 8 מועדונים שונים',t:8,cat:'car',v:()=>Object.keys(M.tc).length},
+{id:'cash100',ic:'💵',n:'100M בקופה',d:'קופה של 100 מיליון',t:100,cat:'eco',v:()=>mst('maxM')},
+{id:'cash500',ic:'💶',n:'500M בקופה',d:'קופה של 500 מיליון',t:500,cat:'eco',v:()=>mst('maxM')},
+{id:'sale100',ic:'📤',n:'מכירות ב־100M',d:'סך המכירות של שחקנים בכל הקריירות',t:100,cat:'eco',v:()=>mst('sale')},
+{id:'buy25',ic:'✍️',n:'25 חתימות',d:'החתם 25 שחקנים',t:25,cat:'eco',v:()=>mst('buy')},
+{id:'buy150',ic:'🛒',n:'150 חתימות',d:'החתם 150 שחקנים',t:150,cat:'eco',v:()=>mst('buy')},
+{id:'lo10',ic:'🔁',n:'10 השאלות',d:'השאל 10 שחקנים',t:10,cat:'eco',v:()=>mst('lo')},
+{id:'sp100',ic:'🤝',n:'100 חוזי חסות',d:'נצח 100 משחקי ספונסרים',t:100,cat:'eco',v:()=>mst('sp')},
+{id:'spk10',ic:'🪑',n:'חסות בקלות',d:'חתום על 10 חוזי חסות בלי משחק',t:10,cat:'eco',v:()=>mst('spk')},
+{id:'k75',ic:'⚽',n:'הרכב ברמה 75',d:'רמת ההרכב מגיעה ל־75',t:75,cat:'pl',v:()=>mst('maxK')},
+{id:'k85',ic:'⚽',n:'הרכב ברמה 85',d:'רמת ההרכב מגיעה ל־85',t:85,cat:'pl',v:()=>mst('maxK')},
+{id:'k92',ic:'🚀',n:'הרכב ברמה 92',d:'רמת ההרכב מגיעה ל־92',t:92,cat:'pl',v:()=>mst('maxK')},
+{id:'r90',ic:'🌟',n:'שחקן ברמה 90',d:'שחקן מהסגל שלך מגיע לרייטינג 90',t:90,cat:'pl',v:()=>mst('maxR')},
+{id:'yth10',ic:'🌱',n:'10 בוגרי אקדמיה',d:'העלה 10 שחקני נוער לסגל',t:10,cat:'acad',v:()=>mst('yth')},
+{id:'f95',ic:'📣',n:'אוהדים באקסטזה',d:'מד האוהדים מגיע ל־95',t:95,cat:'fan',v:()=>mst('maxF')},
+{id:'c95',ic:'🏙️',n:'העיר כולה איתך',d:'מד העירייה מגיע ל־95',t:95,cat:'fan',v:()=>mst('maxC')},
+{id:'s95',ic:'🏷️',n:'מותג מבוקש',d:'מד הספונסרים מגיע ל־95',t:95,cat:'fan',v:()=>mst('maxS')},
+{id:'fac3',ic:'🏗️',n:'3 מתקנים מושלמים',d:'שלושה מתקנים ברמה 10 באותה קריירה',t:3,cat:'bld',v:()=>mst('fac5')},
+{id:'bs10',ic:'🎯',n:'10 עונות עם יעדים',d:'עמוד בשני היעדים 10 עונות ברציפות',t:10,cat:'car',v:()=>mst('bs')},
+{id:'soldW',ic:'🤑',n:'יציאה ברווח',d:'מכור מועדון בשווי גבוה פי 1.5 מרכישתו',t:1,cat:'eco',v:()=>mst('sold')},
+{id:'ret',ic:'🏁',n:'פרישה בכבוד',d:'סיים קריירה בפרישה יזומה',t:1,cat:'car',v:()=>mst('ret')},
+{id:'g1000',ic:'⚽',n:'1000 שערים',d:'סך השערים בכל הקריירות',t:1000,cat:'lg',v:()=>mst('gf')},
+{id:'big5',ic:'💥',n:'מחץ של 5 הפרש',d:'נצח משחק בהפרש של 5 שערים ומעלה',t:5,cat:'lg',v:()=>mst('bigW')}
 );
+ACH.push(
+{id:'w250',ic:'⚽',n:'250 ניצחונות',d:'סך הניצחונות בכל הקריירות',t:250,cat:'lg',v:()=>mst('w')},
+{id:'w10000',ic:'👑',n:'10,000 ניצחונות',d:'סך הניצחונות בכל הקריירות. אין כמוך',t:10000,cat:'lg',v:()=>mst('w')},
+{id:'g100',ic:'🥅',n:'100 שערים',d:'סך השערים בכל הקריירות',t:100,cat:'lg',v:()=>mst('gf')},
+{id:'g500',ic:'🥅',n:'500 שערים',d:'סך השערים בכל הקריירות',t:500,cat:'lg',v:()=>mst('gf')},
+{id:'g2500',ic:'🥅',n:'2,500 שערים',d:'סך השערים בכל הקריירות',t:2500,cat:'lg',v:()=>mst('gf')},
+{id:'g5000',ic:'🔥',n:'5,000 שערים',d:'סך השערים בכל הקריירות',t:5000,cat:'lg',v:()=>mst('gf')},
+{id:'top25',ic:'🥉',n:'25 עונות בטופ 3',d:'סיים בשלושת הראשונות בליגת העל 25 פעמים',t:25,cat:'lg',v:()=>mst('top3')},
+{id:'b5n25',ic:'💥',n:'25 מחצי־5',d:'נצח 25 משחקים בהפרש של 5 שערים ומעלה',t:25,cat:'lg',v:()=>mst('b5n')},
+{id:'b5n100',ic:'💣',n:'100 מחצי־5',d:'נצח 100 משחקים בהפרש של 5 שערים ומעלה',t:100,cat:'lg',v:()=>mst('b5n')},
+{id:'mrg',ic:'🚀',n:'אליפות בהפרש',d:'זכה באליפות עם 10 נקודות או יותר על המקום השני',t:1,cat:'lg',v:()=>mst('mrg')},
+{id:'w25s',ic:'📈',n:'עונה של 25 ניצחונות',d:'נצח 25 משחקי ליגה בעונה אחת',t:25,cat:'lg',v:()=>mst('maxWs')},
+{id:'tcar3',ic:'🏆',n:'3 אליפויות בקריירה',d:'זכה ב־3 אליפויות ליגת העל באותה קריירה',t:3,cat:'lg',v:()=>mst('maxT')},
+{id:'tcar10',ic:'🏆',n:'10 אליפויות בקריירה',d:'זכה ב־10 אליפויות ליגת העל באותה קריירה',t:10,cat:'lg',v:()=>mst('maxT')},
+{id:'c50',ic:'🏆',n:'50 גביעי מדינה',d:'סך הגביעים בכל הקריירות',t:50,cat:'cup',v:()=>mst('cu')},
+{id:'dbl10',ic:'🥇',n:'10 דאבלים',d:'אליפות וגביע באותה עונה, 10 פעמים',t:10,cat:'cup',v:()=>mst('dbl')},
+{id:'dbl25',ic:'🥇',n:'25 דאבלים',d:'אליפות וגביע באותה עונה, 25 פעמים',t:25,cat:'cup',v:()=>mst('dbl')},
+{id:'cF1',ic:'🏟️',n:'גמר גביע',d:'הגיע לגמר גביע המדינה',t:1,cat:'cup',v:()=>mst('cF')},
+{id:'cF10',ic:'🏟️',n:'10 גמרי גביע',d:'הגיע ל־10 גמרים בגביע המדינה',t:10,cat:'cup',v:()=>mst('cF')},
+{id:'cstr3',ic:'🔗',n:'3 גביעים ברצף',d:'זכה בגביע המדינה 3 עונות ברציפות',t:3,cat:'cup',v:()=>mst('cstrM')},
+{id:'gk',ic:'🗡️',n:'הורג ענקים',d:'הדח בגביע קבוצה חזקה ממך בהרבה',t:1,cat:'cup',v:()=>mst('gk')},
+{id:'cLow',ic:'🎯',n:'גביע מהליגות הנמוכות',d:'זכה בגביע המדינה כשהמועדון בליגה הלאומית או בליגה א׳',t:1,cat:'cup',v:()=>mst('cLow')},
+{id:'ucl10',ic:'⭐',n:'10 זכיות בליגת האלופות',d:'סך הזכיות בליגת האלופות',t:10,cat:'eu',v:()=>mst('ucl')},
+{id:'uel3',ic:'🥈',n:'3 זכיות בליגה האירופית',d:'סך הזכיות בליגה האירופית',t:3,cat:'eu',v:()=>mst('uel')},
+{id:'uecl3',ic:'🥉',n:'3 זכיות בקונפרנס ליג',d:'סך הזכיות בקונפרנס ליג',t:3,cat:'eu',v:()=>mst('uecl')},
+{id:'eu25',ic:'🌍',n:'25 גביעים אירופיים',d:'סך הזכיות באירופה',t:25,cat:'eu',v:()=>mst('eu')},
+{id:'ep25',ic:'✈️',n:'25 עונות באירופה',d:'סך העונות באירופה',t:25,cat:'eu',v:()=>mst('ep')},
+{id:'ep50',ic:'🛫',n:'50 עונות באירופה',d:'סך העונות באירופה',t:50,cat:'eu',v:()=>mst('ep')},
+{id:'estr10',ic:'🔁',n:'10 עונות רצופות באירופה',d:'השתתף באירופה 10 עונות ברציפות',t:10,cat:'eu',v:()=>mst('estrM')},
+{id:'eF5',ic:'🏟️',n:'5 גמרים אירופיים',d:'הגיע ל־5 גמרים אירופיים',t:5,cat:'eu',v:()=>mst('eF')},
+{id:'trio',ic:'🎖️',n:'טריפל אירופי',d:'זכה בליגת האלופות, בליגה האירופית ובקונפרנס ליג (בכל הקריירות)',t:3,cat:'eu',v:()=>(mst('ucl')>0)+(mst('uel')>0)+(mst('uecl')>0)},
+{id:'uclB2',ic:'🔁',n:'אלופת אירופה פעמיים ברצף',d:'זכה בליגת האלופות 2 עונות ברציפות',t:2,cat:'eu',v:()=>mst('uclStrM')},
+{id:'uclF',ic:'🥈',n:'גמר ליגת האלופות',d:'הגיע לגמר ליגת האלופות',t:1,cat:'eu',v:()=>mst('uclF')},
+{id:'l2c',ic:'🏆',n:'מהלאומית לאלופה',d:'התחל בליגה הלאומית וזכה באליפות ליגת העל באותה קריירה',t:1,cat:'bld',v:()=>mst('l2c')},
+{id:'l2p',ic:'🚀',n:'מהלאומית לליגת העל',d:'העלה מועדון שהתחיל בליגה הלאומית עד ליגת העל',t:1,cat:'bld',v:()=>mst('l2p')},
+{id:'l2e',ic:'🌍',n:'מהלאומית לאירופה',d:'מועדון שהתחיל בליגה הלאומית משחק באירופה',t:1,cat:'bld',v:()=>mst('l2e')},
+{id:'l2u',ic:'⭐',n:'מהלאומית לליגת האלופות',d:'מועדון שהתחיל בליגה הלאומית משחק בליגת האלופות',t:1,cat:'bld',v:()=>mst('l2u')},
+{id:'a2e',ic:'🏅',n:'מליגה א׳ לגביע אירופי',d:'מועדון שהתחיל בליגה א׳ זוכה בגביע אירופי',t:1,cat:'bld',v:()=>mst('a2e')},
+{id:'a2u',ic:'🌠',n:'מליגה א׳ לליגת האלופות',d:'מועדון שהתחיל בליגה א׳ משחק בליגת האלופות',t:1,cat:'bld',v:()=>mst('a2u')},
+{id:'tf3',ic:'⚡',n:'אליפות תוך 3 עונות',d:'זכה באליפות ליגת העל תוך 3 עונות ממועדון מהליגות הנמוכות',t:1,cat:'bld',v:()=>mst('tf3')},
+{id:'tf5',ic:'⏱️',n:'אליפות תוך 5 עונות',d:'זכה באליפות ליגת העל תוך 5 עונות ממועדון מהליגות הנמוכות',t:1,cat:'bld',v:()=>mst('tf5')},
+{id:'pp2',ic:'⏫',n:'שתי עליות ברצף',d:'עלה ליגה בשתי עונות רצופות',t:2,cat:'bld',v:()=>mst('prSM')},
+{id:'rebound',ic:'🔄',n:'ירידה ועלייה מיד',d:'ירד ליגה ועלה בחזרה בעונה שאחריה',t:1,cat:'bld',v:()=>mst('rebound')},
+{id:'rev',ic:'💊',n:'החייאה',d:'יצא ממינוס בקופה ל־50 מיליון ומעלה באותה קריירה',t:1,cat:'bld',v:()=>mst('rev')},
+{id:'fanR',ic:'📣',n:'אוהדים מאפס',d:'מד האוהדים ירד מתחת ל־30 והגיע ל־90 באותה קריירה',t:1,cat:'bld',v:()=>mst('fanR')},
+{id:'x50',ic:'💎',n:'שווי פי 50',d:'הגדל את שווי המועדון פי 50 מאז שקנית',t:50,cat:'bld',v:()=>mst('bw')},
+{id:'fup25',ic:'🔨',n:'25 שדרוגי מתקנים',d:'סך שדרוגי המתקנים בכל הקריירות',t:25,cat:'bld',v:()=>mst('fup')},
+{id:'facF5',ic:'🏗️',n:'מתקן מושלם תוך 5 עונות',d:'בנה מתקן לרמה 10 תוך 5 עונות',t:1,cat:'bld',v:()=>mst('facF5')},
+{id:'trf5',ic:'🦋',n:'5 מועדונים שהשתנו',d:'5 קריירות שבהן עלית ליגה לפחות פעמיים',t:5,cat:'bld',v:()=>mst('trf')},
+{id:'emp',ic:'🏛️',n:'אימפריה',d:'אליפות, גביע, גביע אירופי ודירוג A+ באותה קריירה',t:1,cat:'bld',v:()=>mst('emp')},
+{id:'cash50',ic:'💵',n:'50M בקופה',d:'קופה של 50 מיליון',t:50,cat:'eco',v:()=>mst('maxM')},
+{id:'cash1000',ic:'💰',n:'מיליארד בקופה',d:'קופה של 1,000 מיליון',t:1000,cat:'eco',v:()=>mst('maxM')},
+{id:'sale500',ic:'📤',n:'מכירות ב־500M',d:'סך המכירות של שחקנים בכל הקריירות',t:500,cat:'eco',v:()=>mst('sale')},
+{id:'sale1000',ic:'📦',n:'מכירות ב־1,000M',d:'סך המכירות של שחקנים בכל הקריירות',t:1000,cat:'eco',v:()=>mst('sale')},
+{id:'buy50',ic:'✍️',n:'50 חתימות',d:'החתם 50 שחקנים',t:50,cat:'eco',v:()=>mst('buy')},
+{id:'buy400',ic:'🛒',n:'400 חתימות',d:'החתם 400 שחקנים',t:400,cat:'eco',v:()=>mst('buy')},
+{id:'lo50',ic:'🔁',n:'50 השאלות',d:'השאל 50 שחקנים',t:50,cat:'eco',v:()=>mst('lo')},
+{id:'sp250',ic:'🤝',n:'250 חוזי חסות',d:'נצח 250 משחקי ספונסרים',t:250,cat:'eco',v:()=>mst('sp')},
+{id:'ms30',ic:'💸',n:'מכירה של 30M',d:'מכור שחקן בעסקה בודדת של 30 מיליון ומעלה',t:30,cat:'eco',v:()=>mst('maxSale')},
+{id:'ms60',ic:'💸',n:'מכירה של 60M',d:'מכור שחקן בעסקה בודדת של 60 מיליון ומעלה',t:60,cat:'eco',v:()=>mst('maxSale')},
+{id:'ms100',ic:'🤑',n:'מכירה של 100M',d:'מכור שחקן בעסקה בודדת של 100 מיליון ומעלה',t:100,cat:'eco',v:()=>mst('maxSale')},
+{id:'mb30',ic:'🛍️',n:'רכישה של 30M',d:'קנה שחקן בעסקה בודדת של 30 מיליון ומעלה',t:30,cat:'eco',v:()=>mst('maxBuy')},
+{id:'sN100',ic:'🏷️',n:'100 שחקנים שנמכרו',d:'מכור 100 שחקנים',t:100,cat:'eco',v:()=>mst('sN')},
+{id:'net20',ic:'📊',n:'עונה ברווח של 20M',d:'סיים עונה עם רווח נקי של 20 מיליון ומעלה',t:20,cat:'eco',v:()=>mst('maxNet')},
+{id:'pst10',ic:'🧾',n:'10 עונות ברווח ברצף',d:'סיים 10 עונות ברציפות ברווח',t:10,cat:'eco',v:()=>mst('pstM')},
+{id:'yth25',ic:'🌱',n:'25 בוגרי אקדמיה',d:'העלה 25 שחקני נוער לסגל',t:25,cat:'acad',v:()=>mst('yth')},
+{id:'yth50',ic:'🌿',n:'50 בוגרי אקדמיה',d:'העלה 50 שחקני נוער לסגל',t:50,cat:'acad',v:()=>mst('yth')},
+{id:'yth100',ic:'🌳',n:'100 בוגרי אקדמיה',d:'העלה 100 שחקני נוער לסגל',t:100,cat:'acad',v:()=>mst('yth')},
+{id:'acR100',ic:'🌟',n:'בוגר ברמה 100',d:'בוגר אקדמיה מגיע לרייטינג 100',t:100,cat:'acad',v:()=>mst('acR')},
+{id:'acR120',ic:'🌟',n:'בוגר ברמה 120',d:'בוגר אקדמיה מגיע לרייטינג 120',t:120,cat:'acad',v:()=>mst('acR')},
+{id:'acR150',ic:'💫',n:'בוגר ברמה 150',d:'בוגר אקדמיה מגיע לרייטינג 150',t:150,cat:'acad',v:()=>mst('acR')},
+{id:'acR175',ic:'✨',n:'בוגר ברמה 175',d:'בוגר אקדמיה מגיע לרייטינג 175',t:175,cat:'acad',v:()=>mst('acR')},
+{id:'acS20',ic:'💶',n:'בוגר שנמכר ב־20M',d:'מכור בוגר אקדמיה ב־20 מיליון ומעלה',t:20,cat:'acad',v:()=>mst('acS')},
+{id:'acS50',ic:'💷',n:'בוגר שנמכר ב־50M',d:'מכור בוגר אקדמיה ב־50 מיליון ומעלה',t:50,cat:'acad',v:()=>mst('acS')},
+{id:'ac5xi',ic:'🧒',n:'5 בוגרים בהרכב',d:'5 בוגרי אקדמיה בהרכב הפותח באותה עונה',t:5,cat:'acad',v:()=>mst('acXi')},
+{id:'ac11xi',ic:'🏡',n:'אקדמיה טהורה',d:'11 בוגרי אקדמיה בהרכב הפותח באותה עונה',t:11,cat:'acad',v:()=>mst('acXi')},
+{id:'acT',ic:'🏆',n:'אליפות עם בוגר',d:'זכה באליפות עם בוגר אקדמיה בהרכב',t:1,cat:'acad',v:()=>mst('acT')},
+{id:'acE',ic:'🌍',n:'אירופה עם בוגרים',d:'זכה בגביע אירופי עם 3 בוגרי אקדמיה בהרכב',t:1,cat:'acad',v:()=>mst('acE')},
+{id:'cHT',ic:'👔',n:'אלופה עם המאמן שלך',d:'זכה באליפות עם מאמן שמינית בעצמך',t:1,cat:'coach',v:()=>mst('cHT')},
+{id:'cR100',ic:'🧠',n:'אליפות עם מאמן מצוין',d:'זכה באליפות עם מאמן ברמה 100 ומעלה',t:1,cat:'coach',v:()=>mst('cR100')},
+{id:'ch25',ic:'🖊️',n:'25 מינויי מאמן',d:'מנה 25 מאמנים',t:25,cat:'coach',v:()=>mst('ch')},
+{id:'cf10',ic:'🪓',n:'10 פיטורי מאמן',d:'פטר 10 מאמנים',t:10,cat:'coach',v:()=>mst('cf')},
+{id:'cT10',ic:'🕰️',n:'מאמן ותיק',d:'מאמן אחד נשאר אצלך 10 עונות',t:10,cat:'coach',v:()=>mst('cT')},
+{id:'cW100',ic:'💯',n:'מאמן של 100 ניצחונות',d:'מאמן אחד מנצח 100 משחקי ליגה',t:100,cat:'coach',v:()=>mst('cW')},
+{id:'cVT',ic:'🤝',n:'אליפות עם מאמן ותיק',d:'זכה באליפות עם מאמן שנמצא אצלך 5 עונות ומעלה',t:1,cat:'coach',v:()=>mst('cVT')},
+{id:'cTi5',ic:'🏆',n:'5 אליפויות עם אותו מאמן',d:'5 אליפויות ליגת העל עם אותו מאמן',t:5,cat:'coach',v:()=>mst('cTi')},
+{id:'cInt',ic:'🎲',n:'אליפות עם מאמן זמני',d:'זכה באליפות עם מאמן זמני',t:1,cat:'coach',v:()=>mst('cInt')},
+{id:'cPr3',ic:'⏫',n:'מאמן מעלה ליגות',d:'מאמן אחד מעלה את המועדון 3 ליגות',t:3,cat:'coach',v:()=>mst('cPr')},
+{id:'r100',ic:'🌟',n:'שחקן ברמה 100',d:'שחקן מהסגל שלך מגיע לרייטינג 100',t:100,cat:'pl',v:()=>mst('maxR')},
+{id:'r120',ic:'🌟',n:'שחקן ברמה 120',d:'שחקן מהסגל שלך מגיע לרייטינג 120',t:120,cat:'pl',v:()=>mst('maxR')},
+{id:'r150',ic:'💫',n:'שחקן ברמה 150',d:'שחקן מהסגל שלך מגיע לרייטינג 150',t:150,cat:'pl',v:()=>mst('maxR')},
+{id:'r175',ic:'✨',n:'שחקן ברמה 175',d:'שחקן מהסגל שלך מגיע לרייטינג 175',t:175,cat:'pl',v:()=>mst('maxR')},
+{id:'k95',ic:'🚀',n:'הרכב ברמה 95',d:'רמת ההרכב מגיעה ל־95',t:95,cat:'pl',v:()=>mst('maxK')},
+{id:'buyL',ic:'✍️',n:'חתמת על ליגיונר',d:'החתם שחקן ברמת ליגיונר ומעלה',t:1,cat:'pl',v:()=>mst('buyL')},
+{id:'buyT',ic:'💜',n:'חתמת על שחקן טופ',d:'החתם שחקן ברמת שחקן טופ (140+)',t:1,cat:'pl',v:()=>mst('buyT')},
+{id:'leg5',ic:'🛡️',n:'5 ליגיונרים',d:'5 ליגיונרים או יותר בסגל באותו זמן',t:5,cat:'pl',v:()=>mst('legN')},
+{id:'pTen10',ic:'🧓',n:'שחקן של 10 עונות',d:'שחקן נשאר אצלך 10 עונות',t:10,cat:'pl',v:()=>mst('pTen')},
+{id:'f100',ic:'📣',n:'אוהדים 100',d:'מד האוהדים מגיע ל־100',t:100,cat:'fan',v:()=>mst('maxF')},
+{id:'tri90',ic:'🌈',n:'שלושה מדדים מעל 90',d:'אוהדים, עירייה וספונסרים מעל 90 באותה עונה',t:1,cat:'fan',v:()=>mst('tri90')},
+{id:'f80x10',ic:'🎺',n:'10 עונות עם אוהדים נלהבים',d:'סיים 10 עונות עם מד אוהדים מעל 80',t:10,cat:'fan',v:()=>mst('f80')},
+{id:'spH',ic:'🏷️',n:'ספונסר בשיא המותג',d:'נצח משחק ספונסר כשמד הספונסרים מעל 90',t:1,cat:'fan',v:()=>mst('spH')},
+{id:'ca50',ic:'🎓',n:'50 קריירות',d:'סיים 50 קריירות',t:50,cat:'car',v:()=>mst('ca')},
+{id:'cl25',ic:'🗺️',n:'25 מועדונים',d:'נהל 25 מועדונים שונים',t:25,cat:'car',v:()=>Object.keys(M.cl).length},
+{id:'tc15',ic:'🏆',n:'אלוף עם 15 מועדונים',d:'זכה באליפות ליגת העל עם 15 מועדונים שונים',t:15,cat:'car',v:()=>Object.keys(M.tc).length},
+{id:'bs20',ic:'🎯',n:'20 עונות עם יעדים',d:'עמוד בשני היעדים 20 עונות ברציפות',t:20,cat:'car',v:()=>mst('bs')},
+{id:'se40',ic:'⏳',n:'קריירה של 40 עונות',d:'שרוד 40 עונות עם אותו מועדון',t:40,cat:'car',v:()=>mst('maxSe')}
+);
+const ACATS={"lg": "🏆 ליגה", "cup": "🥇 גביע המדינה", "eu": "🌍 אירופה", "bld": "🏗️ בנייה ושינוי", "eco": "💰 כלכלה", "acad": "🌱 אקדמיה", "coach": "👔 מאמן", "pl": "⚽ שחקנים והרכב", "fan": "👥 אוהדים, עיר וספונסרים", "car": "📅 קריירה ויעדים"};
 function achCheck(){let nw=[];try{ACH.forEach(a=>{if(!M.ach[a.id]&&a.v()>=a.t){M.ach[a.id]=1;nw.push(a)}})}catch(e){}
   if(nw.length){msave();if(S)S.nA=(S.nA||[]).concat(nw.map(a=>a.id));nw.forEach((a,i)=>setTimeout(()=>toast('🏅 הישג חדש: '+a.n),i*1700))}}
 const nAch=()=>ACH.filter(a=>M.ach[a.id]).length;
@@ -2985,10 +3110,49 @@ function metaSeason(){try{const g=S.games||[],sm=S.sum,w=g.filter(x=>x.out===0).
     if(x.out===2&&(!cs.bl||-mg>cs.bl.m||(-mg===cs.bl.m&&b>cs.bl.b)))cs.bl={m:-mg,a,b,o:x.o,se:S.season,c:x.c}});
    cs.pts=Math.max(cs.pts,g.filter(x=>x.c==='L').reduce((a,x)=>a+(x.out===0?3:x.out===1?1:0),0));
    const bk=S.lv*100+sm.pos;if(!cs.bp||bk<cs.bp.k)cs.bp={k:bk,lv:S.lv,pos:sm.pos,se:S.season};
+   try{const ptsS=g.filter(x=>x.c==='L').reduce((a,x)=>a+(x.out===0?3:x.out===1?1:0),0),T=(sm.pos===1?1:0)+(cup?1:0)+(eu?1:0),sc0=T*1e6+(2-S.lv)*1e5+(100-sm.pos)*1e3+ptsS;
+    if(!cs.bs||sc0>cs.bs.sc)cs.bs={se:S.season,lv:S.lv,pos:sm.pos,pts:ptsS,t:T,ti:sm.pos===1,cup:cup,eu:eu?S.eu.comp:null,sc:sc0};
+    if(title&&cup)cs.db=(cs.db||0)+1;
+    if(title){cs.tsc=(cs.tsc||0)+1;cs.tsb=Math.max(cs.tsb||0,cs.tsc)}else cs.tsc=0;
+    cs.mg=Math.max(cs.mg||0,gfS);if(S.eu)cs.es=(cs.es||0)+1;
+    const b0=[].concat(S.ro||[],S.out||[]).filter(p=>!p.loanIn).sort((a,b)=>b.r-a.r||(b.pt||0)-(a.pt||0))[0];
+    if(b0&&(!cs.bpl||b0.r>cs.bpl.r))cs.bpl={n:b0.n,pos:b0.pos,r:b0.r,a:b0.a,fl:b0.fl,se:S.season,q:(qName(b0)||[0,''])[1],sp:b0.sp?1:0}}catch(e){console.error(e)}
    st.gf=mst('gf')+gfS;st.bigW=Math.max(mst('bigW'),bigM)}
+  try{const ek=(k,n)=>{st[k]=mst(k)+(n===undefined?1:n)},mxs=(k,v)=>{st[k]=Math.max(mst(k),v)};
+   const L0=clubOf().lv,tab=sm.tab||[],lgG=g.filter(x=>x.c==='L'),wl=lgG.filter(x=>x.out===0).length,inE=!!S.eu,euW=!!(S.eu&&S.eu.won),cp=S.eu&&S.eu.comp,
+    uclP=!!S.eu&&(S.eu.comp==='UCL'||(S.eu.drop||[]).indexOf(EUN.UCL)>=0),up=sm.mv==='up',dn=sm.mv==='down';
+   ek('b5n',g.filter(x=>x.sc&&x.out===0&&x.sc[0]-x.sc[1]>=5).length);mxs('maxWs',wl);
+   if(title&&tab.length>1&&tab[0].pts-tab[1].pts>=10)ek('mrg');
+   if(title)S.tcnt=(S.tcnt||0)+1;mxs('maxT',S.tcnt||0);
+   const cupF=S.cup&&(S.cup.won||(!S.cup.alive&&S.cup.i>=CUPS.state.r.length-1));if(cupF)ek('cF');
+   S.cstr=cup?(S.cstr||0)+1:0;mxs('cstrM',S.cstr);if(cup&&sm.lv>0)ek('cLow');
+   S.uclRun=(eu&&cp==='UCL')?(S.uclRun||0)+1:0;mxs('uclStrM',S.uclRun);
+   if(S.eu&&cp==='UCL'&&(S.eu.won||S.eu.best==='F'))ek('uclF');
+   if(title&&L0===1)ek('l2c');
+   if(sm.lv===0&&L0===1&&!S.fl2p){S.fl2p=1;ek('l2p')}
+   if(inE&&L0===1&&!S.fl2e){S.fl2e=1;ek('l2e')}
+   if(uclP&&L0===1&&!S.fl2u){S.fl2u=1;ek('l2u')}
+   if(euW&&L0===2)ek('a2e');
+   if(uclP&&L0===2&&!S.fa2u){S.fa2u=1;ek('a2u')}
+   if(title&&L0>=1&&S.season<=3)st.tf3=1;if(title&&L0>=1&&S.season<=5)st.tf5=1;
+   S.prRun=up?(S.prRun||0)+1:0;mxs('prSM',S.prRun);if(up)S.prC=(S.prC||0)+1;
+   if(up&&S.pdn)ek('rebound');S.pdn=dn;
+   if(S.m<0)S.neg=1;if(S.neg&&S.m>=50&&!S.revd){S.revd=1;ek('rev')}
+   S.minF=Math.min(S.minF==null?S.f:S.minF,S.f);if(S.minF<30&&S.f>=90&&!S.fanD){S.fanD=1;ek('fanR')}
+   if(f5>=1&&S.season<=5)st.facF5=1;
+   const net=Math.round(sm.net||0);mxs('maxNet',net);S.pst=net>0?(S.pst||0)+1:0;mxs('pstM',S.pst);
+   const acs=[].concat(S.ro||[],S.out||[]).filter(p=>p.ac);mxs('acR',Math.max(0,...acs.map(p=>p.r)));
+   let nxi=0;try{nxi=[].concat(...Object.values(lineup().xi)).filter(p=>p.ac).length}catch(e){}
+   mxs('acXi',nxi);if(title&&nxi>=1)ek('acT');if(euW&&nxi>=3)ek('acE');
+   const c=S.coach;if(c){c.w=(c.w||0)+wl;mxs('cW',c.w);if(title)c.ti=(c.ti||0)+1;mxs('cTi',c.ti||0);
+    if(title&&c.hd)ek('cHT');if(title&&(c.rn||0)>=100)ek('cR100');mxs('cT',c.t||0);if(title&&c.n==='מאמן זמני')ek('cInt');
+    if(title&&(c.t||0)>=5)ek('cVT');if(up)c.pr=(c.pr||0)+1;mxs('cPr',c.pr||0)}
+   mxs('legN',S.ro.filter(p=>qVal(p).v>=120).length);
+   mxs('pTen',Math.max(0,...S.ro.map(p=>S.season-(p.js==null?S.season:p.js))));
+   if(S.f>=90&&S.c>=90&&S.s>=90)ek('tri90');if(S.f>80)ek('f80')}catch(e){console.error(e)}
   achCheck();msave()}catch(e){console.error(e)}}
-function metaCareer(){try{S.hofDone=1;const cg=careerGrade(),w1=S.saleW!=null?S.saleW:ownW(),e={id:Date.now(),club:clubOf().n,lv0:clubOf().lv,se:S.season,ti:S.titles||0,lt:(S.lowT||[]).length,cu:S.cupWins||0,ec:(S.eCups||[]).slice(),w0:Math.round((S.W00||0)*10)/10,w1:Math.round(w1*10)/10,gr:cg.gr,sc:Math.round(cg.g*10)/10,os:(()=>{try{return curScore().score}catch(e){return 0}})(),fate:S.fate,sw:S.sw||0,tk:S.trk==null?null:S.trk,et:S.endTrk?1:0};if(S.cs){const c=S.cs;Object.assign(e,{W:c.W,D:c.D,L:c.L,gf:c.gf,ga:c.ga,cl:c.cl,ws:c.ws,us:c.us,pts:c.pts,bp:c.bp,bw:c.bw,bl:c.bl,pv:Math.max(0,...(S.wh||[0]))})}
-  S.hofId=e.id;M.st.ca=mst('ca')+1;if(cg.gr==='A+')M.st.ap=mst('ap')+1;if(cg.gr==='A+'||cg.gr==='A')M.st.aa=mst('aa')+1;if(S.fate==='sale'&&w1>=e.w0*1.5)M.st.sold=mst('sold')+1;if(S.fate==='retired')M.st.ret=mst('ret')+1;M.hof.push(e);M.hof.sort((a,b)=>(b.os||0)-(a.os||0)||b.sc-a.sc);M.hof=M.hof.slice(0,12);achCheck();msave();save()}catch(e){console.error(e)}}
+function metaCareer(){try{S.hofDone=1;const cg=careerGrade(),w1=S.saleW!=null?S.saleW:ownW(),e={id:Date.now(),club:clubOf().n,lv0:clubOf().lv,se:S.season,ti:S.titles||0,lt:(S.lowT||[]).length,cu:S.cupWins||0,ec:(S.eCups||[]).slice(),w0:Math.round((S.W00||0)*10)/10,w1:Math.round(w1*10)/10,gr:cg.gr,sc:Math.round(cg.g*10)/10,os:(()=>{try{return curScore().score}catch(e){return 0}})(),fate:S.fate,sw:S.sw||0,tk:S.trk==null?null:S.trk,et:S.endTrk?1:0};if(S.cs){const c=S.cs;Object.assign(e,{W:c.W,D:c.D,L:c.L,gf:c.gf,ga:c.ga,cl:c.cl,ws:c.ws,us:c.us,pts:c.pts,bp:c.bp,bw:c.bw,bl:c.bl,pv:Math.max(0,...(S.wh||[0])),db:c.db||0,tsb:c.tsb||0,mg:c.mg||0,es:c.es||0,bs:c.bs||null,bpl:c.bpl||null})}
+  S.hofId=e.id;M.st.ca=mst('ca')+1;if((S.prC||0)>=2)M.st.trf=mst('trf')+1;if(cg.gr==='A+'&&(S.titles||0)>0&&(S.cupWins||0)>0&&(S.eCups||[]).length>0)M.st.emp=mst('emp')+1;if(cg.gr==='A+')M.st.ap=mst('ap')+1;if(cg.gr==='A+'||cg.gr==='A')M.st.aa=mst('aa')+1;if(S.fate==='sale'&&w1>=e.w0*1.5)M.st.sold=mst('sold')+1;if(S.fate==='retired')M.st.ret=mst('ret')+1;M.hof.push(e);M.hof.sort((a,b)=>(b.os||0)-(a.os||0)||b.sc-a.sc);M.hof=M.hof.slice(0,12);achCheck();msave();save()}catch(e){console.error(e)}}
 /* הודעות קופצות ואנימציות */
 function toast(t){try{document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}catch(e){}}
 function floatM(d){try{const e=document.createElement('div');e.className='fm '+(d>0?'up':'dn');e.textContent=(d>0?'+':'−')+fm(Math.abs(d));document.body.appendChild(e);setTimeout(()=>e.remove(),1500)}catch(e){}}
@@ -2997,7 +3161,7 @@ const lightOf=c=>{let m=String(c).match(/hsl\(\s*[\d.]+\s*,\s*[\d.]+%\s*,\s*([\d
 function theme(){try{let st=document.getElementById('th');if(!st){st=document.createElement('style');st.id='th';document.head.appendChild(st)}const c=S&&S.club?clubOf():null;
   st.textContent=c?`.sb{border-bottom-color:${c.c2}!important}.nav{border-top-color:${c.c2}!important}.nav button.on{background:linear-gradient(180deg,${c.c1},${c.c2})!important;color:${lightOf(c.c1)>.6?'#04121a':'#fff'}!important}`:''}catch(e){}}
 /* הדרכה */
-const HELP=[["⚽", "מי אתה ומה המטרה", "אתה <b>הבעלים</b>, לא המאמן. אתה מחליט על <b>כסף, אנשים ואסטרטגיה</b>: את מי קונים ומוכרים, איזה מאמן להביא, במה להשקיע ועם איזה ספונסר.<br><br>הקריירה נמדדת ב<b>שווי המועדון</b> וב<b>הצלחה ספורטיבית</b> (טבלה, גביעים, אירופה). המטרה: להפוך מועדון קטן לענק.<br><br><b>אירופה:</b> מאגר של 160 מועדונים אירופיים משלושה מעמדות (חלשים, בינוניים, צמרת). היריבות נקבעות לפי הרמה שלך והרייטינג של כל יריבה קבוע לאורך העונה. אין פורמטים חדשים של טורנירים, רק מאגר רחב ומגוון יותר."], ["🔄", "איך עונה בנויה", "<b>כל עונה:</b> חלון קיץ ← חצי ראשון (ליגה, גביע, אירופה ואירועי החלטה) ← חלון ינואר ← חצי שני, סיכום כספי ובדיקת יעדים.<br><br>״המשך״ מקדם את העונה. <b>🔴 משחק שיא</b> (גביע, אירופה, אליפות, דרבי) רץ לייב כ־8 שניות עם גולים, ואפשר לדלג.<br><br><b>ארבע לשוניות:</b> 🎮 משחק (עונה וטבלה), ⚽ סגל (הרכב, מכירה, 🎓), 💼 שוק (שחקנים, סקאוט, מאמנים, תקציב), 🏗️ מועדון (קופה, ספונסרים, שדרוגים, גביעים, נתונים)."], ["💰", "כסף: מאיפה בא ולאן הולך", "<b>הכנסות:</b> כרטיסים ובסיס (גדלים עם אוהדים ומקום בטבלה, <b>ועם יוקרת הסגל</b>: ככל שהסגל שווה יותר, המותג מכניס יותר), בונוס אליפות, פרסי גביעים ואירופה, ספונסרים ומכירות שחקנים. <b>פרסי אירופה קבועים לפי שלב</b> (בסכומי אופ״א האמיתיים), ולא תלויים בגודל הסגל או במספר העונה: זכייה בליגת האלופות שווה אותו סכום תמיד. <b>התקציב הבסיסי צומח</b> בליגת העל: סיום בשלושת המקומות הראשונים מגדיל אותו בכ־3.5% בעונה, ומקומות 4–8 בכ־1.2%. <b>הוצאות:</b> שכר שחקנים ומאמן, תחזוקה, שדרוגים וקניות. השכר עולה עם שווי הסגל, אבל מעל כ־80% מההכנסות הוא כבר עולה לאט, כך שקבוצה טובה לא נכנסת להפסד בלי שליטה.<br><br><b>ספונסר ראשי:</b> משחק קצר נותן סכום מלא ומוניטין, דילוג נותן 60%. כדאי לשחק. <b>מדיניות:</b> ⚖️ מאוזן, 🏆 אליפות (חזק ויקר), 💰 רווח, 🌱 נוער.<br><br><b>⚖️ פייר פליי:</b> אין קניות בלי כסף בקופה. קופה שלילית בסוף העונה היא הפרה. אפשר לתקן (בעיקר במכירות) עד סגירת חלון הקיץ, ואז הסנקציה נקבעת לפי החוב שנשאר כאחוז מההכנסות השנתיות: עד 3% אזהרה, 3%–8% איסור רכש לחלון, 8%–15% שני חלונות ו־3–6 נקודות, 15%–30% שנתיים ו־6–9 נקודות, מעל 30% 9–12 נקודות והרחקה מאירופה. החוב לא נמחק ונושא ריבית של כ־5% בשנה. הפרה חוזרת תוך 3 עונות מעלה רמה.<br><br><b>💼 תקציב:</b> כרטיס התקציב מציג תחזית רווח ליעד ולתרחיש חלש. המשחק שומר מהקופה את ההפסד הצפוי ועוד כרית ביטחון, והשאר <b>זמין להעברות</b>: מכירה מגדילה אותו, קנייה מקטינה, והיתרה שלא נוצלה עוברת במלואה לעונה הבאה. אין תקרה לגודל הקופה..<br><br><b>📈 גודל הכלכלה:</b> ככל שהסגל שווה יותר, גם ההכנסות, הפרסים, העלויות והסכומים בהחלטות גדלים. מחיר שחקן לפי דירוג: ממוצע בליגת העל פחות מ־1M, כוכבי הליגה עד כ־5M, שחקן עילית עולמית 80–120M, ויוצאי דופן עד 150M ויותר. בכל החלטה מופיעים העלות או ההכנסה מתחת לכל אפשרות, לפני שבוחרים."], ["🎯", "יעדים, שאיפה ומה קורה כשנכשלים", "בכל עונה יש <b>יעד ספורטיבי</b> (מקום בטבלה) ו<b>יעד כלכלי</b> (גידול באחוזים בשווי).<br><br>לפני העונה בוחרים <b>שאיפה</b>:<br>🛡️ שמרני: יעד כלכלי חצי, חסויות −15%.<br>⚖️ רגיל.<br>🚀 שאפתני: יעד כמעט כפול, תקציב +8% וחסויות +35%, אבל פספוס יקר.<br><br>שתי עונות ברצף בלי לעמוד ביעדים = מכירה בכפייה. פספוס קטן של יעד האליפות או המקום השני (מקום אחד מתחת ליעד) נחשב אכזבה ולא כישלון, ובעונה האחרונה של המסלול אין מכירה כפויה. עוד סיומים: <b>מרד אוהדים</b> או <b>פרישה בכבוד</b>. חבל הצלה אחד בקריירה: כשהמכירה הכפויה כבר על השולחן, מישהו מזרים כסף ומציל אותך פעם אחת.<br><br>היעד הכלכלי גדל יחד עם הצמיחה שלך, כך שעונות חזקות מביאות יעד קשה יותר.<br><br>יעד הליגה מתחשב ב־5 העונות האחרונות ובמקום של הסגל שלך מול היריבות. מועדון שהפך למעצמה ממשיך לכוון לאליפות גם אחרי עונה חלשה אחת, והציפיות יורדות רק בהדרגה."], ["💪", "עוצמת הקבוצה: מה באמת קובע", "העוצמה היא ממוצע ההרכב (<b>80%</b>) והמאמן (<b>20%</b>), בתוספת בונוסים קטנים (סגנון מאמן, אוהדים מעל 50, מגרש ואימון, גביעים, מדיניות) ופחות עייפות ורוטציה. לבונוסים תקרה רכה, לכן <b>סגל גרוע לא מתוקן במאמן או במתקנים</b>. צריך שחקנים.<br><br>סיכוי הניצחון תלוי בפער העוצמה מול היריבה, עם מקום לסנסציות. בסולם 200 פער קטן (כ־10) משפיע מעט, ופער גדול (50+) כמעט מכריע.<br><br><b>📈 התפתחות:</b> שחקן הרכב מתפתח במלואו, ספסל לאט יותר. הפוטנציאל דינמי: צעיר שלא מתקדם יורד לכיוון הרייטינג, צעיר שמשתפר עולה, ואחרי גיל 27 הוא מתיישר בהדרגה.<br><b>✨ מסגרת:</b> 65 ארד, 70 כסף, 75 זהב ★, 80 זהב זוהר ★★, 85+ מהבהב ★★★.<br><br><b>📏 קנה מידה:</b> אין תקרת 100. דירוג הקבוצה מעוגל למספר שלם. מועדוני אירופה חזקים בהרבה מהליגה הישראלית: הצמרת (סיטי, ברצלונה, ריאל) קרובה ל־150–170, והביניים 90–130. אל תצפה להתקדם רחוק באירופה בלי להגיע לכ־100 ומעלה.<br>כשהפער גדול מאוד, סיכוי הניצחון מגיע עד 99%. שחקני נוער בני 19 כמעט אף פעם לא מגיעים ל־90, והם משתפרים עם השנים.<br>יריבות ישראליות משתפרות עם הזמן לפי מומנטום: קבוצה שמסיימת למעלה מתחזקת, תחתית נחלשת, ומדי פעם מעצמה חדשה מקבלת זריקת הון או קבוצה נכנסת למשבר. הצמרת מתקרבת אליך בהדרגה, ובכל עונה קבוצות יורדות ועולות בין הליגות.<br><br>דירוג יריבה קבוע לאורך העונה בכל המפעלים, ויריבות ישראליות מתחזקות בהדרגה כשאתה מתחזק (הצמרת יותר מהתחתית)."], ["🔁", "שוק ההעברות", "שני חלונות: <b>קיץ</b> ו<b>ינואר</b>. מחוץ להם רק משחקים.<br><br><b>קונים</b> בלשונית שוק, <b>מוכרים</b> בסגל (כולל הצעות נכנסות). המחיר לפי דירוג, גיל ופוטנציאל. <b>השאלה</b> נותנת לשחקן דקות ופיתוח, והוא נשאר שלך. <b>סגל מלא (24):</b> קודם משחררים או מוכרים. כל קנייה מוסיפה שכר שנתי.<br><br><b>השוק יחסי לרמה שלך:</b> בכל חלון מוצעים שחקנים טובים ממך (עד כ־22 נקודות מעליך), ברמתך ומתחתיה, וגם צעירים עם פוטנציאל (2–3 עם פוטנציאל גבוה ועוד 2–3 סביר). שחקני עילית מעל 175 נדירים. הפוטנציאל דינמי: צעיר שמשחק היטב כמה שנים ברצף מעלה גם את הפוטנציאל שלו. שחקנים בני 31 ומעלה זולים יותר. <b>מגבלות:</b> עד 3 שחקנים בהשאלה אליך ועד 5 בהשאלה החוצה בו זמנית, ומכירת כוכבים מרגיזה את האוהדים בעד 14 נקודות בעונה.<br><br><b>שני מצבים:</b> 🧑‍🏫 <b>המאמן מנהל</b> (ברירת מחדל): בוחרים אסטרטגיה (פוטנציאל, מוכנים עכשיו, מאוזן, עומק או כוכב), והמאמן מציג תוכנית אחת של קניות ויציאות. ❌ מסיר פריט ו״לאשר ולבצע״ מבצע. אפשר גם 🤖 קנייה אוטומטית בפתיחת כל חלון. 🔍 <b>אני בוחר</b>: רשימה מלאה ומו״מ בעצמך. בסגל יש מתג דומה למכירות והשאלות.<br><br><b>סגל מינימום:</b> תמיד נשארים עם לפחות 18 שחקנים בבעלותך (שחקנים בהשאלה אליך לא נספרים), ולכן אי אפשר למכור מתחת לזה. שחקנים חופשיים חלשים יותר מבעבר.<br>סגל מלא בתחילת עונה: עדיף למכור, ולא לשחרר.<br><b>🚫 כשפעולה נחסמת</b> (מעט מדי שחקנים בעמדה, פחות מ־18 בסגל או שחקן חופשי שהוחתם העונה) מופיעה הודעה אדומה עם הסיבה המדויקת. שחקן שהוחתם כחופשי אי אפשר למכור עד העונה הבאה, אבל אפשר להשאיל אותו.<br><b>📰 חדשות ופרופילי מועדונים:</b> מתחת לטבלה מופיעות חדשות שנבנות מאירועים אמיתיים בליגה: אליפויות, זינוקים ונפילות בטבלה, זריקות הון ומשברים. לחיצה על שם מועדון בטבלה או בחדשות פותחת את הפרופיל שלו: מקום בטבלה, רמה, מצב, אליפויות והמסלול בעונות האחרונות. בטבלה יש גם עמודת הפרש שערים, והיא קובעת סדר כשיש שוויון בנקודות.<br><b>⚖️ החלטות בעלים:</b> מתחת לכל אפשרות מופיעות ההשלכות במילים (אוהדים, מוניטין, עירייה, כוח הקבוצה) ואת הסיכון. עלות כספית מופיעה בסכום המדויק.<br><b>🎲 סיכויי ניצחון:</b> מחושבים לפי הפער בין הקבוצות, בתוספת משחק בית (+), פורמה של 5 המשחקים האחרונים (שלך ושל היריבה), דרבי וגמר שמקרבים את הסיכויים. פער של 10 נותן כ־46% ניצחון, פער של 20 כ־58%, פער של 40 כ־76%. גם בפער גדול יש הפתעות.<br><b>📉 שכר:</b> השכר יכול להגיע עד 100% מההכנסות, והחלק שמעל 80% מהן מכביד פחות (60%), אז הקבוצה לא קורסת מבזבוז קטן.<br><b>🧭 מסלולי קריירה:</b> בתחילת משחק חדש בוחרים מסלול: מהיר (10 עונות), בינוני (20) או אתגר (40). אי אפשר לשנות אחרי תחילת הקריירה. מסלול קצר מאיץ רק את המועדון שלך: הכנסות אירופה והצמיחה, התפתחות השחקנים והיצע הכוכבים בשוק (ככל שאתה מצליח באירופה). היריבות מתפתחות בקצב רגיל. קושי גבוה אומר יריבות שמנוהלות טוב יותר, מחירי רכישה גבוהים יותר, וטעויות שפוגעות באוהדים, במוניטין ובעירייה יותר. בסוף המסלול המועדון נמכר לפי שוויו (סגל, מתקנים, קופה וחובות, מוניטין והישגים), והקריירה נכנסת להיכל התהילה (המסך הסופי של מסלול שהושלם נקרא ״הקריירה הושלמה״). מעונה 15, כל 5 עונות, מגיעה הצעה לקנות את המועדון (במסלול 20: בעונה 15. במסלול 40: בעונות 15, 20, 25, 30 ו־35), ואפשר לסרב ולהמשיך. שמירות ישנות ממשיכות ללא הגבלת עונות.<br><b>🏷️ פוטנציאל מוערך ותווית:</b> המספר עם ה־~ הוא הערכת הסקאוטינג, לא האמת. הפוטנציאל האמיתי של השחקן נסתר ולא משתנה כשהסקאוטינג משתפר. רק ההערכה מתקרבת אליו. ככל שהסקאוטינג גבוה יותר, וככל שהשחקן אצלך יותר שנים (שחקני אקדמיה נחשבים מוכרים), ההערכה מדויקת יותר. ליד כל שחקן תווית אחת: מתחת ל־100 שחקן רגיל, 100 כוכב ליגת העל, 120 ליגיונר, 140 שחקן טופ, 155 שחקן על, 170 סופרסטאר, 185 כדור הזהב. שחקן צעיר שעדיין מתפתח מקבל תווית לפי הפוטנציאל המוערך (כתוב ״פוטנציאל״), ושחקן בשיאו או בירידה לפי הרמה הנוכחית שלו. ממוצע הליגה כיום מתחת ל־100, לכן רוב השחקנים בתחילת הדרך ״רגילים״. במצב ״פוטנציאל״ המאמן מחפש צעירים בפוטנציאל גבוה גם אם הרייטינג הנוכחי נמוך, ומאמן טוב וסקאוטינג גבוה מזהים הזדמנויות טובות יותר.<br><b>🔍 סקאוט:</b> עולה כ־3% מהתקציב (בקנה מידה) ועוד כ־0.3% מהקופה, ושדרוג הסקאוטינג מוריד עד 45% בלבד.<br><b>💡 ייעוץ:</b> במצב \"אני בוחר\" מוצגת המלצה: איזו עמדה חלשה ומה לחפש, ומי כדאי למכור. בשוק כל שחקן מסומן כמה הוא משפר את ההרכב."], ["🧑‍🏫", "מאמנים", "המאמן נותן 20% מהעוצמה ועוד סגנון (התאמה לסגל). רשימת המאמנים בלשונית שוק:<br>• <b>איכות (סקאלה עד 200):</b> תלויה ברמת המועדון, בשווי, בסקאוטינג ובמעמד. קבוצה ברייטינג 100 תקבל בדרך כלל מאמנים סביב 80–110; מאמן 150 מופיע רק למועדון גדול, ומאמן יוצא דופן (⭐) נדיר מאוד.<br>• <b>חמש קטגוריות (1–10 כוכבים):</b> 🎯 טקטיקה (מוסיף עוצמה בפועל), 🌱 צעירים (מפתח שחקנים עד 23), 🔄 הסתגלות (מאמן חדש נפגע פחות), 🔥 מוטיבציה (מורל), 💪 כושר (עייפות ופציעות; וגם משפיע על ותיקים). הקטגוריות משתנות לאט עם השנים.<br>• <b>שכר:</b> עולה בחדות עם הרייטינג.<br>• <b>חוזה:</b> שנים אחרונות פוגעות בעוצמה, ופיטורים עולים כ־70% מהשכר שנותר.<br>• <b>הסתגלות:</b> מאמן חדש נותן קצת פחות בעונה הראשונה.<br>• <b>רייטינג, פוטנציאל וגיל:</b> בסוף כל עונה הם משתנים לפי התוצאות. אליפות, גביע או יעד שהושג מקדמים, עונה בינונית משאירה תקוע, וכישלון או ירידה מורידים גם פוטנציאל. מאמן עד גיל 46 מתקדם מהר, ומגיל 60 מתקדם לאט ועלול לדעוך. הגיל עולה בשנה כל עונה.<br><br><b>🎓 לשחק איתו:</b> כפתור בסגל ליד שחקן עד גיל 23. המאמן משלב אותו בהרכב והוא מתפתח כמו שחקן הרכב, במחיר הקבוצה חלשה קצת אם הוא חלש מהיוצא. עד 2 במקביל."], ["🏗️", "שדרוגי מועדון", "שישה תחומים עד <b>רמה 15</b> (הרמות 11–15 יקרות מאוד ועם תחזוקה גבוהה, והאפקט שלהן קטן יותר): 🌱 מגרש (חזק יותר בכל משחק), 🏟️ יציע (הכנסות ואוהדים), 🏋️ אימון (פיתוח שחקנים), 🔭 סקאוטינג (שוק, מאמנים וכישרונות־על נדירים בפוטנציאל 100+ ברמות גבוהות), 🛍️ מסחרית (ספונסרים והכנסות), 🎓 אקדמיה (שחקן נוער בכל עונה).<br><br>כל שדרוג נבנה עד חלון ההעברות הבא. יש <b>תחזוקה</b> עונתית, אבל כל רמה מחזירה את עצמה ומעלה שווי. ברמה 5 וברמה 10 יש בונוס חד־פעמי.<br><b>יחסי עירייה</b> (0–100) משתנים מהחלטות באירועים: מ־65 יש מענק ובנייה זולה, מתחת ל־25 קנס ובנייה יקרה.<br>🏙️ בראש לשונית מועדון יש <b>הדמיית אצטדיון</b> שמתפתחת עם השדרוגים (סיבוב באצבע, זום, 🌙 ערב משחק). <b>עצה:</b> להתחיל ממה שמחזיר מהר, יציע ומסחרית. ההכנסה מיציע ומסחרית גדלה יחד עם גודל הכלכלה, כך שהם ממשיכים להחזיר את עצמם גם בסגל חזק."], ["📈", "שווי המועדון", "המדד הכלכלי הראשי:<br>• <b>הקופה</b> (1 ל־1)<br>• <b>הסגל</b> במחירי שוק, כולל מושאלים<br>• <b>80% מעלות המתקנים</b><br>• <b>המותג</b> (אוהדים והכנסות מסחריות)<br>• <b>מורשת</b> שדועכת 10% בעונה<br>• השפעת הליגה<br><br>היעד הוא <b>גידול באחוזים</b>, ולכן גם מועדון עני שגדל מהר עומד בו.<br><b>מעלים:</b> ניצחונות ועליות, מכירה ברווח והחלפה בצעירים, מתקנים, קופה ירוקה. <b>יורד:</b> הפסדים, שחקנים שנשחקים או נפצעים, וגיל."], ["🎮", "החלטות ואירועים", "במהלך העונה תקבלו <b>אירועים והחלטות</b>. לכל בחירה יש מחיר בכסף, באוהדים, ביחסי העירייה או בסגל, ואין תשובה נכונה תמיד. בנוסף יש מיני־משחקי ספונסר: ניצחון נותן את הסכום המלא.<br>מתחת לכל אפשרות מוצגת העלות או ההכנסה. אם יש הימור, מוצגים שני הסכומים. שחקן כוכב שהמועדון לא עומד ביעד האירופי איתו שנתיים ברצף עלול לבקש לעזוב."], ["👑", "שחקנים עם אופי, כוכבים ודרבי", "<b>תכונות:</b> 👑 קפטן (+0.5 עוצמה, מכירה כואבת), 💖 אהוב הקהל (מעלה אוהדים), 🔥 מזג חם (+0.3 עוצמה, לפעמים קנס).<br><b>מכירת כוכב</b> מכעיסה אוהדים ולפעמים מורידה עוצמה עד שתביא תחליף.<br><br><b>⚔️ דרבי:</b> בנובמבר משחק שיא מול היריבה ההיסטורית (אם היא באותה ליגה). ניצחון מעלה אוהדים ומוניטין ונותן בונוס, הפסד פוגע בשניהם.<br><b>📣 ועד אוהדים:</b> בכל עונה דרישה אחת (למשל דרבי, אירופה או לא למכור את הכוכב). עמידה: +4 אוהדים, אחרת −4.<br><b>🎉 חגיגות:</b> אליפות או גביע מביאים מסך חגיגה."], ["🧠", "טיפים של בעלים מנצחים", "1. <b>קופה ירוקה.</b> עונה אחת עם חור ענק יכולה לסיים קריירה.<br>2. <b>קנה צעירים עם פוטנציאל, מכור בשיא.</b><br>3. <b>אל תשלם על מאמן כוכב כשהסגל חלש.</b> זה 20% בלבד.<br>4. <b>השאל צעירים שלא משחקים.</b><br>5. <b>שאיפה:</b> שאפתני אחרי עונה מצוינת, שמרני אחרי משבר.<br>6. <b>סקאוטינג משפר גם שוק וגם מאמנים.</b><br>7. <b>שדרוגים מחזירים את עצמם</b> עם הזמן.<br>8. <b>חבל ההצלה פעם אחת.</b>"], ["🏅", "קריירה, הישגים והיכל התהילה", "כל קריירה מקבלת <b>דירוג בעלים</b> ונכנסת ל<b>היכל התהילה</b>, עם נתונים מלאים: מאזן ניצחונות, תיקו והפסדים, שערים, הניצחון הגדול וההפסד הכבד, רצפים, שיא נקודות, שיא שווי ועוד. כפתור 📊 <b>השוואה</b> מציג את כל הקריירות בטבלה אחת, והערך הטוב בכל שורה מסומן. יש 100 הישגים שנשמרים לתמיד כמדליות, ואפשר לשתף כרטיס קריירה."]];
+const HELP=[["⚽", "מי אתה ומה המטרה", "אתה <b>הבעלים</b>, לא המאמן. אתה מחליט על <b>כסף, אנשים ואסטרטגיה</b>: את מי קונים ומוכרים, איזה מאמן להביא, במה להשקיע ועם איזה ספונסר.<br><br>הקריירה נמדדת ב<b>שווי המועדון</b> וב<b>הצלחה ספורטיבית</b> (טבלה, גביעים, אירופה). המטרה: להפוך מועדון קטן לענק.<br><br><b>אירופה:</b> מאגר של 160 מועדונים אירופיים משלושה מעמדות (חלשים, בינוניים, צמרת). היריבות נקבעות לפי הרמה שלך והרייטינג של כל יריבה קבוע לאורך העונה. אין פורמטים חדשים של טורנירים, רק מאגר רחב ומגוון יותר."], ["🔄", "איך עונה בנויה", "<b>כל עונה:</b> חלון קיץ ← חצי ראשון (ליגה, גביע, אירופה ואירועי החלטה) ← חלון ינואר ← חצי שני, סיכום כספי ובדיקת יעדים.<br><br>״המשך״ מקדם את העונה. <b>🔴 משחק שיא</b> (גביע, אירופה, אליפות, דרבי) רץ לייב כ־8 שניות עם גולים, ואפשר לדלג.<br><br><b>ארבע לשוניות:</b> 🎮 משחק (עונה וטבלה), ⚽ סגל (הרכב, מכירה, 🎓), 💼 שוק (שחקנים, סקאוט, מאמנים, תקציב), 🏗️ מועדון (קופה, ספונסרים, שדרוגים, גביעים, נתונים)."], ["💰", "כסף: מאיפה בא ולאן הולך", "<b>הכנסות:</b> כרטיסים ובסיס (גדלים עם אוהדים ומקום בטבלה, <b>ועם יוקרת הסגל</b>: ככל שהסגל שווה יותר, המותג מכניס יותר), בונוס אליפות, פרסי גביעים ואירופה, ספונסרים ומכירות שחקנים. <b>פרסי אירופה קבועים לפי שלב</b> (בסכומי אופ״א האמיתיים), ולא תלויים בגודל הסגל או במספר העונה: זכייה בליגת האלופות שווה אותו סכום תמיד. <b>התקציב הבסיסי צומח</b> בליגת העל: סיום בשלושת המקומות הראשונים מגדיל אותו בכ־3.5% בעונה, ומקומות 4–8 בכ־1.2%. <b>הוצאות:</b> שכר שחקנים ומאמן, תחזוקה, שדרוגים וקניות. השכר עולה עם שווי הסגל, אבל מעל כ־80% מההכנסות הוא כבר עולה לאט, כך שקבוצה טובה לא נכנסת להפסד בלי שליטה.<br><br><b>ספונסר ראשי:</b> משחק קצר נותן סכום מלא ומוניטין, דילוג נותן 60%. כדאי לשחק. <b>מדיניות:</b> ⚖️ מאוזן, 🏆 אליפות (חזק ויקר), 💰 רווח, 🌱 נוער.<br><br><b>⚖️ פייר פליי:</b> אין קניות בלי כסף בקופה. קופה שלילית בסוף העונה היא הפרה. אפשר לתקן (בעיקר במכירות) עד סגירת חלון הקיץ, ואז הסנקציה נקבעת לפי החוב שנשאר כאחוז מההכנסות השנתיות: עד 3% אזהרה, 3%–8% איסור רכש לחלון, 8%–15% שני חלונות ו־3–6 נקודות, 15%–30% שנתיים ו־6–9 נקודות, מעל 30% 9–12 נקודות והרחקה מאירופה. החוב לא נמחק ונושא ריבית של כ־5% בשנה. הפרה חוזרת תוך 3 עונות מעלה רמה.<br><br><b>💼 תקציב:</b> כרטיס התקציב מציג תחזית רווח ליעד ולתרחיש חלש. המשחק שומר מהקופה את ההפסד הצפוי ועוד כרית ביטחון, והשאר <b>זמין להעברות</b>: מכירה מגדילה אותו, קנייה מקטינה, והיתרה שלא נוצלה עוברת במלואה לעונה הבאה. אין תקרה לגודל הקופה..<br><br><b>📈 גודל הכלכלה:</b> ככל שהסגל שווה יותר, גם ההכנסות, הפרסים, העלויות והסכומים בהחלטות גדלים. מחיר שחקן לפי דירוג: ממוצע בליגת העל פחות מ־1M, כוכבי הליגה עד כ־5M, שחקן עילית עולמית 80–120M, ויוצאי דופן עד 150M ויותר. בכל החלטה מופיעים העלות או ההכנסה מתחת לכל אפשרות, לפני שבוחרים."], ["🎯", "יעדים, שאיפה ומה קורה כשנכשלים", "בכל עונה יש <b>יעד ספורטיבי</b> (מקום בטבלה) ו<b>יעד כלכלי</b> (גידול באחוזים בשווי).<br><br>לפני העונה בוחרים <b>שאיפה</b>:<br>🛡️ שמרני: יעד כלכלי חצי, חסויות −15%.<br>⚖️ רגיל.<br>🚀 שאפתני: יעד כמעט כפול, תקציב +8% וחסויות +35%, אבל פספוס יקר.<br><br>שתי עונות ברצף בלי לעמוד ביעדים = מכירה בכפייה. פספוס קטן של יעד האליפות או המקום השני (מקום אחד מתחת ליעד) נחשב אכזבה ולא כישלון, ובעונה האחרונה של המסלול אין מכירה כפויה. עוד סיומים: <b>מרד אוהדים</b> או <b>פרישה בכבוד</b>. חבל הצלה אחד בקריירה: כשהמכירה הכפויה כבר על השולחן, מישהו מזרים כסף ומציל אותך פעם אחת.<br><br>היעד הכלכלי גדל יחד עם הצמיחה שלך, כך שעונות חזקות מביאות יעד קשה יותר.<br><br>יעד הליגה מתחשב ב־5 העונות האחרונות ובמקום של הסגל שלך מול היריבות. מועדון שהפך למעצמה ממשיך לכוון לאליפות גם אחרי עונה חלשה אחת, והציפיות יורדות רק בהדרגה."], ["💪", "עוצמת הקבוצה: מה באמת קובע", "העוצמה היא ממוצע ההרכב (<b>80%</b>) והמאמן (<b>20%</b>), בתוספת בונוסים קטנים (סגנון מאמן, אוהדים מעל 50, מגרש ואימון, גביעים, מדיניות) ופחות עייפות ורוטציה. לבונוסים תקרה רכה, לכן <b>סגל גרוע לא מתוקן במאמן או במתקנים</b>. צריך שחקנים.<br><br>סיכוי הניצחון תלוי בפער העוצמה מול היריבה, עם מקום לסנסציות. בסולם 200 פער קטן (כ־10) משפיע מעט, ופער גדול (50+) כמעט מכריע.<br><br><b>📈 התפתחות:</b> שחקן הרכב מתפתח במלואו, ספסל לאט יותר. הפוטנציאל דינמי: צעיר שלא מתקדם יורד לכיוון הרייטינג, צעיר שמשתפר עולה, ואחרי גיל 27 הוא מתיישר בהדרגה.<br><b>✨ מסגרת:</b> 65 ארד, 70 כסף, 75 זהב ★, 80 זהב זוהר ★★, 85+ מהבהב ★★★.<br><br><b>📏 קנה מידה:</b> אין תקרת 100. דירוג הקבוצה מעוגל למספר שלם. מועדוני אירופה חזקים בהרבה מהליגה הישראלית: הצמרת (סיטי, ברצלונה, ריאל) קרובה ל־150–170, והביניים 90–130. אל תצפה להתקדם רחוק באירופה בלי להגיע לכ־100 ומעלה.<br>כשהפער גדול מאוד, סיכוי הניצחון מגיע עד 99%. שחקני נוער בני 19 כמעט אף פעם לא מגיעים ל־90, והם משתפרים עם השנים.<br>יריבות ישראליות משתפרות עם הזמן לפי מומנטום: קבוצה שמסיימת למעלה מתחזקת, תחתית נחלשת, ומדי פעם מעצמה חדשה מקבלת זריקת הון או קבוצה נכנסת למשבר. הצמרת מתקרבת אליך בהדרגה, ובכל עונה קבוצות יורדות ועולות בין הליגות.<br><br>דירוג יריבה קבוע לאורך העונה בכל המפעלים, ויריבות ישראליות מתחזקות בהדרגה כשאתה מתחזק (הצמרת יותר מהתחתית)."], ["🔁", "שוק ההעברות", "שני חלונות: <b>קיץ</b> ו<b>ינואר</b>. מחוץ להם רק משחקים.<br><br><b>קונים</b> בלשונית שוק, <b>מוכרים</b> בסגל (כולל הצעות נכנסות). המחיר לפי דירוג, גיל ופוטנציאל. <b>השאלה</b> נותנת לשחקן דקות ופיתוח, והוא נשאר שלך. <b>סגל מלא (24):</b> קודם משחררים או מוכרים. כל קנייה מוסיפה שכר שנתי.<br><br><b>השוק יחסי לרמה שלך:</b> בכל חלון מוצעים שחקנים טובים ממך (עד כ־22 נקודות מעליך), ברמתך ומתחתיה, וגם צעירים עם פוטנציאל (2–3 עם פוטנציאל גבוה ועוד 2–3 סביר). שחקני עילית מעל 175 נדירים. הפוטנציאל דינמי: צעיר שמשחק היטב כמה שנים ברצף מעלה גם את הפוטנציאל שלו. שחקנים בני 31 ומעלה זולים יותר. <b>מגבלות:</b> עד 3 שחקנים בהשאלה אליך ועד 5 בהשאלה החוצה בו זמנית, ומכירת כוכבים מרגיזה את האוהדים בעד 14 נקודות בעונה.<br><br><b>שני מצבים:</b> 🧑‍🏫 <b>המאמן מנהל</b> (ברירת מחדל): בוחרים אסטרטגיה (פוטנציאל, מוכנים עכשיו, מאוזן, עומק או כוכב), והמאמן מציג תוכנית אחת של קניות ויציאות. ❌ מסיר פריט ו״לאשר ולבצע״ מבצע. אפשר גם 🤖 קנייה אוטומטית בפתיחת כל חלון. 🔍 <b>אני בוחר</b>: רשימה מלאה ומו״מ בעצמך. בסגל יש מתג דומה למכירות והשאלות.<br><br><b>סגל מינימום:</b> תמיד נשארים עם לפחות 18 שחקנים בבעלותך (שחקנים בהשאלה אליך לא נספרים), ולכן אי אפשר למכור מתחת לזה. שחקנים חופשיים חלשים יותר מבעבר.<br>סגל מלא בתחילת עונה: עדיף למכור, ולא לשחרר.<br><b>🚫 כשפעולה נחסמת</b> (מעט מדי שחקנים בעמדה, פחות מ־18 בסגל או שחקן חופשי שהוחתם העונה) מופיעה הודעה אדומה עם הסיבה המדויקת. שחקן שהוחתם כחופשי אי אפשר למכור עד העונה הבאה, אבל אפשר להשאיל אותו.<br><b>📰 חדשות ופרופילי מועדונים:</b> מתחת לטבלה מופיעות חדשות שנבנות מאירועים אמיתיים בליגה: אליפויות, זינוקים ונפילות בטבלה, זריקות הון ומשברים. לחיצה על שם מועדון בטבלה או בחדשות פותחת את הפרופיל שלו: מקום בטבלה, רמה, מצב, אליפויות והמסלול בעונות האחרונות. בטבלה יש גם עמודת הפרש שערים, והיא קובעת סדר כשיש שוויון בנקודות.<br><b>⚖️ החלטות בעלים:</b> מתחת לכל אפשרות מופיעות ההשלכות במילים (אוהדים, מוניטין, עירייה, כוח הקבוצה) ואת הסיכון. עלות כספית מופיעה בסכום המדויק.<br><b>🎲 סיכויי ניצחון:</b> מחושבים לפי הפער בין הקבוצות, בתוספת משחק בית (+), פורמה של 5 המשחקים האחרונים (שלך ושל היריבה), דרבי וגמר שמקרבים את הסיכויים. פער של 10 נותן כ־46% ניצחון, פער של 20 כ־58%, פער של 40 כ־76%. גם בפער גדול יש הפתעות.<br><b>📉 שכר:</b> השכר יכול להגיע עד 100% מההכנסות, והחלק שמעל 80% מהן מכביד פחות (60%), אז הקבוצה לא קורסת מבזבוז קטן.<br><b>🧭 מסלולי קריירה:</b> בתחילת משחק חדש בוחרים מסלול: מהיר (10 עונות), בינוני (20) או אתגר (40). אי אפשר לשנות אחרי תחילת הקריירה. מסלול קצר מאיץ רק את המועדון שלך: הכנסות אירופה והצמיחה, התפתחות השחקנים והיצע הכוכבים בשוק (ככל שאתה מצליח באירופה). היריבות מתפתחות בקצב רגיל. קושי גבוה אומר יריבות שמנוהלות טוב יותר, מחירי רכישה גבוהים יותר, וטעויות שפוגעות באוהדים, במוניטין ובעירייה יותר. בסוף המסלול המועדון נמכר לפי שוויו (סגל, מתקנים, קופה וחובות, מוניטין והישגים), והקריירה נכנסת להיכל התהילה (המסך הסופי של מסלול שהושלם נקרא ״הקריירה הושלמה״). מעונה 15, כל 5 עונות, מגיעה הצעה לקנות את המועדון (במסלול 20: בעונה 15. במסלול 40: בעונות 15, 20, 25, 30 ו־35), ואפשר לסרב ולהמשיך. שמירות ישנות ממשיכות ללא הגבלת עונות.<br><b>🏷️ פוטנציאל מוערך ותווית:</b> המספר עם ה־~ הוא הערכת הסקאוטינג, לא האמת. הפוטנציאל האמיתי של השחקן נסתר ולא משתנה כשהסקאוטינג משתפר. רק ההערכה מתקרבת אליו. ככל שהסקאוטינג גבוה יותר, וככל שהשחקן אצלך יותר שנים (שחקני אקדמיה נחשבים מוכרים), ההערכה מדויקת יותר. ליד כל שחקן תווית אחת: מתחת ל־100 שחקן רגיל, 100 כוכב ליגת העל, 120 ליגיונר, 140 שחקן טופ, 155 שחקן על, 170 סופרסטאר, 185 כדור הזהב. שחקן צעיר שעדיין מתפתח מקבל תווית לפי הפוטנציאל המוערך (כתוב ״פוטנציאל״), ושחקן בשיאו או בירידה לפי הרמה הנוכחית שלו. ממוצע הליגה כיום מתחת ל־100, לכן רוב השחקנים בתחילת הדרך ״רגילים״. במצב ״פוטנציאל״ המאמן מחפש צעירים בפוטנציאל גבוה גם אם הרייטינג הנוכחי נמוך, ומאמן טוב וסקאוטינג גבוה מזהים הזדמנויות טובות יותר.<br><b>🔍 סקאוט:</b> עולה כ־3% מהתקציב (בקנה מידה) ועוד כ־0.3% מהקופה, ושדרוג הסקאוטינג מוריד עד 45% בלבד.<br><b>💡 ייעוץ:</b> במצב \"אני בוחר\" מוצגת המלצה: איזו עמדה חלשה ומה לחפש, ומי כדאי למכור. בשוק כל שחקן מסומן כמה הוא משפר את ההרכב."], ["🧑‍🏫", "מאמנים", "המאמן נותן 20% מהעוצמה ועוד סגנון (התאמה לסגל). רשימת המאמנים בלשונית שוק:<br>• <b>איכות (סקאלה עד 200):</b> תלויה ברמת המועדון, בשווי, בסקאוטינג ובמעמד. קבוצה ברייטינג 100 תקבל בדרך כלל מאמנים סביב 80–110; מאמן 150 מופיע רק למועדון גדול, ומאמן יוצא דופן (⭐) נדיר מאוד.<br>• <b>חמש קטגוריות (1–10 כוכבים):</b> 🎯 טקטיקה (מוסיף עוצמה בפועל), 🌱 צעירים (מפתח שחקנים עד 23), 🔄 הסתגלות (מאמן חדש נפגע פחות), 🔥 מוטיבציה (מורל), 💪 כושר (עייפות ופציעות; וגם משפיע על ותיקים). הקטגוריות משתנות לאט עם השנים.<br>• <b>שכר:</b> עולה בחדות עם הרייטינג.<br>• <b>חוזה:</b> שנים אחרונות פוגעות בעוצמה, ופיטורים עולים כ־70% מהשכר שנותר.<br>• <b>הסתגלות:</b> מאמן חדש נותן קצת פחות בעונה הראשונה.<br>• <b>רייטינג, פוטנציאל וגיל:</b> בסוף כל עונה הם משתנים לפי התוצאות. אליפות, גביע או יעד שהושג מקדמים, עונה בינונית משאירה תקוע, וכישלון או ירידה מורידים גם פוטנציאל. מאמן עד גיל 46 מתקדם מהר, ומגיל 60 מתקדם לאט ועלול לדעוך. הגיל עולה בשנה כל עונה.<br><br><b>🎓 לשחק איתו:</b> כפתור בסגל ליד שחקן עד גיל 23. המאמן משלב אותו בהרכב והוא מתפתח כמו שחקן הרכב, במחיר הקבוצה חלשה קצת אם הוא חלש מהיוצא. עד 2 במקביל."], ["🏗️", "שדרוגי מועדון", "שישה תחומים עד <b>רמה 15</b> (הרמות 11–15 יקרות מאוד ועם תחזוקה גבוהה, והאפקט שלהן קטן יותר): 🌱 מגרש (חזק יותר בכל משחק), 🏟️ יציע (הכנסות ואוהדים), 🏋️ אימון (פיתוח שחקנים), 🔭 סקאוטינג (שוק, מאמנים וכישרונות־על נדירים בפוטנציאל 100+ ברמות גבוהות), 🛍️ מסחרית (ספונסרים והכנסות), 🎓 אקדמיה (שחקן נוער בכל עונה).<br><br>כל שדרוג נבנה עד חלון ההעברות הבא. יש <b>תחזוקה</b> עונתית, אבל כל רמה מחזירה את עצמה ומעלה שווי. ברמה 5 וברמה 10 יש בונוס חד־פעמי.<br><b>יחסי עירייה</b> (0–100) משתנים מהחלטות באירועים: מ־65 יש מענק ובנייה זולה, מתחת ל־25 קנס ובנייה יקרה.<br>🏙️ בראש לשונית מועדון יש <b>הדמיית אצטדיון</b> שמתפתחת עם השדרוגים (סיבוב באצבע, זום, 🌙 ערב משחק). <b>עצה:</b> להתחיל ממה שמחזיר מהר, יציע ומסחרית. ההכנסה מיציע ומסחרית גדלה יחד עם גודל הכלכלה, כך שהם ממשיכים להחזיר את עצמם גם בסגל חזק."], ["📈", "שווי המועדון", "המדד הכלכלי הראשי:<br>• <b>הקופה</b> (1 ל־1)<br>• <b>הסגל</b> במחירי שוק, כולל מושאלים<br>• <b>80% מעלות המתקנים</b><br>• <b>המותג</b> (אוהדים והכנסות מסחריות)<br>• <b>מורשת</b> שדועכת 10% בעונה<br>• השפעת הליגה<br><br>היעד הוא <b>גידול באחוזים</b>, ולכן גם מועדון עני שגדל מהר עומד בו.<br><b>מעלים:</b> ניצחונות ועליות, מכירה ברווח והחלפה בצעירים, מתקנים, קופה ירוקה. <b>יורד:</b> הפסדים, שחקנים שנשחקים או נפצעים, וגיל."], ["🎮", "החלטות ואירועים", "במהלך העונה תקבלו <b>אירועים והחלטות</b>. לכל בחירה יש מחיר בכסף, באוהדים, ביחסי העירייה או בסגל, ואין תשובה נכונה תמיד. בנוסף יש מיני־משחקי ספונסר: ניצחון נותן את הסכום המלא.<br>מתחת לכל אפשרות מוצגת העלות או ההכנסה. אם יש הימור, מוצגים שני הסכומים. שחקן כוכב שהמועדון לא עומד ביעד האירופי איתו שנתיים ברצף עלול לבקש לעזוב."], ["👑", "שחקנים עם אופי, כוכבים ודרבי", "<b>תכונות:</b> 👑 קפטן (+0.5 עוצמה, מכירה כואבת), 💖 אהוב הקהל (מעלה אוהדים), 🔥 מזג חם (+0.3 עוצמה, לפעמים קנס).<br><b>מכירת כוכב</b> מכעיסה אוהדים ולפעמים מורידה עוצמה עד שתביא תחליף.<br><br><b>⚔️ דרבי:</b> בנובמבר משחק שיא מול היריבה ההיסטורית (אם היא באותה ליגה). ניצחון מעלה אוהדים ומוניטין ונותן בונוס, הפסד פוגע בשניהם.<br><b>📣 ועד אוהדים:</b> בכל עונה דרישה אחת (למשל דרבי, אירופה או לא למכור את הכוכב). עמידה: +4 אוהדים, אחרת −4.<br><b>🎉 חגיגות:</b> אליפות או גביע מביאים מסך חגיגה."], ["🧠", "טיפים של בעלים מנצחים", "1. <b>קופה ירוקה.</b> עונה אחת עם חור ענק יכולה לסיים קריירה.<br>2. <b>קנה צעירים עם פוטנציאל, מכור בשיא.</b><br>3. <b>אל תשלם על מאמן כוכב כשהסגל חלש.</b> זה 20% בלבד.<br>4. <b>השאל צעירים שלא משחקים.</b><br>5. <b>שאיפה:</b> שאפתני אחרי עונה מצוינת, שמרני אחרי משבר.<br>6. <b>סקאוטינג משפר גם שוק וגם מאמנים.</b><br>7. <b>שדרוגים מחזירים את עצמם</b> עם הזמן.<br>8. <b>חבל ההצלה פעם אחת.</b>"], ["🏅", "קריירה, הישגים והיכל התהילה", "כל קריירה מקבלת <b>דירוג בעלים</b> ונכנסת ל<b>היכל התהילה</b>, עם ויטרינת גביעים (אליפויות, גביע המדינה, ליגת האלופות, הליגה האירופית והקונפרנס, רק אלה שזכית בהם), השחקן הכי טוב בקריירה, העונה הטובה ביותר, דאבלים, רצף אליפויות, מאזן ניצחונות, תיקו והפסדים, שערים, הניצחון הגדול וההפסד הכבד, שיא נקודות, שיא שווי ועוד. כפתור 📊 <b>השוואה</b> מציג את כל הקריירות בטבלה אחת, והערך הטוב בכל שורה מסומן. יש מעל 200 הישגים ב־10 קטגוריות (ליגה, גביע, אירופה, בנייה ושינוי, כלכלה, אקדמיה, מאמן, שחקנים, אוהדים וקריירה) שנשמרים לתמיד כמדליות. רובם מצטברים על פני כל הקריירות, וחלקם קשורים לקריירה אחת (למשל להפוך מועדון מהלאומית לאלופה). ההישגים החדשים נספרים מעכשיו והלאה. אפשר לשתף כרטיס קריירה."]];
 function celH(){const c=S.cel;if(!c)return'';return `<div class="ov"><div class="mdl c"><div class="bob" style="font-size:72px">${c.e}</div><h1 style="margin:6px 0">${c.t}</h1><p class="mut" style="margin:0 0 10px">${c.s}</p>${c.pl?`<div class="card" style="margin:8px 0"><div class="mut" style="font-size:12px">⭐ שחקן העונה</div><b style="font-size:20px">${c.pl}</b><div class="mut">${c.pp} · רייטינג ${c.pr}</div></div>`:''}<button class="btn p" onclick="S.cel=null;draw()">🎉 ממשיכים</button></div></div>`}
 function help(n){window._h=n;draw()}
 function helpH(){const n=window._h,h=HELP[n];return `<div class="ov" onclick="if(event.target===this)help(null)"><div class="mdl"><div class="c" style="font-size:44px">${h[0]}</div><h2 class="c" style="margin:6px 0">${h[1]}</h2><p style="line-height:1.6;font-size:15px">${h[2]}</p><div class="c" style="margin:8px 0">${HELP.map((x,i)=>`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 3px;background:${i===n?'var(--ac)':'#33405c'}"></span>`).join('')}</div><div class="cc"><button class="btn sm" ${n===0?'disabled':''} onclick="help(${n-1})">▶ הקודם</button><button class="btn sm" onclick="help(null)">סגור</button><button class="btn sm p" onclick="help(${n<HELP.length-1?n+1:null})">${n<HELP.length-1?'הבא ◀':'סיום'}</button></div></div></div>`}
@@ -3006,31 +3170,48 @@ const FATEN={sale:'נמכר ברווח',retired:'פרש בכבוד',forced:'נמ
 const CNM={L:'ליגה',C:'גביע המדינה',T:'גביע הטוטו',E:'אירופה'};
 const hofHas=e=>e.W!=null;
 const hofGm=g=>g?'<span style="font-size:13px">'+g.a+':'+g.b+' מול '+g.o+'<br><span class="mut">'+(CNM[g.c]||'משחק')+' · עונה '+g.se+'</span></span>':'—';
+const euN=(e,k)=>(e.ec||[]).filter(x=>String(x).indexOf(k)===0).length;
 const HC=[
- ['ניקוד',e=>e.os!=null?e.os.toLocaleString('en-US'):'—',e=>e.os!=null?e.os:null,1],['דירוג',e=>e.gr,null],['עונות',e=>e.se,e=>e.se,1],['אליפויות ליגת העל',e=>e.ti,e=>e.ti,1],['גביעי מדינה',e=>e.cu,e=>e.cu,1],['גביעים אירופיים',e=>(e.ec||[]).length,e=>(e.ec||[]).length,1],
+ ['ניקוד',e=>e.os!=null?e.os.toLocaleString('en-US'):'—',e=>e.os!=null?e.os:null,1],['דירוג',e=>e.gr,null],['עונות',e=>e.se,e=>e.se,1],['אליפויות ליגת העל',e=>e.ti,e=>e.ti,1],['גביעי מדינה',e=>e.cu,e=>e.cu,1],
+ ['ליגת האלופות',e=>euN(e,'ליגת האלופות'),e=>euN(e,'ליגת האלופות'),1,L=>L.some(e=>euN(e,'ליגת האלופות'))],['הליגה האירופית',e=>euN(e,'הליגה האירופית'),e=>euN(e,'הליגה האירופית'),1,L=>L.some(e=>euN(e,'הליגה האירופית'))],['קונפרנס ליג',e=>euN(e,'הקונפרנס'),e=>euN(e,'הקונפרנס'),1,L=>L.some(e=>euN(e,'הקונפרנס'))],
+ ['דאבלים',e=>e.db!=null?e.db:'—',e=>e.db!=null?e.db:null,1],['רצף אליפויות הכי ארוך',e=>e.tsb!=null?e.tsb:'—',e=>e.tsb!=null?e.tsb:null,1],
  ['משחקים',e=>hofHas(e)?e.W+e.D+e.L:'—',e=>hofHas(e)?e.W+e.D+e.L:null,1],['ניצחונות',e=>hofHas(e)?e.W:e.sw,e=>hofHas(e)?e.W:e.sw,1],['תיקו',e=>hofHas(e)?e.D:'—',e=>hofHas(e)?e.D:null,0],['הפסדים',e=>hofHas(e)?e.L:'—',e=>hofHas(e)?e.L:null,-1],
  ['אחוז ניצחון',e=>hofHas(e)?Math.round(e.W/Math.max(1,e.W+e.D+e.L)*100)+'%':'—',e=>hofHas(e)?e.W/Math.max(1,e.W+e.D+e.L):null,1],
- ['שערי זכות',e=>hofHas(e)?e.gf:'—',e=>hofHas(e)?e.gf:null,1],['שערי חובה',e=>hofHas(e)?e.ga:'—',e=>hofHas(e)?e.ga:null,-1],['הפרש שערים',e=>hofHas(e)?(e.gf-e.ga>0?'+':'')+(e.gf-e.ga):'—',e=>hofHas(e)?e.gf-e.ga:null,1],
+ ['שערי זכות',e=>hofHas(e)?e.gf:'—',e=>hofHas(e)?e.gf:null,1],['שערי חובה',e=>hofHas(e)?e.ga:'—',e=>hofHas(e)?e.ga:null,-1],['שיא שערים בעונה',e=>e.mg?e.mg:'—',e=>e.mg||null,1],
  ['הניצחון הגדול',e=>e.bw?e.bw.a+':'+e.bw.b:'—',e=>e.bw?e.bw.m*100+e.bw.a:null,1],['ההפסד הכבד',e=>e.bl?e.bl.a+':'+e.bl.b:'—',e=>e.bl?-e.bl.m:null,1],
- ['רצף ניצחונות',e=>e.ws!=null?e.ws:'—',e=>e.ws!=null?e.ws:null,1],['רצף בלי הפסד',e=>e.us!=null?e.us:'—',e=>e.us!=null?e.us:null,1],['שערים נקיים',e=>e.cl!=null?e.cl:'—',e=>e.cl!=null?e.cl:null,1],
- ['שיא נקודות בליגה',e=>e.pts?e.pts:'—',e=>e.pts||null,1],['שווי פתיחה',e=>fm(e.w0),e=>e.w0,0],['שיא שווי',e=>e.pv?fm(e.pv):'—',e=>e.pv||null,1],['שווי סיום',e=>fm(e.w1),e=>e.w1,1],['מכפיל שווי',e=>e.w0>0?'×'+Math.round(e.w1/e.w0*10)/10:'—',e=>e.w0>0?e.w1/e.w0:null,1]];
+ ['שיא נקודות בליגה',e=>e.pts?e.pts:'—',e=>e.pts||null,1],['עונות באירופה',e=>e.es!=null?e.es:'—',e=>e.es!=null?e.es:null,1],
+ ['השחקן הכי טוב',e=>e.bpl?e.bpl.n+' ('+e.bpl.r+')':'—',e=>e.bpl?e.bpl.r:null,1],
+ ['שווי פתיחה',e=>fm(e.w0),e=>e.w0,0],['שיא שווי',e=>e.pv?fm(e.pv):'—',e=>e.pv||null,1],['שווי סיום',e=>fm(e.w1),e=>e.w1,1],['מכפיל שווי',e=>e.w0>0?'×'+Math.round(e.w1/e.w0*10)/10:'—',e=>e.w0>0?e.w1/e.w0:null,1]];
 function hofCmp(v){window._hc=v;draw()}
-function hofCmpH(L){const rows=HC.map(r=>{const nums=L.map(e=>r[2]?r[2](e):null),ok=nums.filter(x=>x!=null),best=r[3]?(r[3]>0?Math.max(...ok):Math.min(...ok)):null;
+function hofCmpH(L){const rows=HC.filter(r=>!r[4]||r[4](L)).map(r=>{const nums=L.map(e=>r[2]?r[2](e):null),ok=nums.filter(x=>x!=null),best=r[3]?(r[3]>0?Math.max(...ok):Math.min(...ok)):null;
    return `<tr><th style="position:sticky;right:0;background:#0e1830;text-align:right;white-space:nowrap">${r[0]}</th>${L.map((e,i)=>`<td style="text-align:center;white-space:nowrap${best!=null&&nums[i]===best&&ok.length>1?';color:#00e5a8;font-weight:700':''}">${r[1](e)}</td>`).join('')}</tr>`}).join('');
   return `<div class="card" style="overflow-x:auto;padding:6px"><table style="width:auto;min-width:100%"><tr><th style="position:sticky;right:0;background:#0e1830"></th>${L.map((e,i)=>`<th style="white-space:nowrap">${['🥇','🥈','🥉'][i]||'#'+(i+1)}<br><span style="font-size:11px">${e.club}</span></th>`).join('')}</tr>${rows}</table></div><p class="mut" style="font-size:12px">הערך הטוב ביותר בכל שורה מסומן בירוק. קריירות ישנות שנשמרו לפני העדכון חסרות חלק מהנתונים.</p>`}
-function hofCardH(e,i){const f=hofHas(e),gm=f?e.W+e.D+e.L:0,R=(a,b)=>`<div class="row"><span>${a}</span><b>${b}</b></div>`;
-  return `<div class="card ${i===0?'eu':''}"><div class="cc"><b style="font-size:16px">${['🥇','🥈','🥉'][i]||'🎖️'} ${e.club}</b><b style="font-size:24px">${e.gr}</b></div><div class="mut" style="font-size:12px">${FATEN[e.fate]||''} · התחיל ב${LGS[e.lv0]?LGS[e.lv0].n:''}</div>`
-   +(e.tk!=null&&TRK[e.tk]?R(TRK[e.tk].ic+' מסלול',TRK[e.tk].n+' · '+TRK[e.tk].s+' עונות · קושי '+TRK[e.tk].df+(e.et?' · הושלם':'')):'')+R('⏳ עונות',e.se)+R('🏆 אליפויות ליגת העל',e.ti)+(e.lt?R('🥈 אליפויות בליגות נמוכות',e.lt):'')+R('🏺 גביעי מדינה',e.cu)+((e.ec||[]).length?R('🌍 גביעים אירופיים',e.ec.length):'')
-   +(f?R('⚽ מאזן',`<span class="up">${e.W}</span> נצ׳ · ${e.D} ת׳ · <span class="dn">${e.L}</span> הפ׳ (${Math.round(e.W/Math.max(1,gm)*100)}%)`)+R('🥅 שערים',`${e.gf}:${e.ga} (${e.gf-e.ga>=0?'+':''}${e.gf-e.ga})`)+R('🔥 הניצחון הגדול',hofGm(e.bw))+R('💔 ההפסד הכבד',hofGm(e.bl))+R('📈 רצף ניצחונות / בלי הפסד',e.ws+' / '+e.us)+R('🧤 שערים נקיים',e.cl)+(e.pts?R('📊 שיא נקודות בליגה',e.pts):'')+(e.bp?R('🎖️ מיקום הכי טוב',e.bp.pos+' ב'+(LGS[e.bp.lv]?LGS[e.bp.lv].n:'')+' (עונה '+e.bp.se+')'):''):R('⚽ ניצחונות',e.sw))
-   +R('💎 שיא שווי',e.pv?fm(e.pv):'—')+R('📈 שווי המועדון',`<span class="${e.w1>=e.w0?'up':'dn'}">${fm(e.w0)} ← ${fm(e.w1)} (×${e.w0>0?Math.round(e.w1/e.w0*10)/10:'—'})</span>`)+`</div>`}
+const HOFCOL={'A+':['#ffd23f','#3a2e0e'],A:['#00e5a8','#08302a'],B:['#4fc3f7','#0b2638'],C:['#b0bec5','#1c242c'],D:['#ff9f43','#33200c'],F:['#ff5d5d','#341214']};
+function hofShelf(e){const T=[['🏆',e.ti,'אליפות ליגת העל','#ffd23f'],['🥇',e.lt,'אליפות בליגה נמוכה','#c0c8d8'],['🏺',e.cu,'גביע המדינה','#e0a458'],['⭐',euN(e,'ליגת האלופות'),'ליגת האלופות','#4fc3f7'],['🟠',euN(e,'הליגה האירופית'),'הליגה האירופית','#ff9f43'],['🟢',euN(e,'הקונפרנס'),'קונפרנס ליג','#4dd0a1']].filter(t=>t[1]>0);
+  if(!T.length)return '<div class="hfs"><span class="mut" style="font-size:12px;padding:10px 0">הוויטרינה עדיין ריקה</span></div>';
+  return '<div class="hfs">'+T.map(t=>`<div class="hft" title="${t[2]}"><div class="hfi" style="filter:drop-shadow(0 0 7px ${t[3]})">${t[0].repeat(Math.min(t[1],5))}${t[1]>5?'<b style="font-size:14px"> ×'+t[1]+'</b>':''}</div><div class="hfl" style="color:${t[3]}">${t[2]}${t[1]>1&&t[1]<=5?' ×'+t[1]:''}</div></div>`).join('')+'</div>'}
+function hofCardH(e,i){const f=hofHas(e),gm=f?e.W+e.D+e.L:0,col=HOFCOL[e.gr]||HOFCOL.C,pc=n=>Math.round(n/Math.max(1,gm)*100),ch=(ic,lb,v)=>`<div class="hfc"><span>${ic} ${lb}</span><b>${v}</b></div>`;
+  const lgn=l=>LGS[l]?LGS[l].n:'';
+  let h=`<div class="card hfk" style="border-color:${col[0]};background:linear-gradient(160deg,${col[1]},var(--card) 70%)"><div class="cc"><div><div style="font-size:11px;color:${col[0]};letter-spacing:.5px">${['🥇 המקום הראשון','🥈 המקום השני','🥉 המקום השלישי'][i]||'🎖️ מקום '+(i+1)}</div><b style="font-size:19px">${e.club}</b></div><div class="hfg" style="color:${col[0]};border-color:${col[0]}">${e.gr}</div></div>`
+   +`<div class="mut" style="font-size:12px;margin:2px 0 6px">${FATEN[e.fate]||''} · התחיל ב${lgn(e.lv0)} · ${e.se} עונות${e.tk!=null&&TRK[e.tk]?' · '+TRK[e.tk].ic+' '+TRK[e.tk].n+(e.et?' (הושלם)':''):''}</div>`
+   +hofShelf(e);
+  if(e.bpl){const q=QL.find(x=>x[1]===e.bpl.q),qc=q?q[2]:'#8795a3';h+=`<div class="hfp"><span class="av ${rtc(e.bpl.r)}" style="background:${GC[GRP[e.bpl.pos]]||'#345'};width:46px;height:46px;font-size:18px">${e.bpl.r}</span><span style="flex:1"><div class="mut" style="font-size:11px">⭐ השחקן הכי טוב בקריירה</div><b>${e.bpl.fl||''} ${e.bpl.n}</b><div class="mut" style="font-size:12px">${e.bpl.pos||''} · גיל ${e.bpl.a} · עונה ${e.bpl.se}</div></span>${e.bpl.q&&e.bpl.q!=='שחקן רגיל'?`<span class="tag" style="background:${qc};color:#111;font-size:10px">${e.bpl.sp?'💎 ':''}${e.bpl.q}</span>`:''}</div>`}
+  if(e.bs){const b=e.bs,tr=[b.ti?'🏆 אליפות':'',b.cup?'🏺 גביע':'',b.eu?(EUI[b.eu]||'🌍')+' '+(EUN[b.eu]||'אירופה'):''].filter(Boolean).join(' · ');h+=`<div class="hfp" style="border-color:#c9a22755"><span style="font-size:30px">🌟</span><span style="flex:1"><div class="mut" style="font-size:11px">העונה הטובה ביותר</div><b>עונה ${b.se} · מקום ${b.pos} ב${lgn(b.lv)}</b><div class="mut" style="font-size:12px">${b.pts?b.pts+' נק׳':''}${tr?(b.pts?' · ':'')+tr:''}</div></span></div>`}
+  if(f){h+=`<div style="display:flex;height:10px;border-radius:6px;overflow:hidden;margin:10px 0 3px"><span style="width:${pc(e.W)}%;background:var(--up)"></span><span style="width:${pc(e.D)}%;background:#f5b800"></span><span style="width:${pc(e.L)}%;background:var(--dn)"></span></div><div class="mut" style="font-size:12px;text-align:center;margin-bottom:6px"><span class="up">${e.W} ניצחונות</span> · ${e.D} תיקו · <span class="dn">${e.L} הפסדים</span> (${pc(e.W)}% ניצחון)</div>`}
+  const C=[];if(f){C.push(ch('⚽','משחקים',gm));C.push(ch('🥅','שערים',e.gf+':'+e.ga));if(e.mg)C.push(ch('🔥','שיא שערים בעונה',e.mg));if(e.pts)C.push(ch('📊','שיא נקודות בליגה',e.pts));if(e.bp)C.push(ch('🎖️','מיקום הכי טוב',e.bp.pos+' ב'+lgn(e.bp.lv)))}else C.push(ch('⚽','ניצחונות',e.sw));
+  if(e.db!=null)C.push(ch('🎯','דאבלים (ליגה + גביע)',e.db));if(e.tsb!=null)C.push(ch('👑','רצף אליפויות הכי ארוך',e.tsb));if(e.lt)C.push(ch('🥈','אליפויות בליגות נמוכות',e.lt));if(e.es)C.push(ch('🌍','עונות באירופה',e.es));
+  h+='<div class="hfx">'+C.join('')+'</div>';
+  if(f&&(e.bw||e.bl))h+=`<div class="hfx" style="grid-template-columns:1fr 1fr">${e.bw?`<div class="hfc" style="display:block"><span>🔥 הניצחון הגדול</span><div style="margin-top:3px">${hofGm(e.bw)}</div></div>`:''}${e.bl?`<div class="hfc" style="display:block"><span>💔 ההפסד הכבד</span><div style="margin-top:3px">${hofGm(e.bl)}</div></div>`:''}</div>`;
+  h+=`<div class="hfx" style="grid-template-columns:1fr 1fr 1fr">${ch('🌱','שווי פתיחה',fm(e.w0))}${ch('💎','שיא שווי',e.pv?fm(e.pv):'—')}${ch('📈','שווי סיום',`<span class="${e.w1>=e.w0?'up':'dn'}">${fm(e.w1)}</span>`)}</div>`;
+  return h+'</div>'}
 function hofH(){const L=M.hof,cm=window._hc&&L.length>1;return `<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="window._hc=0;setView('home')">⬅ חזרה</button><h2 style="margin:0">🏆 היכל התהילה</h2></div><p class="mut" style="font-size:12px">הקריירות המרשימות ביותר שלך לפי דירוג בעלים. נשמרות גם אחרי שהמשחק נגמר.</p>`+(L.length>1?`<div class="cc" style="gap:8px;margin:6px 0"><button class="btn sm ${cm?'':'p'}" style="flex:1" onclick="hofCmp(0)">🃏 כרטיסים</button><button class="btn sm ${cm?'p':''}" style="flex:1" onclick="hofCmp(1)">📊 השוואה</button></div>`:'')+(L.length?(cm?hofCmpH(L):L.map(hofCardH).join('')):'<div class="card mut c">עוד אין קריירות. סיים קריירה ראשונה והיא תופיע כאן.</div>')+'<p class="mut c" style="font-size:12px;margin-bottom:90px">'+L.length+' קריירות שמורות</p>'}
 function achTip(a){const ok=M.ach[a.id];return a.n+' · '+a.d+(ok?' · הושג ✅':' · '+(Math.round(Math.min(a.v(),a.t)*10)/10)+'/'+a.t)}
-function achSel(id){window._as=window._as===id?null:id;draw()}
+function achSel(id){window._as=(id==null||window._as===id)?null:id;draw()}
 function achH(){const sel=ACH.find(a=>a.id===window._as);
   const tile=a=>{const ok=M.ach[a.id],p=Math.round(Math.min(1,a.v()/a.t)*100);return `<button class="mdt ${ok?'ok':''} ${sel&&sel.id===a.id?'sel':''}" style="${ok?'':'background:linear-gradient(to top,rgba(0,229,168,.5) '+p+'%,#0e1830 '+p+'%)'}" title="${achTip(a).replace(/"/g,'')}" onclick="achSel('${a.id}')"><span class="mdi">${a.ic}</span></button>`};
-  return `<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="window._as=null;setView('home')">⬅ חזרה</button><h2 style="margin:0">🏅 הישגים ${nAch()}/${ACH.length}</h2></div><p class="mut" style="font-size:12px">המטרה: להשיג את כולם. המדליה מתמלאת מלמטה למעלה ככל שאתה מתקדם. מעבר עם העכבר או לחיצה מציגים את ההישג.</p>
-<div class="card" style="min-height:64px">${sel?`<div class="cc"><span style="font-size:30px">${sel.ic}</span><span style="flex:1"><b>${sel.n}</b><br><span class="mut" style="font-size:12px">${sel.d}</span></span><b>${M.ach[sel.id]?'✅':(Math.round(Math.min(sel.v(),sel.t)*10)/10)+'/'+sel.t}</b></div>`:'<span class="mut">בחר מדליה כדי לראות מה צריך לעשות</span>'}</div>
-<div class="mdg">${ACH.map(tile).join('')}</div><div style="height:90px"></div>`}
+  return `<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="window._as=null;setView('home')">⬅ חזרה</button><h2 style="margin:0">🏅 הישגים ${nAch()}/${ACH.length}</h2></div><p class="mut" style="font-size:12px">המטרה: להשיג את כולם. ההישגים מחולקים לקטגוריות. המדליה מתמלאת מלמטה למעלה ככל שאתה מתקדם. לחיצה על מדליה פותחת חלונית עם התיאור.</p>
+${sel?`<div class="ov" onclick="achSel(null)"><div class="mdl" onclick="event.stopPropagation()" style="text-align:center"><div style="font-size:54px">${sel.ic}</div><h3 style="margin:6px 0">${sel.n}</h3><p class="mut" style="font-size:14px;margin:6px 0 12px">${sel.d}</p><b style="font-size:16px">${M.ach[sel.id]?'✅ הושג':'התקדמות: '+(Math.round(Math.min(sel.v(),sel.t)*10)/10)+'/'+sel.t}</b><div style="margin-top:14px"><button class="btn sm" onclick="achSel(null)">סגור</button></div></div></div>`:''}
+${Object.keys(ACATS).map(k=>{const L=ACH.filter(a=>a.cat===k),n=L.filter(a=>M.ach[a.id]).length;return `<h3 style="margin:14px 0 6px">${ACATS[k]} <span class="mut" style="font-size:12px;font-weight:600">${n}/${L.length}</span></h3><div class="mdg">${L.map(tile).join('')}</div>`}).join('')}<div style="height:90px"></div>`}
 function wsp(){const a=[S.W00||0].concat(S.wh||[]);if(a.length<2)return '<div class="card mut" style="font-size:12px">📈 גרף שווי המועדון יופיע אחרי העונה הראשונה.</div>';const mx=Math.max(...a),mn=Math.min(...a),r=Math.max(.01,mx-mn),pts=a.map((v,i)=>(10+i*(300/(a.length-1)))+','+(60-((v-mn)/r)*48)).join(' ');
   return `<div class="card"><b>📈 שווי המועדון לאורך העונות</b><svg viewBox="0 0 320 70" style="width:100%;height:80px;direction:ltr"><polyline points="${pts}" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linejoin="round"/>${a.map((v,i)=>`<circle cx="${10+i*(300/(a.length-1))}" cy="${60-((v-mn)/r)*48}" r="3.5" fill="var(--ac)"/>`).join('')}</svg><div class="row"><span class="mut">בתחילת הדרך ${fm(a[0])}</span><b>עכשיו ${fm(a[a.length-1])}</b></div></div>`}
 const metaLinks=()=>wsp()+`<div class="cc" style="gap:8px;margin:8px 0 12px"><button class="btn sm" style="flex:1" onclick="setView('hof')">🏆 היכל התהילה</button><button class="btn sm" style="flex:1" onclick="setView('ach')">🏅 הישגים ${nAch()}/${ACH.length}</button></div>`;
@@ -3096,7 +3277,7 @@ const _draw0=draw;draw=function(){_draw0.apply(this,arguments);try{mount3()}catc
 const ga=(n,p)=>{try{gtag('event',n,p||{})}catch(e){}};
 try{const _es=endSeason;endSeason=function(){try{ga('season_end',{season:S.season,league:S.lv})}catch(e){}return _es.apply(this,arguments)}}catch(e){}
 try{const _fb=fbOpen;fbOpen=function(){ga('feedback_open');return _fb.apply(this,arguments)}}catch(e){}
-try{let _fin='';const _d1=draw;draw=function(){_d1.apply(this,arguments);try{if(S&&S.screen==='final'){const k=S.club+'|'+S.season+'|'+S.fate;if(k!==_fin){_fin=k;ga('career_end',{fate:S.fate||'',season:S.season,league:S.lv})}}}catch(e){}}}catch(e){}
+try{let _fin='';const _d1=draw;draw=function(){_xiC=null;_d1.apply(this,arguments);try{if(S&&S.screen==='final'){const k=S.club+'|'+S.season+'|'+S.fate;if(k!==_fin){_fin=k;ga('career_end',{fate:S.fate||'',season:S.season,league:S.lv})}}}catch(e){}}}catch(e){}
 
 draw();
 
