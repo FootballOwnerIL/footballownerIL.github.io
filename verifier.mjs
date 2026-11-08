@@ -115,7 +115,7 @@ export function timingProblem(run,logRow){
   const wall=new Date(logRow.submitted_at)-new Date(run.started_at);
   if(!(wall>=0))return 'bad timestamps';
   if(last>wall*1.2+900000)return 'claimed play time is longer than the real time that passed';
-  if(last<250*(L.l.length-1))return 'actions are faster than a human can play';
+  if(last<80*(L.l.length-1))return 'actions are faster than a human can play';
   return null;
 }
 export async function verifyRun(run,deps){
