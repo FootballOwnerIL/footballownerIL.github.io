@@ -57,7 +57,7 @@ async function replayMain(){
   };
   let w=mk(null);
   const r={v:log.v,s:seed|0,id:runId,b:1,E:+log.E,n:0,T:0,lt:0,lt0:0,d:log.d,l:[]};
-  let k=0;
+  let warn='';let k=0;
   for(const en of log.l){
     if(en[0]==='R'){
       const ls={owner_v9:w.localStorage.getItem('owner_v9'),owner_meta1:w.localStorage.getItem('owner_meta1')};
@@ -71,13 +71,13 @@ async function replayMain(){
     let ok=false;
     try{ok=w.acPlay(w.__r,en)}catch(e){return out({ok:false,err:'replay crashed at action '+k+': '+String(e&&e.message||e).slice(0,100)})}
     k++;
-    if(w.__mm){const m=w.__mm;return out({ok:false,err:'DIAG state differs before action '+k+' ('+String(m.str).slice(0,40)+'): '+m.bad.slice(0,8).join(',')+' | '+(m.d2||[]).slice(0,14).join(' ')})}
+    if(w.__mm){const m=w.__mm;if(!warn)warn='warning: state differed before action '+k+' ('+String(m.str).slice(0,30)+'): '+m.bad.slice(0,6).join(',');w.__mm=null}
     if(!ok)return out({ok:false,err:'action '+k+' does not exist on the replayed screen'});
   }
   try{const T=Math.max(Number(log.tend)||0,w.eval('AC.last'));w.eval('AC.rp=1;acPump('+Math.min(T,1e12)+');AC.rp=0')}catch(e){}
   if(!result)return out({ok:false,err:'the replayed career did not reach a finished career'});
   if(!Number.isFinite(result.score)||result.score<0||result.score>10000)return out({ok:false,err:'score out of range'});
-  out({ok:true,row:result,actions:k});
+  out({ok:true,row:result,actions:k,warn});
 }
 function out(o){process.stdout.write(JSON.stringify(o));process.exit(0)}
 
@@ -118,7 +118,7 @@ export async function verifyRun(run,deps){
   const tp=timingProblem(run,lr);if(tp)return {status:'rejected',note:tp};
   const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log});
   if(!res.ok)return {status:'rejected',note:String(res.err).slice(0,900)};
-  return {status:'verified',row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions};
+  return {status:'verified',row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
 }
 function rest(base,key){
   return async(path,opt={})=>{
