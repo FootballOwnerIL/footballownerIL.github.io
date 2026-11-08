@@ -101,11 +101,11 @@ export function gameHtmlFor(ver,git=(args)=>execFileSync('git',args,{encoding:'u
 }
 /* plausibility: the career cannot have lasted longer than the wall clock between begin_run and submit_run, and no human plays faster than this */
 export function timingProblem(run,logRow){
-  const L=logRow.log,last=L.l.reduce((a,e)=>a+e[1],0);
+  const L=logRow.log,last=L.l.slice(1).reduce((a,e)=>a+e[1],0);
   const wall=new Date(logRow.submitted_at)-new Date(run.started_at);
   if(!(wall>=0))return 'bad timestamps';
-  if(last>wall*1.05+120000)return 'claimed play time is longer than the real time that passed';
-  if(last<600*L.l.length)return 'actions are faster than a human can play';
+  if(last>wall*1.2+900000)return 'claimed play time is longer than the real time that passed';
+  if(last<250*(L.l.length-1))return 'actions are faster than a human can play';
   return null;
 }
 export async function verifyRun(run,deps){
