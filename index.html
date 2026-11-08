@@ -183,7 +183,7 @@ body.kb .nav{display:none!important}
 <div id="app"></div>
 <script>
 /* ===== אנטי-רמאות: זמן ואקראיות דטרמיניסטיים + הקלטת פעולות השחקן (כדי שהשרת יוכל לשחזר קריירה ולאמת ניקוד) ===== */
-const AC_GV='a3';
+const AC_GV='a4';
 const _nT=window.setTimeout.bind(window),_nCT=window.clearTimeout.bind(window),_nDn=Date.now.bind(Date),_nRnd=Math.random.bind(Math);
 var AC={Q:[],id:1,L:0,ent:0,last:0,base:_nDn(),E0:_nDn(),nt:0,ntAt:0,prng:null,sp:null,pend:null,rp:0,pf:0,onBegin:null};
 function acReal(){return Math.max(AC.last,_nDn()-AC.base)}
@@ -243,6 +243,11 @@ function acVals(){
 function acFp(){
   try{const o={};for(const k in S){if(k==='ac'||k==='nA'||k.length>16)continue;let s=JSON.stringify(S[k]);if(s===undefined)continue;let h=5381;for(let i=0;i<s.length;i++)h=(Math.imul(h,33)^s.charCodeAt(i))|0;o['zz_'+k]=(h>>>0).toString(36)}return o}catch(e){return null}
 }
+function acFp2(){
+  try{const o={};for(const k of ['esr','esw','wpC']){const m=S[k];if(!m||typeof m!=='object')continue;const ks=Object.keys(m);let i=0;for(const n of ks){let h=5381;const t=JSON.stringify(m[n])+n;for(let j=0;j<t.length;j++)h=(Math.imul(h,33)^t.charCodeAt(j))|0;o['q_'+k+'_'+(i++)]=((h>>>0)%46656).toString(36)}}
+    {const s0=JSON.stringify(S.sp);if(s0){o.q_sp=s0.slice(0,58)}}
+    return o}catch(e){return null}
+}
 function acCap(e){
   if(AC.rp)return;
   const ty=e.type,at=ty==='click'?'onclick':ty==='input'?'oninput':ty==='keydown'?'onkeydown':ty==='pointerdown'?'onpointerdown':null;
@@ -254,7 +259,7 @@ function acCap(e){
   if(ty==='click'&&/^start\(/.test(str)){r=acNewRun(T);AC.sp=r}
   if(!r){acBegin(T,null);queueMicrotask(acEnd);return}
   acBegin(T,r);
-  acLog(r,T,kind,str,flag,Object.assign({},acVals(),r.n<=400?acFp():null),ty==='input'?String(el.value):ty==='keydown'?'Enter':null);
+  acLog(r,T,kind,str,flag,Object.assign({},acVals(),r.n<=400?acFp():null,r.n>=40&&r.n<=130?acFp2():null),ty==='input'?String(el.value):ty==='keydown'?'Enter':null);
   queueMicrotask(acEnd);
 }
 function acTake(){const r=AC.sp;AC.sp=null;if(r){try{acBegun(r)}catch(e){}}return r}
@@ -265,8 +270,8 @@ function acPlay(r,en){
   try{
     if(kind==='c'&&/^start\(/.test(str)){if(!/^start\('[A-Za-z0-9_-]{1,24}'\)$/.test(str))return false;AC.sp=r;acBegin(T,r);(0,eval)(str);return true}
     acBegin(T,r);
-    if(vals){const fp=acFp();if(fp){const bad=[];for(const k in vals)if(k.slice(0,3)==='zz_'&&fp[k]!==vals[k])bad.push(k.slice(3));if(bad.length&&!window.__mm)window.__mm={str,bad}}}
-    if(vals)for(const k in vals){if(k.slice(0,3)==='zz_')continue;const x=document.getElementById(k);if(x)x.value=vals[k]}
+    if(vals){const fp=acFp();if(fp){const bad=[];for(const k in vals)if(k.slice(0,3)==='zz_'&&fp[k]!==vals[k])bad.push(k.slice(3));if(bad.length&&!window.__mm){const f2=acFp2()||{},d2=[];for(const k in vals)if(k.slice(0,2)==='q_'&&f2[k]!==vals[k])d2.push(k.slice(2)+'='+String(vals[k]).slice(0,58)+'/'+String(f2[k]).slice(0,58));window.__mm={str,bad,d2}}}}
+    if(vals)for(const k in vals){if(k.slice(0,3)==='zz_'||k.slice(0,2)==='q_')continue;const x=document.getElementById(k);if(x)x.value=vals[k]}
     const at=kind==='c'?'onclick':kind==='i'?'oninput':kind==='k'?'onkeydown':'onpointerdown';
     let el=null;for(const x of document.querySelectorAll('['+at+']'))if(x.getAttribute(at)===str&&!x.disabled){el=x;break}
     if(!el)return false;
