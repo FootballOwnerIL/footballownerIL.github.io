@@ -112,8 +112,9 @@ export function timingProblem(run,logRow){
 export async function verifyRun(run,deps){
   const rows=run.run_logs;const lr=Array.isArray(rows)?rows[0]:rows;
   if(!lr)return {status:'rejected',note:'no log'};
-  const html=deps.html(run.game_ver);
-  if(!html)return {status:'retry',note:'game version '+run.game_ver+' not found in history yet'};
+  const ver=/^a\d{1,3}$/.test(String(lr.log&&lr.log.v))?lr.log.v:run.game_ver;
+  const html=deps.html(ver);
+  if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
   const tp=timingProblem(run,lr);if(tp)return {status:'rejected',note:tp};
   const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log});
   if(!res.ok)return {status:'rejected',note:String(res.err).slice(0,200)};
