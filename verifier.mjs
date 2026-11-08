@@ -83,7 +83,7 @@ async function replayMain(){
     let exp=null;try{exp=w.eval('typeof acChClubId==="function"?acChClubId('+(seed|0)+'):null')}catch(e){}
     if(exp==null)return out({ok:false,err:'this game version does not support challenges'});
     if(String(result.cid)!==String(exp))return out({ok:false,err:'challenge club mismatch'});
-    const wantTrk=kind==='daily'?1:0;
+    const wantTrk=(kind==='daily'||String(log.v)!=='a7')?1:0; /* a7: אתגר חבר היה 10 עונות. מ-a8 שניהם 20 עונות */
     if(result.trk!==wantTrk)return out({ok:false,err:'challenge must use track '+wantTrk});
   }
   out({ok:true,row:result,actions:k,warn});
