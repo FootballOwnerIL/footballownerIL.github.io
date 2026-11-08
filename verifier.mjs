@@ -12,6 +12,7 @@ function validateLog(L){
   if(!L||typeof L!=='object'||!Array.isArray(L.l)||!Array.isArray(L.d))return 'bad shape';
   if(L.l.length<1||L.l.length>40000||L.d.length>5000)return 'bad size';
   if(!Number.isFinite(+L.E))return 'bad E';
+  if(L.tr!=null&&!(Number.isInteger(L.tr)&&L.tr>=0&&L.tr<=2))return 'bad track';
   for(const s of L.d)if(typeof s!=='string'||s.length>400)return 'bad dict';
   let tot=0;
   for(const e of L.l){
@@ -34,7 +35,7 @@ function validateLog(L){
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
   const inp=JSON.parse(fs.readFileSync(0,'utf8'));
-  const {html,seed,runId,log}=inp;
+  const {html,seed,runId,log}=inp;const kind=inp.kind||'free';
   const bad=validateLog(log);if(bad)return out({ok:false,err:'invalid log: '+bad});
   let result=null;
   const mk=(ls)=>{
@@ -52,10 +53,11 @@ async function replayMain(){
       w.__report=o=>{if(!result)result=o};
     }});
     const w=dom.window;
-    w.eval(`(function(){const _cs=cloudScore;cloudScore=function(){try{if(S&&S.hofId!=null&&S.hofDone===1)__report({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,Math.round(curScore().score)),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null})}catch(e){}return _cs.apply(this,arguments)}})()`);
+    w.eval(`(function(){const _cs=cloudScore;cloudScore=function(){try{if(S&&S.hofId!=null&&S.hofDone===1)__report({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,Math.round(curScore().score)),cid:String(clubOf().id).slice(0,40),trk:S.trk,seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null})}catch(e){}return _cs.apply(this,arguments)}})()`);
     return w;
   };
   let w=mk(null);
+  w.eval('trkSel='+(log.tr|0));
   const r={v:log.v,s:seed|0,id:runId,b:1,E:+log.E,n:0,T:0,lt:0,lt0:0,d:log.d,l:[]};
   let warn='';let k=0;
   for(const en of log.l){
@@ -77,6 +79,13 @@ async function replayMain(){
   try{const T=Math.max(Number(log.tend)||0,w.eval('AC.last'));w.eval('AC.rp=1;acPump('+Math.min(T,1e12)+');AC.rp=0')}catch(e){}
   if(!result)return out({ok:false,err:'the replayed career did not reach a finished career'});
   if(!Number.isFinite(result.score)||result.score<0||result.score>10000)return out({ok:false,err:'score out of range'});
+  if(kind!=='free'){
+    let exp=null;try{exp=w.eval('typeof acChClubId==="function"?acChClubId('+(seed|0)+'):null')}catch(e){}
+    if(exp==null)return out({ok:false,err:'this game version does not support challenges'});
+    if(String(result.cid)!==String(exp))return out({ok:false,err:'challenge club mismatch'});
+    const wantTrk=kind==='daily'?1:0;
+    if(result.trk!==wantTrk)return out({ok:false,err:'challenge must use track '+wantTrk});
+  }
   out({ok:true,row:result,actions:k,warn});
 }
 function out(o){process.stdout.write(JSON.stringify(o));process.exit(0)}
@@ -116,9 +125,10 @@ export async function verifyRun(run,deps){
   const html=deps.html(ver);
   if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
   const tp=timingProblem(run,lr);if(tp)return {status:'rejected',note:tp};
-  const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log});
+  const kind=run.kind||'free';
+  const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind});
   if(!res.ok)return {status:'rejected',note:String(res.err).slice(0,900)};
-  return {status:'verified',row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
+  return {status:'verified',kind,row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
 }
 function rest(base,key){
   return async(path,opt={})=>{
@@ -138,7 +148,7 @@ async function main(){
     if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,'pending='+n+'\n');
     console.log('pending:',n);return;
   }
-  const runs=await api('runs?status=eq.pending&select=id,user_id,seed,game_ver,started_at,created_at,run_logs(log,display_name,submitted_at)&order=created_at.asc&limit=15',{headers:{Prefer:''}});
+  const runs=await api('runs?status=eq.pending&select=id,user_id,seed,game_ver,kind,started_at,created_at,run_logs(log,display_name,submitted_at)&order=created_at.asc&limit=15',{headers:{Prefer:''}});
   console.log('pending runs:',runs.length);
   for(const run of runs){
     const t0=Date.now();let v;
@@ -148,11 +158,11 @@ async function main(){
       else{console.log(run.id,'retry later:',v.note);continue}
     }
     try{
-      if(v.status==='verified'&&v.row.score>0){
+      if(v.status==='verified'&&v.kind==='free'&&v.row.score>0){
         const uid=String(run.user_id);
         await api('leaderboard',{method:'POST',body:JSON.stringify({user_id:run.user_id,run_id:run.id,career_id:v.row.career_id,display_name:v.name||('בעלים #'+uid.replace(/-/g,'').slice(-4).toUpperCase()),club:v.row.club||'?',score:v.row.score,seasons:v.row.seasons,titles:v.row.titles,fate:v.row.fate})});
       }
-      await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:v.status,verify_note:v.note,verified_at:new Date().toISOString()})});
+      await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:v.status,verify_note:v.note,verified_at:new Date().toISOString(),...(v.status==='verified'?{score:v.row.score}:{})})});
       console.log(run.id,v.status,v.note,'('+Math.round((Date.now()-t0)/1000)+'s)');
     }catch(e){
       console.log(run.id,'could not save result:',e.message);
