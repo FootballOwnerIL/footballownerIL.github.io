@@ -71,6 +71,7 @@ async function replayMain(){
     let ok=false;
     try{ok=w.acPlay(w.__r,en)}catch(e){return out({ok:false,err:'replay crashed at action '+k+': '+String(e&&e.message||e).slice(0,100)})}
     k++;
+    if(w.__mm){const m=w.__mm;return out({ok:false,err:'DIAG state differs before action '+k+' ('+String(m.str).slice(0,40)+'): '+m.bad.slice(0,8).join(',')})}
     if(!ok)return out({ok:false,err:'action '+k+' does not exist on the replayed screen'});
   }
   try{const T=Math.max(Number(log.tend)||0,w.eval('AC.last'));w.eval('AC.rp=1;acPump('+Math.min(T,1e12)+');AC.rp=0')}catch(e){}
