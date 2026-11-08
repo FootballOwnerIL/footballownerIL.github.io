@@ -3679,6 +3679,13 @@ const _draw0=draw;draw=function(){_draw0.apply(this,arguments);try{document.body
 /* מעקב שלבים (Google Analytics) */
 const ga=(n,p)=>{try{gtag('event',n,p||{})}catch(e){}};
 try{const _es=endSeason;endSeason=function(){try{ga('season_end',{season:S.season,league:S.lv})}catch(e){}return _es.apply(this,arguments)}}catch(e){}
+/* אבני דרך בקריירה (Google Analytics): כמה עונות משתמשים מסיימים, וגם אליפויות, עליות וירידות. כל אבן דרך נשלחת פעם אחת לקריירה */
+const GAM=[1,2,3,5,7,10,15,20,25,30,40,50];
+try{const _es2=endSeason;endSeason=function(){const t0=S.titles||0,r=_es2.apply(this,arguments);try{const n=S.season;S.gaM=S.gaM||{};if(GAM.includes(n)&&!S.gaM['s'+n]){S.gaM['s'+n]=1;ga('finished_'+n+'_seasons',{season:n,league:S.lv,club:S.club})}if((S.titles||0)>t0){const k='t'+(S.titles||0);if(!S.gaM[k]){S.gaM[k]=1;ga('league_title',{season:n,count:S.titles||0});if((S.titles||0)===1)ga('first_league_title',{season:n})}}}catch(e){}return r}}catch(e){}
+try{const _ns2=newSeason;newSeason=function(){const lv0=S.lv,r=_ns2.apply(this,arguments);try{S.gaM=S.gaM||{};const k=S.season;if(S.lv<lv0&&!S.gaM['u'+k]){S.gaM['u'+k]=1;ga('promoted',{season:k,league:S.lv})}else if(S.lv>lv0&&!S.gaM['d'+k]){S.gaM['d'+k]=1;ga('relegated',{season:k,league:S.lv})}}catch(e){}return r}}catch(e){}
+/* נטישה: בכל פעם שהמשחק יוצא מהמסך (סוגרים, עוברים אפליקציה) נשלח איפה השחקן היה. הפיזור של העונה והמסך האחרון מראה איפה אנשים עוזבים */
+try{let _lx=0;const sx=()=>{try{if(typeof S==='undefined'||!S||!S.club)return;const t=Date.now();if(t-_lx<4000)return;_lx=t;const f=S.f,m=S.m;gtag('event','session_exit',{transport_type:'beacon',season:S.season,screen:S.screen||'',league:S.lv,club:S.club,fans_band:f>=70?'high':f>=40?'mid':'low',cash_band:m<0?'debt':m<1?'tight':m<5?'ok':'rich',in_match:(S.mt&&!S.mt.res)?1:0,career_over:S.screen==='final'?1:0})}catch(e){}};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')sx()});window.addEventListener('pagehide',sx)}catch(e){}
+try{if(typeof S!=='undefined'&&S&&S.club){gtag('event','session_resume',{season:S.season,league:S.lv,screen:S.screen||''})}}catch(e){}
 try{const _fb=fbOpen;fbOpen=function(){ga('feedback_open');return _fb.apply(this,arguments)}}catch(e){}
 try{let _fin='';const _d1=draw;draw=function(){_xiC=null;_d1.apply(this,arguments);try{if(S&&S.screen==='final'){const k=S.club+'|'+S.season+'|'+S.fate;if(k!==_fin){_fin=k;ga('career_end',{fate:S.fate||'',season:S.season,league:S.lv})}}}catch(e){}}}catch(e){}
 
