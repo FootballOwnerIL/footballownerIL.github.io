@@ -187,8 +187,8 @@ const KEY='owner_v9',$=document.getElementById('app');
 const R=(a,b)=>a+Math.random()*(b-a),ri=(a,b)=>Math.round(R(a,b)),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),pk=a=>a[Math.floor(Math.random()*a.length)];
 let S=null,armed=false,view='home',choosing=false;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}try{if(S&&(!Array.isArray(S.ro)||!Array.isArray(S.table)||typeof S.si!=='number'))S=null}catch(e){S=null}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-const wipe=()=>{try{localStorage.removeItem(KEY)}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{cloudPush()}catch(e){}};
+const wipe=()=>{try{localStorage.removeItem(KEY)}catch(e){}try{cloudPush()}catch(e){}};
 const RES=[['m','💰','כסף'],['f','📣','אוהדים'],['k','⚽','סגל'],['s','🏛️','ספונסרים'],['c','🏙️','עירייה']];
 const FN=['ניר','דור','אורי','שחר','עידן','תומר','רועי','גיל','אלון','מאור','יובל','עומרי','ליאור','איתי','נועם','סהר','אופק','ירדן','אליאב','שגיא','עמית','בר','אביב','רז'];
 const LN=['בן־שושן','אבוקסיס','זכאי','פרלמן','ג׳רבי','אוחנה','דהן','שטרית','חזן','סלע','גולדנברג','ממן','אזולאי','כהן','מלכה','בוסקילה','טורגמן','ביטון','שמעוני','פרץ','לוי','אברהם','חדד','יוסף'];
@@ -3257,7 +3257,7 @@ function navH(){if(view==='mg'||!S)return '';const T=[['game','🎮','משחק']
 const MK='owner_meta1';
 let M=null;try{M=JSON.parse(localStorage.getItem(MK))}catch(e){}
 M=M||{};M.st=M.st||{};M.cl=M.cl||{};M.tc=M.tc||{};M.ach=M.ach||{};M.hof=M.hof||[];
-const msave=()=>{try{localStorage.setItem(MK,JSON.stringify(M))}catch(e){}};
+const msave=()=>{try{localStorage.setItem(MK,JSON.stringify(M))}catch(e){}try{cloudPush()}catch(e){}};
 const mst=k=>M.st[k]||0;
 const minc=k=>{M.st[k]=mst(k)+1;msave();achCheck()};
 function saleHook(p,a){const s=M.st;s.sN=mst('sN')+1;s.maxSale=Math.max(mst('maxSale'),Math.round(a));if(p&&p.ac)s.acS=Math.max(mst('acS'),Math.round(a));msave();achCheck()}
@@ -3688,6 +3688,87 @@ try{let _lx=0;const sx=()=>{try{if(typeof S==='undefined'||!S||!S.club)return;co
 try{if(typeof S!=='undefined'&&S&&S.club){gtag('event','session_resume',{season:S.season,league:S.lv,screen:S.screen||''})}}catch(e){}
 try{const _fb=fbOpen;fbOpen=function(){ga('feedback_open');return _fb.apply(this,arguments)}}catch(e){}
 try{let _fin='';const _d1=draw;draw=function(){_xiC=null;_d1.apply(this,arguments);try{if(S&&S.screen==='final'){const k=S.club+'|'+S.season+'|'+S.fate;if(k!==_fin){_fin=k;ga('career_end',{fate:S.fate||'',season:S.season,league:S.lv})}}}catch(e){}}}catch(e){}
+
+/* ===== ענן (Supabase): גיבוי שמירה ודירוג. בלי הגדרה או בלי רשת המשחק עובד רגיל מקומית ===== */
+const CLOUD={url:'https://oyvasxdfiekpdtgnhrjn.supabase.co',key:'sb_publishable_ZE7KpDhjxUoevimxQ_0b1A_R0DIIgEh',ver:'2.119.0'};
+var _cl=null,_clEn=false,_clT=0,_clDirty=false,_clBusy=false,_clLast='',_clFails=0,_lbBusy=false;
+function cloudInit(){
+  try{
+    if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(CLOUD.url)||String(CLOUD.key).length<20)return;
+    _clEn=true;
+    const s=document.createElement('script');
+    s.async=true;s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@'+CLOUD.ver+'/dist/umd/supabase.js';
+    s.onload=async()=>{try{
+      const c=window.supabase.createClient(CLOUD.url,CLOUD.key,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'owner_sb_auth'}});
+      let ss=(await c.auth.getSession()).data.session;
+      if(!ss){const r=await c.auth.signInAnonymously();if(r.error)throw r.error;ss=r.data.session}
+      _cl={c,uid:ss.user.id};
+      cloudPush();cloudQueueFlush();
+    }catch(e){console.warn('[cloud] init',e&&e.message)}};
+    s.onerror=()=>console.warn('[cloud] sdk blocked');
+    document.head.appendChild(s);
+  }catch(e){}
+}
+/* גיבוי השמירה: דוחים 15 שניות אחרי השינוי האחרון, ושולחים רק אם משהו השתנה */
+function cloudPush(){
+  if(!_clEn)return;
+  _clDirty=true;clearTimeout(_clT);_clT=setTimeout(cloudFlush,15000);
+}
+async function cloudFlush(){
+  if(!_cl||_clBusy||!_clDirty)return;
+  _clBusy=true;_clDirty=false;
+  try{
+    const career=S&&S.club?S:null,j=JSON.stringify([career,M]);
+    if(j!==_clLast){
+      const {error}=await _cl.c.from('saves').upsert({user_id:_cl.uid,career:career,meta:M,app_version:KEY},{onConflict:'user_id'});
+      if(error)throw error;
+      _clLast=j;
+    }
+    _clFails=0;
+  }catch(e){
+    _clFails++;_clDirty=true;clearTimeout(_clT);_clT=setTimeout(cloudFlush,Math.min(600000,30000*_clFails));
+    console.warn('[cloud] save',e&&e.message);
+  }finally{_clBusy=false}
+}
+/* דירוג: כל קריירה שנכנסת להיכל התהילה נשלחת פעם אחת. אם אין רשת היא מחכה בתור ונשלחת אחר כך */
+function cloudName(){
+  try{const n=(localStorage.getItem('owner_name')||'').trim().slice(0,24);if(n)return n}catch(e){}
+  return 'בעלים #'+(_cl?_cl.uid.replace(/-/g,'').slice(-4).toUpperCase():'0000');
+}
+function cloudQueue(){try{return JSON.parse(localStorage.getItem('owner_lbq'))||[]}catch(e){return[]}}
+function cloudQueueSet(q){try{localStorage.setItem('owner_lbq',JSON.stringify(q.slice(-10)))}catch(e){}}
+function cloudSubmit(row){
+  const q=cloudQueue();
+  if(!q.some(x=>x.career_id===row.career_id)){q.push(row);cloudQueueSet(q)}
+  cloudQueueFlush();
+}
+async function cloudQueueFlush(){
+  if(!_cl||_lbBusy)return;
+  _lbBusy=true;
+  try{
+    for(const row of cloudQueue()){
+      const {error}=await _cl.c.from('leaderboard').insert(Object.assign({},row,{display_name:row.display_name||cloudName()}));
+      /* כפילות, חריגה מהמגבלות או הגבלת קצב: לא ישתנה בניסיון חוזר, אז מוציאים מהתור. תקלת רשת: נשארת בתור */
+      if(error&&!['23505','23514','P0001'].includes(error.code))break;
+      cloudQueueSet(cloudQueue().filter(x=>x.career_id!==row.career_id));
+    }
+  }catch(e){console.warn('[cloud] queue',e&&e.message)}finally{_lbBusy=false}
+}
+function cloudScore(){
+  if(!_clEn||!S||S.hofId==null)return;
+  const sc=Math.round(curScore().score);
+  if(!Number.isFinite(sc)){console.warn('[cloud] score is not a number, skipped');return}
+  cloudSubmit({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,sc),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null});
+}
+/* לעתיד: מסך דירוג יקרא לפונקציה הזו. מחזירה null אם אין חיבור */
+async function cloudTop(n){
+  if(!_cl)return null;
+  const {data,error}=await _cl.c.from('leaderboard').select('display_name,club,score,seasons,titles,created_at').order('score',{ascending:false}).limit(Math.min(100,n||20));
+  return error?null:data;
+}
+try{const _mc0=metaCareer;metaCareer=function(){const r=_mc0.apply(this,arguments);try{cloudScore()}catch(e){console.warn('[cloud] score',e&&e.message)}return r}}catch(e){}
+try{document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(_clT);cloudFlush()}})}catch(e){}
+cloudInit();
 
 draw();
 
