@@ -183,7 +183,7 @@ body.kb .nav{display:none!important}
 <div id="app"></div>
 <script>
 /* ===== אנטי-רמאות: זמן ואקראיות דטרמיניסטיים + הקלטת פעולות השחקן (כדי שהשרת יוכל לשחזר קריירה ולאמת ניקוד) ===== */
-const AC_GV='a2';
+const AC_GV='a3';
 const _nT=window.setTimeout.bind(window),_nCT=window.clearTimeout.bind(window),_nDn=Date.now.bind(Date),_nRnd=Math.random.bind(Math);
 var AC={Q:[],id:1,L:0,ent:0,last:0,base:_nDn(),E0:_nDn(),nt:0,ntAt:0,prng:null,sp:null,pend:null,rp:0,pf:0,onBegin:null};
 function acReal(){return Math.max(AC.last,_nDn()-AC.base)}
@@ -241,7 +241,7 @@ function acVals(){
   return o;
 }
 function acFp(){
-  try{const o={};for(const k in S){if(k==='ac'||k.length>16)continue;let s=JSON.stringify(S[k]);if(s===undefined)continue;let h=5381;for(let i=0;i<s.length;i++)h=(Math.imul(h,33)^s.charCodeAt(i))|0;o['zz_'+k]=(h>>>0).toString(36)}return o}catch(e){return null}
+  try{const o={};for(const k in S){if(k==='ac'||k==='nA'||k.length>16)continue;let s=JSON.stringify(S[k]);if(s===undefined)continue;let h=5381;for(let i=0;i<s.length;i++)h=(Math.imul(h,33)^s.charCodeAt(i))|0;o['zz_'+k]=(h>>>0).toString(36)}return o}catch(e){return null}
 }
 function acCap(e){
   if(AC.rp)return;
@@ -2579,7 +2579,7 @@ function rivalAdapt(chgL){const OS=ourStr(),srt=S.rv.slice().sort((a,b)=>b.b-a.b
     const gp=cl((.65-.55*i/n)*(1+r.mo)*rq*(1+(wa-1)*.4),.04,.95),tg=r.b+Math.max(0,OS-r.b)*gp,fx=!chgL&&k>=0?(tb.length/2-k)/tb.length*3:0;
     const s0=r.s;r.s=Math.round(cl(r.s+R(-1.5,1.5)+.4+fx+(Math.max(r.b,tg)-r.s)*.8,r.b-4,250));
     if(!chgL&&k>=0){r.h=r.h||[];const pr=r.h.length?r.h[r.h.length-1].p:null;r.h.push({se:S.season,p:k+1,s:r.s});if(r.h.length>60)r.h.shift();if(k===0){r.ti=(r.ti||0)+1;newsAdd(pk([r.n+' זכתה באליפות ('+LG().n+').','חגיגות ב'+r.n+': אליפות ב'+LG().n+'.','אליפות ל'+r.n+' ב'+LG().n+', והאוהדים בכיכר.']),'🏆',[r.n])}else if(pr!=null&&pr-(k+1)>=5)newsAdd(pk([r.n+' זינקה מהמקום ה־'+pr+' למקום ה־'+(k+1)+'.','קפיצה גדולה ל'+r.n+': מהמקום ה־'+pr+' ל־'+(k+1)+'.']),'📈',[r.n]);else if(pr!=null&&(k+1)-pr>=5)newsAdd(pk([r.n+' צנחה מהמקום ה־'+pr+' למקום ה־'+(k+1)+'.','אכזבה ב'+r.n+': ירידה מהמקום ה־'+pr+' ל־'+(k+1)+'.']),'📉',[r.n]);if(r.s-s0>=6)newsAdd(r.n+' התחזקה משמעותית לקראת העונה הבאה.','💪',[r.n]);else if(s0-r.s>=6)newsAdd(r.n+' נחלשה משמעותית לקראת העונה הבאה.','⚠️',[r.n])}})}
-function start(id){try{gtag('event','start_game')}catch(e){}const c=CLUBS.find(x=>x.id===id);
+function start(id){try{mgClear()}catch(e){}mg=null;PID=0;_fam=null;_cm=null;_xiC=null;try{if(window.__ECL0)ECL.forEach((a,i)=>{if(window.__ECL0[i]){a.length=0;JSON.parse(JSON.stringify(window.__ECL0[i])).forEach(x=>a.push(x))}})}catch(e){}try{gtag('event','start_game')}catch(e){}const c=CLUBS.find(x=>x.id===id);
   S={club:id,lv:c.lv,pk:c.pk,B:c.B,season:1,m:c.m,f:c.f,s:c.s,c:50,tg:c.tg,bn:0,exp:'עונת הבכורה שלך. כולם מחכים לראות מה תשבור קודם.',ro:(c.lv<=2&&realSquad(c.n,c.lv?c.k-2:c.k))||mkRo(c.k),rv:POOLS[c.pk].filter(r=>r[0]!==c.n).map(([n,b])=>({n,b,s:Math.round(b+R(-1,1))})),done:[],flags:{},q:0,log:[],lastPos:null,fate:null,fac:{},bld:{},chg:[],si:0,rd:0,out:[],youthNext:[],screen:'stop'};
   S.seed=Math.floor(gRnd()*2147483647);S.ac=acTake();S.pc=1;S.rules={};applyRules();S.trk=trkSel;S.pv=2;S.V0=Math.max(.5,S.ro.reduce((a,x)=>a+price(x),0));S.m0=S.m;S.f0=S.f;S.sh=[];try{const kk=clubOf().k;S.st0={R:K(),V:W(),n:CLUBS.length,rank:1+CLUBS.filter(c=>c.k>kk).length}}catch(e){S.st0=null};S.yr=[0,0,0];newCoach(ri(58,70));S.coach.y=2;S.coach.t=1;S.toto=LG().tot?{i:0,alive:1,log:[],won:0}:null;S.cup={i:0,alive:1,log:[],won:0};S.games=[];S.euNext=REAL_EU[c.n]||null;euStart();setEtg();genSpons();
   mkTable();genMarket();genCoaches();setEcon();S.W00=W();genInv();choosing=false;view='game';save();draw()}
@@ -3943,7 +3943,7 @@ try{const _mc0=metaCareer;metaCareer=function(){const r=_mc0.apply(this,argument
 try{document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(_clT);cloudFlush()}})}catch(e){}
 cloudInit();
 
-try{acRestore()}catch(e){}
+try{window.__ECL0=JSON.parse(JSON.stringify(ECL))}catch(e){}try{acRestore()}catch(e){}
 draw();
 
 </script>
