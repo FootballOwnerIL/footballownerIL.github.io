@@ -183,7 +183,7 @@ body.kb .nav{display:none!important}
 <div id="app"></div>
 <script>
 /* ===== אנטי-רמאות: זמן ואקראיות דטרמיניסטיים + הקלטת פעולות השחקן (כדי שהשרת יוכל לשחזר קריירה ולאמת ניקוד) ===== */
-const AC_GV='a4';
+const AC_GV='a5';
 const _nT=window.setTimeout.bind(window),_nCT=window.clearTimeout.bind(window),_nDn=Date.now.bind(Date),_nRnd=Math.random.bind(Math);
 var AC={Q:[],id:1,L:0,ent:0,last:0,base:_nDn(),E0:_nDn(),nt:0,ntAt:0,prng:null,sp:null,pend:null,rp:0,pf:0,onBegin:null};
 function acReal(){return Math.max(AC.last,_nDn()-AC.base)}
@@ -192,6 +192,11 @@ function acRun(){try{return (S&&S.ac)||null}catch(e){return null}}
 function gNow(){const r=acRun();return (r?r.E:AC.E0)+acNowL()}
 function gPN(){return acNowL()}
 function acRng(seed,idx){let a=(Math.imul((seed|0)^0x9e3779b9,1597334677)^Math.imul((idx|0)+1,-482951893))>>>0;return function(){a=(a+0x6D2B79F5)|0;let t=Math.imul(a^a>>>15,1|a);t=(t+Math.imul(t^t>>>7,61|t))^t;return((t^t>>>14)>>>0)/4294967296}}
+/* ערבוב דטרמיניסטי: sort עם השוואה אקראית תלוי במימוש הדפדפן, אז מחליפים אותו ב-Fisher-Yates על אותה אקראיות */
+const _natSort=Array.prototype.sort;
+Object.defineProperty(Array.prototype,'sort',{configurable:true,writable:true,value:function(c){
+  if(typeof c==='function'&&c.length===0&&String(c).replace(/\s/g,'')==='()=>gRnd()-.5'){const a=this;for(let i=a.length-1;i>0;i--){const j=Math.floor(gRnd()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+  return _natSort.apply(this,arguments)}});
 function gRnd(){return AC.prng?AC.prng():_nRnd()}
 function gT(f,ms,...a){const id=AC.id++;AC.Q.push({id,t:acNowL()+Math.max(0,+ms||0),f,a,iv:0});acKick();return id}
 function gI(f,ms,...a){const id=AC.id++,p=Math.max(1,+ms||1);AC.Q.push({id,t:acNowL()+p,f,a,iv:p});acKick();return id}
