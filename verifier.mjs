@@ -35,7 +35,7 @@ function validateLog(L){
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
   const inp=JSON.parse(fs.readFileSync(0,'utf8'));
-  const {html,seed,runId,log}=inp;const kind=inp.kind||'free';
+  const {html,seed,runId,log}=inp;const kind=inp.kind||'free';const dcode=inp.code||null;
   const bad=validateLog(log);if(bad)return out({ok:false,err:'invalid log: '+bad});
   let result=null;
   const mk=(ls)=>{
@@ -83,7 +83,7 @@ async function replayMain(){
     let exp=null;try{exp=w.eval('typeof acChClubId==="function"?acChClubId('+(seed|0)+'):null')}catch(e){}
     if(exp==null)return out({ok:false,err:'this game version does not support challenges'});
     if(String(result.cid)!==String(exp))return out({ok:false,err:'challenge club mismatch'});
-    const wantTrk=(kind==='daily'||String(log.v)!=='a7')?1:0; /* a7: אתגר חבר היה 10 עונות. מ-a8 שניהם 20 עונות */
+    const vn=+String(log.v).slice(1)||0;const wantTrk=kind==='daily'?1:vn<=7?0:vn<=9?1:(String(dcode||'')[0]==='T'?0:1); /* a7: חבר=10. a8-a9: 20. מ-a10: היוצר בוחר, ומסומן באות הראשונה בקוד (T=10) */
     if(result.trk!==wantTrk)return out({ok:false,err:'challenge must use track '+wantTrk});
   }
   out({ok:true,row:result,actions:k,warn});
@@ -126,7 +126,7 @@ export async function verifyRun(run,deps){
   if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
   const tp=timingProblem(run,lr);if(tp)return {status:'rejected',note:tp};
   const kind=run.kind||'free';
-  const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind});
+  const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});
   if(!res.ok)return {status:'rejected',note:String(res.err).slice(0,900)};
   return {status:'verified',kind,row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
 }
@@ -148,17 +148,18 @@ async function main(){
     if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,'pending='+n+'\n');
     console.log('pending:',n);return;
   }
-  const runs=await api('runs?status=eq.pending&select=id,user_id,seed,game_ver,kind,started_at,created_at,run_logs(log,display_name,submitted_at)&order=created_at.asc&limit=15',{headers:{Prefer:''}});
+  const runs=await api('runs?status=eq.pending&select=id,user_id,seed,game_ver,kind,duel_id,started_at,created_at,run_logs(log,display_name,submitted_at)&order=created_at.asc&limit=15',{headers:{Prefer:''}});
   console.log('pending runs:',runs.length);
   for(const run of runs){
     const t0=Date.now();let v;
+    if(run.kind==='duel'&&run.duel_id){try{const d=await api('duels?id=eq.'+run.duel_id+'&select=code',{headers:{Prefer:''}});run.duel_code=d&&d[0]&&d[0].code}catch(e){}}
     try{v=await verifyRun(run,{html:gameHtmlFor,replay:replayInChild})}catch(e){v={status:'retry',note:'error '+String(e.message).slice(0,100)}}
     if(v.status==='retry'){
       if(Date.now()-new Date(run.created_at)>3*864e5)v={status:'rejected',note:v.note};
       else{console.log(run.id,'retry later:',v.note);continue}
     }
     try{
-      if(v.status==='verified'&&v.kind==='free'&&v.row.score>0){
+      if(v.status==='verified'&&['free','daily','duel'].includes(v.kind)&&v.row.score>0){
         const uid=String(run.user_id);
         await api('leaderboard',{method:'POST',body:JSON.stringify({user_id:run.user_id,run_id:run.id,career_id:v.row.career_id,display_name:v.name||('בעלים #'+uid.replace(/-/g,'').slice(-4).toUpperCase()),club:v.row.club||'?',score:v.row.score,seasons:v.row.seasons,titles:v.row.titles,fate:v.row.fate})});
       }
