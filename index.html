@@ -1798,7 +1798,7 @@ function stkH(m,lv){const I=stkInfo(m),rows=stkRows(m,lv),n=rows.length,mi=rows.
 function stkUpd(m,a,b){if(!m||m.kind!=='title')return;const e=document.getElementById('stk');if(e)e.innerHTML=stkH(m,{a,b,rev:_srv})}
 function stkStart(m,N,step,gl){_srv=0;if(!m||m.kind!=='title')return;spinT.push(gT(()=>{_srv=1;const v=gl();stkUpd(m,v[0],v[1])},Math.round(N*.8)*step))}
 function titleSub(m){return m.rel?'ניצחון מציל את המועדון. הפסד עלול להפיל אותו ליגה, על כל המשמעות הכלכלית':S.lv===0?'מי שמנצח, לוקח צעד ענק לאליפות':'⬆️ העלייה לליגה הגבוהה היא היעד הכי חשוב של העונה: כסף, שווי, אוהדים ושחקנים טובים יותר'}
-function parLiveH(m){const G=parG(m);return `<div class="c mut" style="font-size:13px;margin-bottom:4px">🔴 שני המשחקים בלייב, בו־זמנית · ${m.rn} היא המתחרה שלכם</div>`+mxGrid(G.map((g,i)=>mxCard(g,i,1)))+`<div id="lmin" class="c" style="font-size:22px;font-weight:800;margin-top:6px">1'</div><div class="pb"><i id="lbar" style="width:0%"></i></div><div id="ptl" class="card c" style="margin-top:6px;font-weight:700"></div>`}
+function parLiveH(m){const G=parG(m);return `<div class="c mut" style="font-size:13px;margin-bottom:4px">🔴 שני המשחקים בלייב, בו־זמנית · ${m.rn} היא המתחרה שלכם</div>`+mxGrid(G.map((g,i)=>mxCard(g,i,1)))+`<div id="ptl" class="card c" style="margin-top:6px;font-weight:700"></div>`}
 
 /* ══ קרב אליפות מרובה קבוצות (3.7) ══ */
 function mxBuild(grp,k,me,it){try{if(me<0||grp.length<4)return null;const can=t=>grp.filter(x=>x!==t&&x.pts>t.pts+3).length<k;let cs=grp.filter(can);if(!cs.some(t=>t.me)||cs.length<3)return null;
