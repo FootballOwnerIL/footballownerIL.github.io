@@ -4348,7 +4348,7 @@ function duelH(){
     h+=`<div class="card c"><div class="mut" style="font-size:12px">קוד האתגר</div><div class="dcode">${[...String(c.code)].map(x=>'<b>'+esc(x)+'</b>').join('')}</div><button class="btn sm" style="width:auto;margin:8px auto 0" onclick="duelShare()">${D.copied?'✅ הועתק, שלח לחבר':'📤 שתף עם חבר'}</button></div>`;
     if(c.club)h+=chHero(c.club,'המועדון שלכם · זהה לשניכם');
     h+='<div class="card"><b>החוקים</b>'+duRules(c.code)+'</div>'+chWarn();
-    if(AC.chp&&AC.chp.kind==='duel'&&AC.chp.code===c.code&&!S)h+=chStartBtn(AC.chp.club);
+    if(AC.chp&&AC.chp.kind==='duel'&&AC.chp.code===c.code&&!chBusyCareer())h+=chStartBtn(AC.chp.club);
     else if(c.info&&c.info.my_status==='open'){const lx=chDoneFind('duel',c.code);h+=lx?chLostH(lx):'<div class="card c mut">הקריירה בתהליך. אפשר להמשיך אותה דרך "המשך".</div>'}
     h+=duInfoH(c.info);
     return h+'<button class="btn sm" style="text-align:center" onclick="duelLoad()">🔄 רענן</button><button class="btn sm" style="text-align:center" onclick="window._du.cur=null;draw()">⬅ לכל האתגרים</button><div class="cc" style="justify-content:center;gap:8px;margin-top:6px">'+((window._du&&window._du.del===c.code)?'':'<span class="mut" style="font-size:12px;align-self:center">להסיר את האתגר מהרשימה שלך</span>')+duDelH(c.code)+'</div><div style="height:90px"></div>';
