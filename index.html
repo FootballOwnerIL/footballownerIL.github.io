@@ -243,7 +243,7 @@ function acEnd(){AC.ent=0;if(!AC.rp)acKick()}
 function acChClubId(seed){return CLUBS[(Math.imul(seed|0,2654435761)>>>0)%CLUBS.length].id}
 function acNewRun(T,str){
   let p;const c=AC.chp;
-  let chI=null;if(c&&(view==='ch'||view==='duel')&&str==="start('"+c.club+"')"){p={id:c.id,seed:c.seed};trkSel=c.tr;chI={k:c.kind||(view==='duel'?'duel':'daily'),c:c.code||null};AC.chp=null;try{localStorage.removeItem('owner_chp')}catch(e){}}
+  let chI=null;if(c&&(view==='ch'||view==='duel')&&str==="start('"+c.club+"')"){p={id:c.id,seed:c.seed};trkSel=c.tr;chI={k:c.kind||(view==='duel'?'duel':'daily'),c:c.code||null,d:ilDay()};AC.chp=null;try{localStorage.removeItem('owner_chp')}catch(e){}}
   else{p=AC.pend;AC.pend=null}
   const seed=p?p.seed:(_nRnd()*2147483647)|0;
   return {v:AC_GV,s:seed,id:p?p.id:null,E:_nDn()-T,tr:trkSel,n:0,T:0,lt:0,d:[],l:[],ch:chI};
@@ -276,7 +276,7 @@ function acCap(e){
   if(ty==='click'&&/^start\(/.test(str)){r=acNewRun(T,str);AC.sp=r}
   if(!r){acBegin(T,null);queueMicrotask(acEnd);return}
   acBegin(T,r);
-  acLog(r,T,kind,str,flag,Object.assign({},acVals(),r.n<=400?acFp():null,r.n>=40&&r.n<=130?acFp2():null),ty==='input'?String(el.value):ty==='keydown'?'Enter':null);
+  acLog(r,T,kind,str,flag,Object.assign({},acVals(),r.n<=400&&r.n%25===1?acFp():null,r.n>=40&&r.n<=130&&r.n%10===0?acFp2():null),ty==='input'?String(el.value):ty==='keydown'?'Enter':null);
   queueMicrotask(acEnd);
 }
 function acTake(){const r=AC.sp;AC.sp=null;if(r){try{acBegun(r)}catch(e){}}return r}
@@ -1784,7 +1784,7 @@ function stkInfo(m){const L=LG(),g=grpIds(),n=g?g.length:S.table.length;if(m.rel
 function stkRows(m,lv){const g=grpIds(),inG=t=>!g||g.includes(t.id),mk=t=>({id:t.id,n:t.n,me:!!t.me,pts:t.pts,gd:gdOf(t)});
   if(!lv||lv==='fin'||!m.tb)return sortedRaw().filter(inG).map(mk);
   const F={};S.table.forEach(t=>F[t.id]=t);const pm=(a,b)=>a>b?3:a===b?1:0;
-  return m.tb.map((t,i)=>{let p=t.pts,d=t.gd;if(t.me){p+=pm(lv.a,lv.b);d+=lv.a-lv.b}else if(t.id===m.oid){p+=pm(lv.b,lv.a);d+=lv.b-lv.a}else if(lv.rev&&F[t.id]){p=F[t.id].pts;d=gdOf(F[t.id])}return{id:t.id,n:t.n,me:t.me,pts:p,gd:d,i}}).sort((x,y)=>y.pts-x.pts||y.gd-x.gd||x.i-y.i)}
+  return m.tb.map((t,i)=>{let p=t.pts,d=t.gd;if(t.me){p+=pm(lv.a,lv.b);d+=lv.a-lv.b}else if(t.id===m.oid){p+=pm(lv.b,lv.a);d+=lv.b-lv.a}else if(lv.pa!=null&&t.id===m.rid){p+=pm(lv.pa,lv.pb);d+=lv.pa-lv.pb}else if(lv.pa!=null&&t.id===m.cid){p+=pm(lv.pb,lv.pa);d+=lv.pb-lv.pa}else if(lv.rev&&F[t.id]){p=F[t.id].pts;d=gdOf(F[t.id])}return{id:t.id,n:t.n,me:t.me,pts:p,gd:d,i}}).sort((x,y)=>y.pts-x.pts||y.gd-x.gd||x.i-y.i)}
 function stkH(m,lv){const I=stkInfo(m),rows=stkRows(m,lv),n=rows.length,mi=rows.findIndex(t=>t.me);if(mi<0||I.k<1||I.k>=n)return '';
   const rk=mi+1,me=rows[mi],ok=rk<=I.k,champ=I.mode==='promo'&&rk===1,live=lv&&lv!=='fin',edge=rows[I.k-1],nx=rows[I.k],gap=ok?me.pts-nx.pts:edge.pts-me.pts,tie=gap===0;
   const T={title:[ '🏆 אלופים כרגע!','❌ אין אליפות כרגע'],promo:[champ?'🏆 אלופי הליגה, ועולים!':'⬆️ עולים ליגה כרגע!','⏸️ נשארים בליגה כרגע'],rel:['🛟 ניצולים כרגע','⬇️ יורדים ליגה כרגע!']}[I.mode];
@@ -1795,10 +1795,10 @@ function stkH(m,lv){const I=stkInfo(m),rows=stkRows(m,lv),n=rows.length,mi=rows.
   const line=I.mode==='rel'?'#ff4d6d':'#00e5a8';
   return `<div class="stkb" style="border-color:${col};color:${col}"><b>${ok?T[0]:T[1]}</b><span>${sub}</span></div><div class="mut c" style="font-size:12px;margin:4px 0">${I.mode==='rel'?'🔻 קו הירידה':I.mode==='promo'?'⬆️ אזור העלייה':'🏆 הראשונה לוקחת את האליפות'} · ${note}</div>`
    +'<table>'+sel.map(i=>{const t=rows[i],b=i===I.k-1?'border-bottom:2px solid '+line:'';return `<tr class="${t.me?'me':''}" style="${b}"><td>${i+1}</td><td>${crest(t.n,16,t.me)} ${t.me?'<b>'+t.n+'</b>':t.n}</td><td class="mut">${t.gd>0?'+':''}${t.gd}</td><td><b>${t.pts}</b></td></tr>`}).join('')+'</table>'}
-function stkUpd(m,a,b){if(!m||m.kind!=='title')return;const e=document.getElementById('stk');if(e)e.innerHTML=stkH(m,{a,b,rev:_srv})}
-function stkStart(m,N,step,gl){_srv=0;if(!m||m.kind!=='title')return;spinT.push(gT(()=>{_srv=1;const v=gl();stkUpd(m,v[0],v[1])},Math.round(N*.8)*step))}
+function stkUpd(m,a,b,pa,pb){if(!m||m.kind!=='title')return;const e=document.getElementById('stk');if(e)e.innerHTML=stkH(m,{a,b,rev:_srv,pa,pb})}
+function stkStart(m,N,step,gl){_srv=0;if(!m||m.kind!=='title')return;spinT.push(gT(()=>{_srv=1;const v=gl();stkUpd(m,v[0],v[1],v[2],v[3])},Math.round(N*.8)*step))}
 function titleSub(m){return m.rel?'ניצחון מציל את המועדון. הפסד עלול להפיל אותו ליגה, על כל המשמעות הכלכלית':S.lv===0?'מי שמנצח, לוקח צעד ענק לאליפות':'⬆️ העלייה לליגה הגבוהה היא היעד הכי חשוב של העונה: כסף, שווי, אוהדים ושחקנים טובים יותר'}
-function parLiveH(m){const G=parG(m);return `<div class="c mut" style="font-size:13px;margin-bottom:4px">🔴 שני המשחקים בלייב, בו־זמנית · ${m.rn} היא המתחרה שלכם</div>`+mxGrid(G.map((g,i)=>mxCard(g,i,1)))+`<div id="ptl" class="card c" style="margin-top:6px;font-weight:700"></div>`}
+function parLiveH(m){const G=parG(m);return `<div class="c mut" style="font-size:13px;margin-bottom:4px">🔴 שני המשחקים בלייב, בו־זמנית · ${m.rn} היא המתחרה שלכם</div>`+mxGrid(G.map((g,i)=>mxCard(g,i,1)))}
 
 /* ══ קרב אליפות מרובה קבוצות (3.7) ══ */
 function mxBuild(grp,k,me,it){try{if(me<0||grp.length<4)return null;const can=t=>grp.filter(x=>x!==t&&x.pts>t.pts+3).length<k;let cs=grp.filter(can);if(!cs.some(t=>t.me)||cs.length<3)return null;
@@ -1842,9 +1842,9 @@ function mAnimMx(){const m=S.mt,G=mxGames(m),N=90+Math.max(...G.map(g=>g.ex)),T=
   spinT.push(gT(mFin,T+350))}
 function mxRes(m){const G=mxGames(m).slice(1);return '<h3>📺 שאר המשחקים</h3>'+mxGrid(G.map((g,i)=>mxCard(g,i+1,0,m.px[i].sc)))}
 function parStatus(m,a,b,pa,pb){const B=m.base||{me:0,mg:0,R:0,rg:0},mp=B.me+(a>b?3:a===b?1:0),mg=B.mg+a-b,rp=B.R+(pa>pb?3:pa===pb?1:0),rg_=B.rg+pa-pb,ab=mp>rp||(mp===rp&&mg>rg_);return (ab?'🟢 כרגע אתם '+(S.lv===0?'במקום הראשון':'במקום העלייה'):'🔴 כרגע '+m.rn+' מקדימה אתכם')+' · '+mp+' נק׳ מול '+rp+(mp===rp?' (הפרש שערים '+(mg>=0?'+':'')+mg+' מול '+(rg_>=0?'+':'')+rg_+')':'')}
-function mAnimPar(){const m=S.mt,G=parG(m),N=90+Math.max(G[0].ex,G[1].ex),T=12000,step=T/N;spinT.forEach(gCT);spinT=[];const sc=[[0,0],[0,0]];stkStart(m,N,step,()=>sc[0]);const st=()=>{const e=document.getElementById('ptl');if(e)e.textContent=parStatus(m,sc[0][0],sc[0][1],sc[1][0],sc[1][1])};st();
+function mAnimPar(){const m=S.mt,G=parG(m),N=90+Math.max(G[0].ex,G[1].ex),T=12000,step=T/N;spinT.forEach(gCT);spinT=[];const sc=[[0,0],[0,0]];stkStart(m,N,step,()=>[sc[0][0],sc[0][1],sc[1][0],sc[1][1]]);const st=()=>{const e=document.getElementById('ptl');if(e)e.textContent=parStatus(m,sc[0][0],sc[0][1],sc[1][0],sc[1][1])};st();
   for(let k=1;k<=N;k++)spinT.push(gT(()=>{const t=document.getElementById('lmin'),bar=document.getElementById('lbar');if(t)t.textContent=mmin(k)+"'";if(bar)bar.style.width=Math.min(100,k/N*100)+'%'},k*step));
-  G.forEach((gm,i)=>gm.goals.forEach(g=>spinT.push(gT(()=>{sc[i][g.s===0?0:1]++;const A=document.getElementById('lsA'+i),B=document.getElementById('lsB'+i),f=document.getElementById('lf'+i);if(A)A.textContent=sc[i][0];if(B)B.textContent=sc[i][1];if(f&&f.insertAdjacentHTML)f.insertAdjacentHTML('beforeend',mxGoal(gm,g));st();if(i===0)stkUpd(m,sc[0][0],sc[0][1])},Math.min(g.m,N)*step))));
+  G.forEach((gm,i)=>gm.goals.forEach(g=>spinT.push(gT(()=>{sc[i][g.s===0?0:1]++;const A=document.getElementById('lsA'+i),B=document.getElementById('lsB'+i),f=document.getElementById('lf'+i);if(A)A.textContent=sc[i][0];if(B)B.textContent=sc[i][1];if(f&&f.insertAdjacentHTML)f.insertAdjacentHTML('beforeend',mxGoal(gm,g));st();stkUpd(m,sc[0][0],sc[0][1],sc[1][0],sc[1][1])},Math.min(g.m,N)*step))));
   spinT.push(gT(mFin,T+350))}
 function liveH(m){const r=m.res;if(!r||!r.goals)return '<div class="c mut">שורקים לפתיחה…</div>';if(m.mx&&m.px)return mxLiveH(m);if(m.par&&m.pr)return parLiveH(m);return `<div class="card c"><div class="lsc"><span class="mut" style="font-size:13px">${clubOf().n}</span><b id="lsA">0</b><span>:</span><b id="lsB">0</b><span class="mut" style="font-size:13px">${m.opp.n}</span></div><div id="lmin" class="mut" style="font-size:18px">1'</div><div class="pb"><i id="lbar" style="width:0%"></i></div><div id="lfeed" style="margin-top:6px"></div></div>`}
 function mAnimLive(){if(S.mt&&S.mt.mx&&S.mt.px)return mAnimMx();if(S.mt&&S.mt.par&&S.mt.pr)return mAnimPar();const m=S.mt,r=m.res,N=90+(r.ex||3),T=m.kind==='title'?11000:8000,step=T/N;spinT.forEach(gCT);spinT=[];let a=0,b=0;stkStart(m,N,step,()=>[a,b]);
@@ -3525,12 +3525,14 @@ function matchH(){const m=S.mt,P=mProb(m),r=m.res,col={eu:'#0a1f5c,#04102e',lp:'
   h+=`<div class="card"><div class="vs"><div>${crest(clubOf().n,30,1)}<b>${clubOf().n}</b><span>${Math.round(ourStr())}${prepB()&&!r?'<small class="'+(prepB()>0?'up':'dn')+'"> '+pbT()+'</small>':''}</span></div><i>VS</i><div>${crest(m.opp.n,30,0)}<b>${m.opp.n}</b><span>${Math.round(m.opp.s)}</span></div></div></div>`;
   if(!r&&m.et){const e=m.et;if(e.ph==='reg'&&e.P)return h+`<div class="lamps"><div class="lamp g"><div class="lb">${m.final?'🏆':'✅'}</div>${m.final?'זכייה':'עולים'}<b>${e.P[0]}%</b></div><div class="lamp b"><div class="lb">${m.final?'🥈':'❌'}</div>${m.final?'הפסד':'בחוץ'}<b>${e.P[2]}%</b></div></div><div id="rs">${etLiveH(m,1)}</div><button id="sk2" class="btn" style="text-align:center" onclick="etLiveEnd()">דלג</button>`;return h+etH(m)}
   if(m.mx&&!r)h+=mxPre(m);
-  if(m.kind==='title')h+=`<div id="stk" class="card stk">${stkH(m,r?(m.anim?{a:0,b:0,rev:0}:'fin'):null)}</div>`;
-  if(m.par)h+=`<div class="card c" style="border-top:3px solid #3a7bd5">🔵 במקביל: <b>${m.rn}</b> (המתחרה שלכם) משחקת נגד <b>${m.cn}</b>. הכל נקבע בשני המשחקים יחד, ובשוויון נקודות הפרש השערים מכריע.</div>`;
+  const PL=m.par&&m.pr&&r;const stkD=`<div id="stk" class="card stk">${stkH(m,r?(m.anim?{a:0,b:0,rev:0,pa:PL?0:null,pb:PL?0:null}:'fin'):null)}</div>`;
+  if(m.kind==='title'&&!PL)h+=stkD;
+  if(m.par&&!PL)h+=`<div class="card c" style="border-top:3px solid #3a7bd5">🔵 במקביל: <b>${m.rn}</b> (המתחרה שלכם) משחקת נגד <b>${m.cn}</b>. הכל נקבע בשני המשחקים יחד, ובשוויון נקודות הפרש השערים מכריע.</div>`;
   if(!r&&(m.kind==='eu'||m.kind==='lp'))h+=keyH(m.opp.n);
   if(!r){h+=`<h3>🎯 הכנה למשחק</h3>`+PREP.map(p=>{const on=S.prep&&S.prep[p.k],c=p.c();return `<button class="btn ${on?'opt':''}" style="${on?'--oc:#00e5a8;border-color:#00e5a8':''}" ${!on&&prepC()+c>S.m?'disabled':''} onclick="togPrep('${p.k}')"><b>${on?'✅':'⬜'} ${p.ic} ${p.n}</b><small>${p.b>0?'+':''}${p.b}% לסיכוי · ${c?'עולה '+fm(c):'חינם'}${p.x?' · '+p.x:''}</small></button>`}).join('')+`<p class="mut">עד +10% בסך הכול.</p>`;
     h+=m.three?`<div class="lamps"><div class="lamp g on"><div class="lb">⚽</div>ניצחון<b>${P[0]}%</b></div><div class="lamp d on"><div class="lb">🤝</div>תיקו<b>${P[1]}%</b></div><div class="lamp b on"><div class="lb">❌</div>הפסד<b>${P[2]}%</b></div></div>`:`<div class="pb"><i style="width:${P[0]}%"></i></div><div class="pc" style="justify-content:center"><span class="g">${clubOf().n} ${P[0]}%</span><span class="b">${m.opp.n} ${P[2]}%</span></div><div class="mut c" style="font-size:12px">${m.final?'הסיכוי לזכות בגמר 🏆':'הסיכוי לעלות שלב'}</div>`;
     h+=`<button class="btn p" onclick="playMatch()">⚽ למשחק${prepC()?' · '+fm(prepC()):''}</button>`}
+  else if(PL){h+=`<div id="rs">${m.anim?liveH(m):mResH(m)}</div>`+stkD+`<button id="sk2" class="btn" style="text-align:center;${m.anim?'':'display:none'}" onclick="mFin()">דלג</button><button id="eun" class="btn p" style="${m.anim?'display:none':''}" onclick="matchDone()">המשך</button>`}
   else{h+=m.three?`<div class="lamps"><div id="m0" class="lamp g"><div class="lb">⚽</div>ניצחון<b>${r.P[0]}%</b></div><div id="m1" class="lamp d"><div class="lb">🤝</div>תיקו<b>${r.P[1]}%</b></div><div id="m2" class="lamp b"><div class="lb">❌</div>הפסד<b>${r.P[2]}%</b></div></div>`:`<div class="lamps"><div id="m0" class="lamp g"><div class="lb">${m.final?'🏆':'✅'}</div>${m.final?'זכייה':'עולים'}<b>${r.P[0]}%</b></div><div id="m2" class="lamp b"><div class="lb">${m.final?'🥈':'❌'}</div>${m.final?'הפסד':'בחוץ'}<b>${r.P[2]}%</b></div></div>`;
     h+=`<div id="rs">${m.anim?liveH(m):mResH(m)}</div><button id="sk2" class="btn" style="text-align:center;${m.anim?'':'display:none'}" onclick="mFin()">דלג</button><button id="eun" class="btn p" style="${m.anim?'display:none':''}" onclick="matchDone()">המשך</button>`}
   if((m.kind==='lp'||m.kind==='eu')&&S.eu)h+='<div id="euw">'+(m.res&&m.anim?'':euCard())+'</div>';return h}
@@ -3960,7 +3962,7 @@ function chFinalH(){
   if(!r.b)st='<span style="color:#e0a030">⚠️ הקריירה לא נרשמה בשרת (הייתה בעיית רשת בתחילת האתגר), ולכן לא נשלח ציון.</span>';
   else if(mine&&F.st==='verified'){st='✅ הציון שלך: <b style="font-size:20px">'+(Number(F.sc)||0)+'</b>';const x=F.x;if(x&&x.opp_joined){if(x.opp_score!=null)st+='<div style="margin-top:6px">'+esc(x.opp_name||'חבר')+': <b>'+Number(x.opp_score)+'</b><div style="font-weight:700;color:#2eea8a">'+(F.sc>x.opp_score?'🏆 ניצחת!':F.sc<x.opp_score?'😬 הפסדת':'🤝 תיקו')+'</div></div>';else st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא סיים. התוצאה תופיע במסך האתגר כשהוא יסיים.</div>'}else if(x)st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא הצטרף. שלח לו את הקוד.</div>'}
   else if(mine&&F.st==='rejected')st='❌ הקריירה לא עברה אימות בשרת.';
-  else st='⏳ הקריירה נשלחה לשרת לאימות (לוקח כמה דקות). הציון יופיע כאן אוטומטית. אפשר גם לבדוק במסך האתגר.';
+  else{const lx=chDone()[r.id];if(lx&&(lx.err||lx.net)&&(!mine||F.st==='open'||F.st==null))return chLostH(Object.assign({id:r.id},lx));st='⏳ הקריירה נשלחה לשרת לאימות (לוקח כמה דקות). הציון יופיע כאן אוטומטית. אפשר גם לבדוק במסך האתגר.'}
   return `<div class="card c" style="border-color:#2eea8a"><b>${isD?'📅 האתגר היומי':'⚔️ אתגר חבר'+(r.ch.c?' · <span style="direction:ltr;display:inline-block">'+esc(r.ch.c)+'</span>':'')}</b><div style="margin:8px 0">${st}</div><button class="btn sm" style="width:auto;margin:0 auto" onclick="${isD?'dayOpen()':"duelOpenCode('"+esc(r.ch.c||'')+"')"}">📊 למסך האתגר</button></div>`;
 }
 function finalExtra(){const r=M.hof.findIndex(e=>e.id===S.hofId)+1,na=(S.nA||[]).map(id=>ACH.find(a=>a.id===id)).filter(Boolean);
@@ -4072,29 +4074,65 @@ function cloudName(){
   try{const n=lbClean(localStorage.getItem('owner_name'));if(n)return n}catch(e){}
   return 'בעלים #'+(_cl?_cl.uid.replace(/-/g,'').slice(-4).toUpperCase():'0000');
 }
-function cloudQueue(){try{return JSON.parse(localStorage.getItem('owner_lbq2'))||[]}catch(e){return[]}}
-function cloudQueueSet(q){try{localStorage.setItem('owner_lbq2',JSON.stringify(q.slice(-4)))}catch(e){}}
+function ilDay(){try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem'}).format(new Date())}catch(e){return null}}
+var _lbMem=null;
+function cloudQueue(){try{const q=JSON.parse(localStorage.getItem('owner_lbq2'));if(Array.isArray(q)&&q.length)return q}catch(e){}return _lbMem?_lbMem.slice():[]}
+function cloudQueueSet(q){_lbMem=q.slice(-4);try{localStorage.setItem('owner_lbq2',JSON.stringify(_lbMem))}catch(e){try{localStorage.removeItem('owner_lbq2')}catch(e2){}}}
+/* מקטין יומן לפני שליחה: טביעות המצב נשארות רק בדגימה (גם ביומנים ישנים שממתינים בתור) */
+function lbSlim(log){try{if(!log||!Array.isArray(log.l))return log;let k=0;const l=log.l.map(e=>{const v=e[4];if(!v||typeof v!=='object')return e;const ks=Object.keys(v),fp=ks.some(x=>x.slice(0,3)==='zz_'||x.slice(0,2)==='q_');if(!fp)return e;k++;if(k%25===1)return e;const o={};let n=0;for(const x of ks)if(x.slice(0,3)!=='zz_'&&x.slice(0,2)!=='q_'){o[x]=v[x];n++}const c=e.slice();c[4]=n?o:0;return c});return Object.assign({},log,{l})}catch(e){return log}}
+/* קריירות אתגר שהסתיימו במכשיר הזה, כדי לדעת להגיד "סיימת" גם כשהשרת לא קיבל */
+function chDone(){try{return JSON.parse(localStorage.getItem('owner_chdone'))||{}}catch(e){return{}}}
+function chDoneSet(id,o){try{const m=chDone();m[id]=Object.assign(m[id]||{},o);const ks=Object.keys(m).sort((a,b)=>(m[b].t||0)-(m[a].t||0)).slice(0,12),n={};ks.forEach(k=>n[k]=m[k]);localStorage.setItem('owner_chdone',JSON.stringify(n))}catch(e){}}
+function chDoneFind(k,v){const m=chDone();for(const id in m){const x=m[id];if(x.k===k&&(k==='duel'?x.c===v:x.d===v))return Object.assign({id},x)}return null}
+function lbFail(){try{return JSON.parse(localStorage.getItem('owner_lbfail'))||[]}catch(e){return[]}}
+function lbFailSet(a){try{localStorage.setItem('owner_lbfail',JSON.stringify(a.slice(-3)))}catch(e){try{localStorage.setItem('owner_lbfail',JSON.stringify(a.slice(-1)))}catch(e2){}}}
 function cloudSubmit(row){
+  row=Object.assign({},row,{log:lbSlim(row.log)});
   const q=cloudQueue();
   if(!q.some(x=>x.run_id===row.run_id)){q.push(row);cloudQueueSet(q)}
   cloudQueueFlush();
 }
+function lbErrTxt(e){const m=String((e&&(e.message||e.details))||'').slice(0,140);return (e&&e.code?e.code+' · ':'')+(m||'שגיאה לא ידועה')}
 async function cloudQueueFlush(){
   if(!_cl||_lbBusy)return;
   _lbBusy=true;
   try{
-    for(const row of cloudQueue()){
-      const {error}=await _cl.c.rpc('submit_run',{p_run:row.run_id,p_log:row.log,p_name:lbClean(row.name)||cloudName()});
-      /* נתון לא תקין, ריצה לא מוכרת או הגבלת קצב: לא ישתנה בניסיון חוזר. תקלת רשת: נשארת בתור */
-      if(error&&!['22023','P0001','28000'].includes(error.code))break;
+    for(const row0 of cloudQueue()){
+      const row=Object.assign({},row0,{log:lbSlim(row0.log)});
+      let error=null;try{const r=await _cl.c.rpc('submit_run',{p_run:row.run_id,p_log:row.log,p_name:lbClean(row.name)||cloudName()});error=r.error}catch(e){error={message:e&&e.message||'network'}}
+      /* נתון לא תקין, ריצה לא מוכרת או הגבלת קצב: לא ישתנה בניסיון חוזר, אבל שומרים את הקריירה ואת הסיבה כדי להראות ולאפשר "שלח שוב" */
+      if(error&&!['22023','P0001','28000'].includes(error.code)){chDoneSet(row.run_id,{net:lbErrTxt(error)});console.warn('[cloud] submit (will retry)',lbErrTxt(error));break}
       cloudQueueSet(cloudQueue().filter(x=>x.run_id!==row.run_id));
+      if(error){console.warn('[cloud] submit rejected',lbErrTxt(error));chDoneSet(row.run_id,{err:lbErrTxt(error),net:null});const f=lbFail().filter(x=>x.run_id!==row.run_id);f.push(Object.assign({},row,{err:lbErrTxt(error)}));lbFailSet(f)}
+      else chDoneSet(row.run_id,{sent:Date.now(),err:null,net:null});
       try{window._lb=window._lb||{};window._lb.pend=null}catch(e){}
     }
   }catch(e){console.warn('[cloud] queue',e&&e.message)}finally{_lbBusy=false}
 }
+/* "שלח שוב" לקריירת אתגר שהשרת לא קיבל */
+async function chResend(id){
+  const f=lbFail(),row=f.find(x=>x.run_id===id);
+  if(row){lbFailSet(f.filter(x=>x.run_id!==id));const q=cloudQueue().filter(x=>x.run_id!==id);q.push(row);cloudQueueSet(q)}
+  else if(S&&S.ac&&S.ac.id===id&&S.screen==='final'){const r=S.ac;const q=cloudQueue().filter(x=>x.run_id!==id);q.push({run_id:r.id,name:null,log:lbSlim({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()})});cloudQueueSet(q)}
+  chDoneSet(id,{err:null,net:null,try:Date.now()});
+  window._chrs=1;draw();
+  try{if(!_cl)await chWait();await cloudQueueFlush()}catch(e){}
+  window._chrs=0;
+  try{if(view==='ch')dayLoad();else if(view==='duel')duelLoad();else draw()}catch(e){draw()}
+}
+function chCanResend(id){return lbFail().some(x=>x.run_id===id)||cloudQueue().some(x=>x.run_id===id)||(S&&S.ac&&S.ac.id===id&&S.screen==='final')}
+/* כרטיס מצב לקריירת אתגר שהסתיימה כאן אבל בשרת היא עדיין "פתוחה" */
+function chLostH(x){
+  if(!x)return '';
+  const can=chCanResend(x.id),busy=window._chrs;
+  let t='🏁 סיימת את הקריירה, אבל השרת עוד לא קיבל אותה.';
+  let why=x.nb?'הקריירה לא נרשמה בשרת כשהתחלת אותה (בעיית רשת).'+(x.err?' '+esc(x.err):''):x.err?'השרת דחה את השליחה: '+esc(x.err):x.net?'השליחה נכשלה (רשת): '+esc(x.net):'השליחה עדיין לא יצאה מהמכשיר.';
+  return `<div class="card c" style="border-color:#e0a030"><b style="color:#e0a030">${t}</b><div class="mut" style="font-size:12px;margin:6px 0;direction:rtl">${why}</div>`+(can?`<button class="btn sm" style="width:auto;margin:6px auto 0" onclick="chResend('${esc(x.id)}')">${busy?'שולח…':'📤 שלח שוב'}</button>`:`<div class="mut" style="font-size:12px">הנתונים של הקריירה הזו כבר לא שמורים במכשיר, אז אי אפשר לשלוח אותה שוב.</div>`)+'</div>';
+}
 function cloudScore(){
   if(!_clEn||!S||S.hofId==null)return;
   const r=S.ac;
+  if(r&&r.id&&r.ch)chDoneSet(r.id,{k:r.ch.k,c:r.ch.c||null,d:r.ch.d||null,t:Date.now(),nb:r.b?0:1});
   if(!r||!r.id||!r.b)return;
   cloudSubmit({run_id:r.id,name:null,log:{v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()}});
 }
@@ -4223,7 +4261,9 @@ function dayH(){
   const club=D.ready||(dp&&dp.club)||(I.seed!=null?acChClubId(I.seed):null);
   if(club)h+=chHero(club,'המועדון של היום · זהה לכל השחקנים');
   h+='<div class="card"><b>החוקים</b><ul class="rules"><li>כל השחקנים מקבלים היום את אותו מועדון ואותה נקודת פתיחה</li><li>20 עונות, וניסיון אחד בלבד. הקריירה נגמרת בסופן ולא ניתן להמשיך</li><li>הציון הוא ציון הקריירה, והוא נבדק בשרת (לוקח כמה דקות)</li><li>האתגר מתחלף כל יום בחצות, לפי שעון ישראל</li></ul></div>'+chWarn();
-  if(I.played)h+=`<div class="card c" style="border-color:#2eea8a">שיחקת היום · ${chSt(I.my_status,I.my_score)}${I.my_status==='open'&&!dp?'<div class="mut" style="font-size:12px">הקריירה עדיין בתהליך. אפשר להמשיך אותה דרך "המשך".</div>':''}${I.my_status==='pending'?'<div class="mut" style="font-size:12px;margin-top:4px">הקריירה נשלחה לשרת. הציון יופיע כאן אוטומטית כשהאימות יסתיים.</div>':''}</div>`;
+  const dlx=I.played&&I.my_status==='open'?chDoneFind('daily',String(I.day||'').slice(0,10)):null;
+  if(dlx)h+=chLostH(dlx);
+  else if(I.played)h+=`<div class="card c" style="border-color:#2eea8a">שיחקת היום · ${chSt(I.my_status,I.my_score)}${I.my_status==='open'&&!dp?'<div class="mut" style="font-size:12px">הקריירה עדיין בתהליך. אפשר להמשיך אותה דרך "המשך".</div>':''}${I.my_status==='pending'?'<div class="mut" style="font-size:12px;margin-top:4px">הקריירה נשלחה לשרת. הציון יופיע כאן אוטומטית כשהאימות יסתיים.</div>':''}</div>`;
   if(dp)h+=chStartBtn(dp.club);
   else if(!I.played&&D.ready)h+=chStartBtn(D.ready);
   else if(!I.played&&!chBusyCareer())h+=`<button class="btn p" onclick="dayStart()">${D.busy?'רגע…':club?'📅 שחק את האתגר של היום':'📅 בוא נראה את המועדון של היום'}</button>`;
@@ -4284,7 +4324,7 @@ async function duelShare(){
 }
 function duInfoH(i){
   if(!i)return '';
-  const me=i.my_status==='verified'?String(Number(i.my_score)||0):i.my_status==='pending'?'⏳ ממתין<br>לאימות':i.my_status==='rejected'?'❌ לא עבר<br>אימות':'עוד לא<br>סיימת';
+  const me=i.my_status==='verified'?String(Number(i.my_score)||0):i.my_status==='pending'?'⏳ ממתין<br>לאימות':i.my_status==='rejected'?'❌ לא עבר<br>אימות':(i.code&&chDoneFind('duel',i.code))?'🏁 סיימת<br>לא התקבל בשרת':'עוד לא<br>סיימת';
   const op=!i.opp_joined?'עוד לא<br>הצטרף':i.opp_score!=null?String(Number(i.opp_score)||0):i.opp_status==='verified'||i.opp_status==='pending'?'שיחק ✔️<br>הציון יוצג בקרוב':i.opp_status==='rejected'?'❌ לא עבר<br>אימות':'עוד לא<br>שיחק';
   const big=x=>/^\d+$/.test(x);
   let h=`<div class="card"><div class="vs"><div><div class="vn">אתה</div><div class="vsc${big(me)?'':' sm'}">${me}</div></div><b>VS</b><div><div class="vn">${esc(i.opp_name||'חבר')}</div><div class="vsc${big(op)?'':' sm'}">${op}</div></div></div>`;
@@ -4304,7 +4344,7 @@ function duelH(){
     if(c.club)h+=chHero(c.club,'המועדון שלכם · זהה לשניכם');
     h+='<div class="card"><b>החוקים</b>'+duRules(c.code)+'</div>'+chWarn();
     if(AC.chp&&AC.chp.kind==='duel'&&AC.chp.code===c.code&&!S)h+=chStartBtn(AC.chp.club);
-    else if(c.info&&c.info.my_status==='open')h+='<div class="card c mut">הקריירה בתהליך. אפשר להמשיך אותה דרך "המשך".</div>';
+    else if(c.info&&c.info.my_status==='open'){const lx=chDoneFind('duel',c.code);h+=lx?chLostH(lx):'<div class="card c mut">הקריירה בתהליך. אפשר להמשיך אותה דרך "המשך".</div>'}
     h+=duInfoH(c.info);
     return h+'<button class="btn sm" style="text-align:center" onclick="duelLoad()">🔄 רענן</button><button class="btn sm" style="text-align:center" onclick="window._du.cur=null;draw()">⬅ לכל האתגרים</button><div style="height:90px"></div>';
   }
@@ -4316,7 +4356,7 @@ function duelH(){
   else if(D.loading&&!D.rows)h+='<div class="card mut c">טוען…</div>';
   if(D.rows&&D.rows.length){
     h+='<h3 style="margin:14px 0 6px">האתגרים שלי</h3>';
-    h+=D.rows.map(r=>`<div class="card" style="display:flex;align-items:center;gap:10px"><b style="direction:ltr;letter-spacing:2px">${esc(r.code)}</b><span class="mut" style="flex:1;font-size:12px">${chSt(r.my_status,r.my_score)}${r.opp_score!=null&&r.my_status==='verified'?' מול <b>'+Number(r.opp_score)+'</b>':''}</span><button class="btn sm" style="width:auto;margin:0" onclick="duelJoin('${esc(r.code)}')">פתח</button></div>`).join('');
+    h+=D.rows.map(r=>`<div class="card" style="display:flex;align-items:center;gap:10px"><b style="direction:ltr;letter-spacing:2px">${esc(r.code)}</b><span class="mut" style="flex:1;font-size:12px">${r.my_status==='open'&&chDoneFind('duel',r.code)?'<span style="color:#e0a030">🏁 סיימת · השרת לא קיבל</span>':chSt(r.my_status,r.my_score)}${r.opp_score!=null&&r.my_status==='verified'?' מול <b>'+Number(r.opp_score)+'</b>':''}</span><button class="btn sm" style="width:auto;margin:0" onclick="duelJoin('${esc(r.code)}')">פתח</button></div>`).join('');
   }
   return h+'<div style="height:90px"></div>';
 }
