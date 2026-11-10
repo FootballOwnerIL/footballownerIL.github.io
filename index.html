@@ -4275,6 +4275,11 @@ function dayH(){
 }
 /* --- אתגר חבר --- */
 function duKeep(code){try{const a=JSON.parse(localStorage.getItem('owner_duels')||'[]').filter(x=>x!==code);a.unshift(code);localStorage.setItem('owner_duels',JSON.stringify(a.slice(0,8)))}catch(e){}}
+/* הסרת אתגר מ"האתגרים שלי": שתי לחיצות, כדי שלא יימחק בטעות */
+function duForget(code,ok){const D=window._du=window._du||{};if(!ok){D.del=code;draw();return}
+  try{const a=JSON.parse(localStorage.getItem('owner_duels')||'[]').filter(x=>x!==code);localStorage.setItem('owner_duels',JSON.stringify(a))}catch(e){}
+  D.rows=(D.rows||[]).filter(r=>r.code!==code);if(D.cur&&D.cur.code===code)D.cur=null;D.del=null;draw()}
+function duDelH(code){const D=window._du||{};return D.del===code?`<button class="btn sm" style="width:auto;margin:0;border-color:#ff4d6d;color:#ff4d6d" onclick="duForget('${esc(code)}',1)">להסיר?</button><button class="btn sm" style="width:auto;margin:0" onclick="window._du.del=null;draw()">לא</button>`:`<button class="btn sm" style="width:auto;margin:0;padding-inline:10px" title="הסר מהרשימה" onclick="duForget('${esc(code)}')">🗑️</button>`}
 function duCodes(){try{const a=JSON.parse(localStorage.getItem('owner_duels')||'[]');return Array.isArray(a)?a.filter(x=>/^[A-Z0-9]{5,6}$/.test(x)):[]}catch(e){return []}}
 function duelOpen(){const D=window._du=window._du||{};D.cur=null;setView('duel');duelLoad()}
 async function duelLoad(){
@@ -4346,7 +4351,7 @@ function duelH(){
     if(AC.chp&&AC.chp.kind==='duel'&&AC.chp.code===c.code&&!S)h+=chStartBtn(AC.chp.club);
     else if(c.info&&c.info.my_status==='open'){const lx=chDoneFind('duel',c.code);h+=lx?chLostH(lx):'<div class="card c mut">הקריירה בתהליך. אפשר להמשיך אותה דרך "המשך".</div>'}
     h+=duInfoH(c.info);
-    return h+'<button class="btn sm" style="text-align:center" onclick="duelLoad()">🔄 רענן</button><button class="btn sm" style="text-align:center" onclick="window._du.cur=null;draw()">⬅ לכל האתגרים</button><div style="height:90px"></div>';
+    return h+'<button class="btn sm" style="text-align:center" onclick="duelLoad()">🔄 רענן</button><button class="btn sm" style="text-align:center" onclick="window._du.cur=null;draw()">⬅ לכל האתגרים</button><div class="cc" style="justify-content:center;gap:8px;margin-top:6px">'+((window._du&&window._du.del===c.code)?'':'<span class="mut" style="font-size:12px;align-self:center">להסיר את האתגר מהרשימה שלך</span>')+duDelH(c.code)+'</div><div style="height:90px"></div>';
   }
   h+='<div class="card"><b>איך זה עובד</b><div class="stp"><i>1</i><span>לוחצים על "צור אתגר חדש" ומקבלים קוד בן 6 תווים</span></div><div class="stp"><i>2</i><span>שולחים את הקוד לחבר</span></div><div class="stp"><i>3</i><span>החבר מזין את הקוד למטה ולוחץ "הצטרף"</span></div><div class="stp"><i>4</i><span>כל אחד משחק לבד, מתי שנוח לו. שניכם מנהלים את אותו מועדון, מאותה נקודת פתיחה</span></div><div class="stp"><i>5</i><span>כשהשרת מאמת את שני הציונים, רואים מי ניצח</span></div></div><div class="card"><b>החוקים</b>'+duRules()+'</div>'+chWarn();
   h+=`<div class="card"><b>כמה עונות?</b><div class="mut" style="font-size:12px;margin:2px 0 6px">היוצר בוחר, והחבר משחק את אותו אורך. הקריירה נגמרת בסוף העונות ולא ניתן להמשיך, והציון נכנס לטבלת הקריירות הטובות.</div><div class="cc" style="gap:8px"><button class="btn p" style="margin:0" onclick="duelCreate(0)">${D.busy?'רגע…':'⚡ 10 עונות · קצר'}</button><button class="btn p" style="margin:0" onclick="duelCreate(1)">${D.busy?'רגע…':'⚽ 20 עונות · מלא'}</button></div></div>`;
@@ -4356,7 +4361,7 @@ function duelH(){
   else if(D.loading&&!D.rows)h+='<div class="card mut c">טוען…</div>';
   if(D.rows&&D.rows.length){
     h+='<h3 style="margin:14px 0 6px">האתגרים שלי</h3>';
-    h+=D.rows.map(r=>`<div class="card" style="display:flex;align-items:center;gap:10px"><b style="direction:ltr;letter-spacing:2px">${esc(r.code)}</b><span class="mut" style="flex:1;font-size:12px">${r.my_status==='open'&&chDoneFind('duel',r.code)?'<span style="color:#e0a030">🏁 סיימת · השרת לא קיבל</span>':chSt(r.my_status,r.my_score)}${r.opp_score!=null&&r.my_status==='verified'?' מול <b>'+Number(r.opp_score)+'</b>':''}</span><button class="btn sm" style="width:auto;margin:0" onclick="duelJoin('${esc(r.code)}')">פתח</button></div>`).join('');
+    h+=D.rows.map(r=>`<div class="card" style="display:flex;align-items:center;gap:10px"><b style="direction:ltr;letter-spacing:2px">${esc(r.code)}</b><span class="mut" style="flex:1;font-size:12px">${r.my_status==='open'&&chDoneFind('duel',r.code)?'<span style="color:#e0a030">🏁 סיימת · השרת לא קיבל</span>':chSt(r.my_status,r.my_score)}${r.opp_score!=null&&r.my_status==='verified'?' מול <b>'+Number(r.opp_score)+'</b>':''}</span><button class="btn sm" style="width:auto;margin:0" onclick="duelJoin('${esc(r.code)}')">פתח</button>${duDelH(r.code)}</div>`).join('')+'<div class="mut c" style="font-size:11px;margin-top:2px">🗑️ מסיר את האתגר רק מהרשימה שלך. אצל החבר הוא נשאר.</div>';
   }
   return h+'<div style="height:90px"></div>';
 }
