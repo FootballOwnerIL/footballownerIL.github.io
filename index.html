@@ -4368,6 +4368,33 @@ function duelH(){
 try{const _mc0=metaCareer;metaCareer=function(){const r=_mc0.apply(this,arguments);try{cloudScore()}catch(e){console.warn('[cloud] score',e&&e.message)}return r}}catch(e){}
 try{document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(_clT);cloudFlush()}})}catch(e){}
 cloudInit();
+/* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
+   אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
+const BUILD='2026-11-10a';
+function verShow(b){
+  if(document.getElementById('updw'))return;
+  const d=document.createElement('div');d.id='updw';
+  d.style.cssText='position:fixed;inset:0;z-index:2147483646;background:rgba(3,8,18,.88);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl';
+  d.innerHTML='<div style="max-width:360px;width:100%;background:#0d1a30;border:2px solid #2eea8a;border-radius:18px;padding:22px 18px;text-align:center;box-shadow:0 0 30px rgba(46,234,138,.35)"><div style="font-size:44px">🚀</div><div style="font-size:21px;font-weight:800;margin:6px 0">יש גרסה חדשה למשחק</div><div style="font-size:14px;opacity:.85;line-height:1.55;margin-bottom:16px">הוספנו שיפורים ותיקונים. ההתקדמות שלך שמורה ולא תיפגע.</div><button id="updb" style="width:100%;padding:14px;border:0;border-radius:12px;font:inherit;font-size:17px;font-weight:800;color:#04210f;background:linear-gradient(90deg,#2eea8a,#29d3ff);cursor:pointer">🔄 עדכן עכשיו</button></div>';
+  document.body.appendChild(d);
+  document.getElementById('updb').onclick=()=>{try{save()}catch(e){}try{sessionStorage.setItem('owner_updtry',b)}catch(e){}
+    document.getElementById('updb').textContent='מעדכן…';
+    setTimeout(()=>{location.replace(location.pathname+'?v='+encodeURIComponent(b)+'&t='+Date.now())},250)};
+}
+async function verCheck(){
+  try{
+    if(location.protocol==='file:')return;
+    const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
+    const j=await r.json(),b=j&&String(j.b||'');if(!b||b===BUILD)return;
+    /* הגנה מלולאה: אם כבר ניסינו לעדכן לגרסה הזו והדף עדיין ישן (למשל version.json הועלה בלי index.html), לא חוסמים שוב */
+    let t=null;try{t=sessionStorage.getItem('owner_updtry')}catch(e){}
+    if(t===b){console.warn('[update] still old after reload',BUILD,'->',b);return}
+    verShow(b);
+  }catch(e){}
+}
+try{if(/[?&]v=/.test(location.search))history.replaceState(null,'',location.pathname+location.hash)}catch(e){}
+setTimeout(verCheck,2500);setInterval(verCheck,10*60*1000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')verCheck()});
 
 try{window.__ECL0=JSON.parse(JSON.stringify(ECL))}catch(e){}try{acRestore()}catch(e){}
 try{const x=JSON.parse(localStorage.getItem('owner_chp')||'null');if(x&&x.id&&x.seed!=null){if(S&&S.ac&&S.ac.id===x.id)localStorage.removeItem('owner_chp');else if(!AC.chp)AC.chp=x}}catch(e){}
