@@ -33,7 +33,9 @@ function validateLog(L){
 }
 
 /* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
-const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(/;
+/* עולה בכל שינוי בלוגיקת האימות: ריצות במצב review נבדקות מחדש אוטומטית כשהמספר הזה משתנה */
+export const VERIFIER_REV=2;
+const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(|^window\._du\./;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
   const inp=JSON.parse(fs.readFileSync(0,'utf8'));
@@ -55,7 +57,7 @@ async function replayMain(){
       w.__report=o=>{if(!result)result=o};
     }});
     const w=dom.window;
-    w.eval(`(function(){const _cs=cloudScore;cloudScore=function(){try{if(S&&S.hofId!=null&&S.hofDone===1)__report({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,Math.round(curScore().score)),cid:String(clubOf().id).slice(0,40),trk:S.trk,seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null})}catch(e){}return _cs.apply(this,arguments)}})()`);
+    w.eval(`(function(){const _cs=cloudScore;cloudScore=function(){try{if(S&&S.hofId!=null&&S.hofDone===1)__report({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,Math.round(curScore().score)),cid:String(clubOf().id).slice(0,40),hof:(()=>{try{return M.hof.find(x=>x.id===S.hofId)||null}catch(e){return null}})(),trk:S.trk,seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null})}catch(e){}return _cs.apply(this,arguments)}})()`);
     return w;
   };
   let w=mk(null);
@@ -152,11 +154,17 @@ export async function verifyRun(run,deps){
   const ver=/^a\d{1,3}$/.test(String(lr.log&&lr.log.v))?lr.log.v:run.game_ver;
   const html=deps.html(ver);
   if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
-  const tp=timingProblem(run,lr);if(tp)return {status:'rejected',note:tp};
+  const tp=timingProblem(run,lr);if(tp)return {status:/faster than a human/.test(tp)?'rejected':'review',note:tp};
   const kind=run.kind||'free';
   const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});
-  if(!res.ok)return {status:'rejected',note:String(res.err).slice(0,900)};
-  return {status:'verified',kind,row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
+  if(!res.ok){
+    /* פסילה רק על הוכחה חזקה. כל כשל טכני של השחזור (פעולה חסרה, לא הגיע לסוף, קריסה) הוא 'review' ולא פסילה: הקריירה נשמרת ונבדקת שוב */
+    const e=String(res.err);
+    const strong=/^(invalid log|score out of range|challenge club mismatch|challenge must use track)/.test(e);
+    return {status:strong?'rejected':'review',note:e.slice(0,900)};
+  }
+  const hof=res.row&&res.row.hof;const hs=hof?JSON.stringify(hof):null;
+  return {status:'verified',kind,summary:hs&&hs.length<6000?hof:null,row:res.row,name:lr.display_name,note:'score '+res.row.score+', actions '+res.actions+(res.warn?' | '+res.warn:'')};
 }
 function rest(base,key){
   return async(path,opt={})=>{
@@ -166,36 +174,41 @@ function rest(base,key){
     return txt?JSON.parse(txt):null;
   };
 }
+const REVQ='verify_note.is.null,verify_note.not.like.r'+VERIFIER_REV+':*';
 async function main(){
   const base=process.env.SUPABASE_URL,key=process.env.SUPABASE_SERVICE_KEY;
   if(!base||!key){console.log('missing SUPABASE_URL / SUPABASE_SERVICE_KEY');process.exit(1)}
   const api=rest(base.replace(/\/$/,''),key);
   if(process.argv[2]==='--count'){
     const rows=await api('runs?status=eq.pending&select=id&limit=1',{headers:{Prefer:''}});
-    const n=rows&&rows.length?1:0;
+    const rv=await api('runs?status=eq.review&or=('+REVQ+')&select=id&limit=1',{headers:{Prefer:''}});
+    const n=(rows&&rows.length)||(rv&&rv.length)?1:0;
     if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,'pending='+n+'\n');
     console.log('pending:',n);return;
   }
-  const runs=await api('runs?status=eq.pending&select=id,user_id,seed,game_ver,kind,duel_id,started_at,created_at,run_logs(log,display_name,submitted_at)&order=created_at.asc&limit=15',{headers:{Prefer:''}});
+  const SEL='select=id,user_id,seed,game_ver,kind,duel_id,started_at,created_at,run_logs(log,display_name,submitted_at)';
+  const runs=await api('runs?status=eq.pending&'+SEL+'&order=created_at.asc&limit=15',{headers:{Prefer:''}});
+  /* ריצות שנשארו ב-review מהגרסה הקודמת של האימות: בדיקה מחדש (עד 6 בכל סבב) */
+  try{const rv=await api('runs?status=eq.review&or=('+REVQ+')&'+SEL+'&order=created_at.asc&limit=6',{headers:{Prefer:''}});for(const x of rv||[])runs.push(x)}catch(e){}
   console.log('pending runs:',runs.length);
   for(const run of runs){
     const t0=Date.now();let v;
     if(run.kind==='duel'&&run.duel_id){try{const d=await api('duels?id=eq.'+run.duel_id+'&select=code',{headers:{Prefer:''}});run.duel_code=d&&d[0]&&d[0].code}catch(e){}}
     try{v=await verifyRun(run,{html:gameHtmlFor,replay:replayInChild})}catch(e){v={status:'retry',note:'error '+String(e.message).slice(0,100)}}
     if(v.status==='retry'){
-      if(Date.now()-new Date(run.created_at)>3*864e5)v={status:'rejected',note:v.note};
+      if(Date.now()-new Date(run.created_at)>3*864e5)v={status:'review',note:v.note};
       else{console.log(run.id,'retry later:',v.note);continue}
     }
     try{
       if(v.status==='verified'&&['free','daily','duel'].includes(v.kind)&&v.row.score>0){
         const uid=String(run.user_id);
-        await api('leaderboard',{method:'POST',body:JSON.stringify({user_id:run.user_id,run_id:run.id,career_id:v.row.career_id,display_name:v.name||('בעלים #'+uid.replace(/-/g,'').slice(-4).toUpperCase()),club:v.row.club||'?',score:v.row.score,seasons:v.row.seasons,titles:v.row.titles,fate:v.row.fate})});
+        try{await api('leaderboard',{method:'POST',body:JSON.stringify({user_id:run.user_id,run_id:run.id,career_id:v.row.career_id,display_name:v.name||('בעלים #'+uid.replace(/-/g,'').slice(-4).toUpperCase()),club:v.row.club||'?',score:v.row.score,seasons:v.row.seasons,titles:v.row.titles,fate:v.row.fate})});}catch(e){if(e.status!==409&&!/duplicate|unique/i.test(String(e.body||e.message)))throw e}
       }
-      await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:v.status,verify_note:v.note,verified_at:new Date().toISOString(),...(v.status==='verified'?{score:v.row.score}:{})})});
+      await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:v.status,verify_note:'r'+VERIFIER_REV+': '+v.note,verified_at:new Date().toISOString(),...(v.status==='verified'?{score:v.row.score,summary:v.summary||null}:{})})});
       console.log(run.id,v.status,v.note,'('+Math.round((Date.now()-t0)/1000)+'s)');
     }catch(e){
       console.log(run.id,'could not save result:',e.message);
-      try{await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:'rejected',verify_note:('save failed: '+e.message).slice(0,200),verified_at:new Date().toISOString()})})}catch(_){}
+      try{await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:'review',verify_note:('r'+VERIFIER_REV+': save failed: '+e.message).slice(0,200),verified_at:new Date().toISOString()})})}catch(_){}
     }
   }
 }

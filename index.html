@@ -191,7 +191,7 @@ body.kb .nav{display:none!important}
 <div id="app"></div>
 <script>
 /* ===== אנטי-רמאות: זמן ואקראיות דטרמיניסטיים + הקלטת פעולות השחקן (כדי שהשרת יוכל לשחזר קריירה ולאמת ניקוד) ===== */
-const AC_GV='a12';
+const AC_GV='a13';
 const _nT=window.setTimeout.bind(window),_nCT=window.clearTimeout.bind(window),_nDn=Date.now.bind(Date),_nRnd=Math.random.bind(Math);
 var AC={Q:[],id:1,L:0,ent:0,last:0,base:_nDn(),E0:_nDn(),nt:0,ntAt:0,prng:null,sp:null,pend:null,rp:0,pf:0,onBegin:null};
 function acReal(){return Math.max(AC.last,_nDn()-AC.base)}
@@ -2491,7 +2491,7 @@ function cnPick(k){if(mg.lock)return;mg.lock=1;const ok=k===mg.bc;if(ok)mg.ok++;
   const m=document.getElementById('osm');if(m)m.innerHTML='';
   mgTO.push(gT(()=>{const e=document.getElementById('osf');if(e)e.innerHTML=`<div class="card"><b class="${ok?'up':'dn'}">${ok?'נכון!':'לא נכון.'}</b> ${ok?'עקבת טוב אחרי הכדור.':'הכדור היה בקונוס אחר.'}</div><button class="btn p" onclick="cnN()">${mg.r>=4||mg.ok>=3||mg.r+1-mg.ok>2?'לתוצאה':'לסיבוב הבא'}</button>`},ok?250:900))}
 function cnN(){mg.lock=0;mg.r++;if(mg.ok>=3)return mgEnd(1);if(mg.r-mg.ok>2)return mgEnd(0);if(mg.r>=5)return mgEnd(mg.ok>=3);cnRound()}
-function mgBoot(){mgClear();const b=document.getElementById('mgb');if(!b)return;({reflex:rfInit,simon:smInit,math:mathInit,tap:tpInit,catch:ctInit,pairs:prInit,trivia:tvInit,pen:penInit,hilo:hiloInit,deal:dealInit,rank:rankInit,wval:wvInit,car:carInit,fk:fkInit,ps:psInit,age:ageInit,os:osInit,cn:cnInit})[mg.t](b)}
+function mgBoot(){mgClear();const b=document.getElementById('mgb');if(!b)return;mg.bt=1;({reflex:rfInit,simon:smInit,math:mathInit,tap:tpInit,catch:ctInit,pairs:prInit,trivia:tvInit,pen:penInit,hilo:hiloInit,deal:dealInit,rank:rankInit,wval:wvInit,car:carInit,fk:fkInit,ps:psInit,age:ageInit,os:osInit,cn:cnInit})[mg.t](b)}
 function rfInit(b){mg.r=0;mg.h=0;rfRound(b)}
 const MD=()=>(mg&&mg.o&&mg.o.d)||2;
 function rfRound(b){const w=24-MD()*3,z=ri(4,Math.floor(94-w));mg.z=[z,z+w];mg.p=0;mg.d=1;mg.v=2+mg.r*.5+MD()*.3;mg.done=0;
@@ -3896,9 +3896,9 @@ const HOFCOL={'A+':['#ffd23f','#3a2e0e'],A:['#00e5a8','#08302a'],B:['#4fc3f7','#
 function hofShelf(e){const T=[['🏆',e.ti,'אליפות ליגת העל','#ffd23f'],['🥇',e.lt,'אליפות בליגה נמוכה','#c0c8d8'],['🏺',e.cu,'גביע המדינה','#e0a458'],['⭐',euN(e,'ליגת האלופות'),'ליגת האלופות','#4fc3f7'],['🟠',euN(e,'הליגה האירופית'),'הליגה האירופית','#ff9f43'],['🟢',euN(e,'הקונפרנס'),'קונפרנס ליג','#4dd0a1']].filter(t=>t[1]>0);
   if(!T.length)return '<div class="hfs"><span class="mut" style="font-size:12px;padding:10px 0">הוויטרינה עדיין ריקה</span></div>';
   return '<div class="hfs">'+T.map(t=>`<div class="hft" title="${t[2]}"><div class="hfi" style="filter:drop-shadow(0 0 7px ${t[3]})">${t[0].repeat(Math.min(t[1],5))}${t[1]>5?'<b style="font-size:14px"> ×'+t[1]+'</b>':''}</div><div class="hfl" style="color:${t[3]}">${t[2]}${t[1]>1&&t[1]<=5?' ×'+t[1]:''}</div></div>`).join('')+'</div>'}
-function hofCardH(e,i){const f=hofHas(e),gm=f?e.W+e.D+e.L:0,col=HOFCOL[e.gr]||HOFCOL.C,pc=n=>Math.round(n/Math.max(1,gm)*100),ch=(ic,lb,v)=>`<div class="hfc"><span>${ic} ${lb}</span><b>${v}</b></div>`;
+function hofCardH(e,i,lab){const f=hofHas(e),gm=f?e.W+e.D+e.L:0,col=HOFCOL[e.gr]||HOFCOL.C,pc=n=>Math.round(n/Math.max(1,gm)*100),ch=(ic,lb,v)=>`<div class="hfc"><span>${ic} ${lb}</span><b>${v}</b></div>`;
   const lgn=l=>LGS[l]?LGS[l].n:'';
-  let h=`<div class="card hfk" style="border-color:${col[0]};background:linear-gradient(160deg,${col[1]},var(--card) 70%)"><div class="cc"><div><div style="font-size:11px;color:${col[0]};letter-spacing:.5px">${['🥇 המקום הראשון','🥈 המקום השני','🥉 המקום השלישי'][i]||'🎖️ מקום '+(i+1)}</div><b style="font-size:19px">${e.club}</b></div><div class="hfg" style="color:${col[0]};border-color:${col[0]}">${e.gr}</div></div>`
+  let h=`<div class="card hfk" style="border-color:${col[0]};background:linear-gradient(160deg,${col[1]},var(--card) 70%)"><div class="cc"><div><div style="font-size:11px;color:${col[0]};letter-spacing:.5px">${lab||['🥇 המקום הראשון','🥈 המקום השני','🥉 המקום השלישי'][i]||'🎖️ מקום '+(i+1)}</div><b style="font-size:19px">${e.club}</b></div><div class="hfg" style="color:${col[0]};border-color:${col[0]}">${e.gr}</div></div>`
    +`<div class="mut" style="font-size:12px;margin:2px 0 6px">${FATEN[e.fate]||''} · התחיל ב${lgn(e.lv0)} · ${e.se} עונות${e.tk!=null&&TRK[e.tk]?' · '+TRK[e.tk].ic+' '+TRK[e.tk].n+(e.et?' (הושלם)':''):''}</div>`
    +hofShelf(e);
   if(e.bpl){const q=QL.find(x=>x[1]===e.bpl.q),qc=q?q[2]:'#8795a3';h+=`<div class="hfp"><span class="av ${rtc(e.bpl.r)}" style="background:${GC[GRP[e.bpl.pos]]||'#345'};width:46px;height:46px;font-size:18px">${e.bpl.r}</span><span style="flex:1"><div class="mut" style="font-size:11px">⭐ השחקן הכי טוב בקריירה</div><b>${e.bpl.fl||''} ${e.bpl.n}</b><div class="mut" style="font-size:12px">${e.bpl.pos||''} · גיל ${e.bpl.a} · עונה ${e.bpl.se}</div></span>${e.bpl.q&&e.bpl.q!=='שחקן רגיל'?`<span class="tag" style="background:${qc};color:#111;font-size:10px">${e.bpl.sp?'💎 ':''}${e.bpl.q}</span>`:''}</div>`}
@@ -3952,7 +3952,7 @@ async function chFinLoad(){
   }catch(e){}
   F.busy=0;
   try{if(S&&S.screen==='final'&&view==='game')draw()}catch(e){}
-  if(F.st!=='verified'&&F.st!=='rejected'&&(F.n=(F.n||0)+1)<90){clearTimeout(F.pt);F.pt=_nT(chFinLoad,9000)}
+  if(F.st!=='verified'&&F.st!=='rejected'&&F.st!=='review'&&(F.n=(F.n||0)+1)<90){clearTimeout(F.pt);F.pt=_nT(chFinLoad,9000)}
 }
 function chFinalH(){
   const r=S&&S.ac;if(!r||!r.ch)return '';
@@ -3960,8 +3960,9 @@ function chFinalH(){
   if(_cl&&!F.busy&&!mine)_nT(chFinLoad,50);
   let st;
   if(!r.b)st='<span style="color:#e0a030">⚠️ הקריירה לא נרשמה בשרת (הייתה בעיית רשת בתחילת האתגר), ולכן לא נשלח ציון.</span>';
-  else if(mine&&F.st==='verified'){st='✅ הציון שלך: <b style="font-size:20px">'+(Number(F.sc)||0)+'</b>';const x=F.x;if(x&&x.opp_joined){if(x.opp_score!=null)st+='<div style="margin-top:6px">'+esc(x.opp_name||'חבר')+': <b>'+Number(x.opp_score)+'</b><div style="font-weight:700;color:#2eea8a">'+(F.sc>x.opp_score?'🏆 ניצחת!':F.sc<x.opp_score?'😬 הפסדת':'🤝 תיקו')+'</div></div>';else st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא סיים. התוצאה תופיע במסך האתגר כשהוא יסיים.</div>'}else if(x)st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא הצטרף. שלח לו את הקוד.</div>'}
+  else if(mine&&F.st==='verified'){st='✅ הציון שלך: <b style="font-size:20px">'+(Number(F.sc)||0)+'</b>';const x=F.x;if(x&&x.opp_joined){if(x.opp_score!=null)st+='<div style="margin-top:6px">'+esc(x.opp_name||'חבר')+': <b>'+Number(x.opp_score)+'</b><div style="font-weight:700;color:#2eea8a">'+(F.sc>x.opp_score?'🏆 ניצחת!':F.sc<x.opp_score?'😬 הפסדת':'🤝 תיקו')+'</div>'+(x.h2h_w!=null?'<div class="mut" style="font-size:12px;margin-top:4px">⚖️ מאזן בינכם: '+x.h2h_w+'–'+x.h2h_l+(x.h2h_t?' · '+x.h2h_t+' תיקו':'')+'</div>':'')+'</div>';else st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא סיים. התוצאה תופיע במסך האתגר כשהוא יסיים.</div>'}else if(x)st+='<div class="mut" style="font-size:12px;margin-top:6px">החבר עוד לא הצטרף. שלח לו את הקוד.</div>'}
   else if(mine&&F.st==='rejected')st='❌ הקריירה לא עברה אימות בשרת.';
+  else if(mine&&F.st==='review')st='🔍 <b>הקריירה שלך שמורה ונמצאת בבדיקה.</b><div class="mut" style="font-size:12px;margin-top:4px">אין צורך לעשות כלום ואין שום פסילה. הציון יופיע כאן ובמסך האתגר ברגע שהבדיקה תסתיים.</div>';
   else{const lx=chDone()[r.id];if(lx&&(lx.err||lx.net)&&(!mine||F.st==='open'||F.st==null))return chLostH(Object.assign({id:r.id},lx));st='⏳ הקריירה נשלחה לשרת לאימות (לוקח כמה דקות). הציון יופיע כאן אוטומטית. אפשר גם לבדוק במסך האתגר.'}
   return `<div class="card c" style="border-color:#2eea8a"><b>${isD?'📅 האתגר היומי':'⚔️ אתגר חבר'+(r.ch.c?' · <span style="direction:ltr;display:inline-block">'+esc(r.ch.c)+'</span>':'')}</b><div style="margin:8px 0">${st}</div><button class="btn sm" style="width:auto;margin:0 auto" onclick="${isD?'dayOpen()':"duelOpenCode('"+esc(r.ch.c||'')+"')"}">📊 למסך האתגר</button></div>`;
 }
@@ -3991,7 +3992,7 @@ async function fbSend(){const m=(document.getElementById('fbm').value||'').trim(
   catch(e){b.disabled=false;const t=document.getElementById('fbt').value+'\n'+m+'\n['+fbCtx()+']';
     try{const f=document.createElement('form');f.method='POST';f.action='https://formspree.io/f/xyeelgnz';f.target='_blank';f.style.display='none';[['type',p.type],['message',p.message],['contact',p.contact],['context',p.context],['_gotcha','']].forEach(([k,v])=>{const i=document.createElement('input');i.type='hidden';i.name=k;i.value=v;f.appendChild(i)});document.body.appendChild(f);f.submit();gT(()=>f.remove(),2000);try{navigator.clipboard.writeText(t)}catch(x){}st.textContent='נפתח חלון חדש לאישור השליחה (Formspree). אם מופיע שם "Thank you" או אישור, ההודעה נשלחה. עותק גם הועתק ללוח.'}catch(x){try{navigator.clipboard.writeText(t)}catch(y){}st.textContent='לא הצלחתי לשלוח ('+(e&&e.message||'שגיאת רשת')+'). הטקסט הועתק ללוח.'}}}
 function draw(){const p=(S&&S.mt&&S.mt.anim&&S.mt.res&&S.mt.pre)?S.mt.pre:null;if(!p)return drawCore();const o={m:S.m,f:S.f,s:S.s,c:S.c,t:S.table,g:S.games,e:S.eu,cu:S.cup,to:S.toto};S.m=p.m;S.f=p.f;S.s=p.s;S.c=p.c;POSV=p.pos;if(p.x){try{const x=JSON.parse(p.x);S.table=x[0];S.games=x[1];S.eu=x[2];S.cup=x[3];S.toto=x[4]}catch(e){}}try{return drawCore()}finally{S.m=o.m;S.f=o.f;S.s=o.s;S.c=o.c;S.table=o.t;S.games=o.g;S.eu=o.e;S.cup=o.cu;S.toto=o.to;POSV=null}}
-function drawCore(){try{applyRules()}catch(e){}let h;if(mg&&view!=='mg'&&S){const v0=view;mgEnd(false);view=v0}if(!S&&view!=='home'&&view!=='hof'&&view!=='ach'&&view!=='lb'&&view!=='ch'&&view!=='duel')view='home';try{ensureIds()}catch(e){}if(S&&S.B)clampS();
+function drawCore(){if(view==='mg'&&mg&&mg.bt&&document.getElementById('mgb'))return;/* a13: ציור־מחדש לא רשום באמצע מיני־משחק לא מאתחל אותו (גרם לפסילת אימות) */try{applyRules()}catch(e){}let h;if(mg&&view!=='mg'&&S){const v0=view;mgEnd(false);view=v0}if(!S&&view!=='home'&&view!=='hof'&&view!=='ach'&&view!=='lb'&&view!=='ch'&&view!=='duel')view='home';try{ensureIds()}catch(e){}if(S&&S.B)clampS();
   if(S&&S.ro&&S.tv!==1){[...S.ro,...(S.out||[])].forEach(p=>{if(p.tx===undefined)p.tx=rollTx(p.a)});S.tv=1}
   if(S&&S.fac&&S.fv!==2){const mp=[0,2,3,5,7,8];for(const k of Object.keys(S.fac))S.fac[k]=mp[Math.min(5,S.fac[k]|0)];S.fv=2}
   if(S&&S.ro&&S.wv!==3){try{const v=S.wv===2?2:1,q=S.ro.reduce((a,x)=>a+price(x),0),o=(S.out||[]).reduce((a,x)=>a+price(x)*.5,0),fb=FAC.reduce((a,f)=>a+f.c.slice(0,fr(f.k)).reduce((x,y)=>x+y,0)*fc(),0),old=S.m+(v===2?q+o:.5*(q+o))+fb*.5+S.B*(1.5+cl(S.f,0,100)/100+cl(S.c,0,100)/300);S.lg=Math.min(.8,((S.titles||0)*.12+(S.cupWins||0)*.03+(S.eCups||[]).length*.12+(S.lowT||[]).length*.03)*.6);const dl=W()-old;S.W0=(S.W0||0)+dl;S.W00=(S.W00||0)+dl;S.wh=(S.wh||[]).map(x=>Math.round((x+dl)*10)/10);S.wv=3;S.Wp0=null;S.Wend=null;S.WpEnd=null;save()}catch(e){}}
@@ -4206,7 +4207,7 @@ function chClub(id){const c=CLUBS.find(x=>x.id===id);return c?c.n:'?'}
 async function chWait(){const t0=Date.now();while(!_cl&&Date.now()-t0<6000)await new Promise(r=>setTimeout(r,200));return !!_cl}
 function chBusyCareer(){return !!(S&&!S.fate)}
 function chpSave(){try{localStorage.setItem('owner_chp',JSON.stringify(AC.chp))}catch(e){}}
-function chSt(s,sc){return s==='verified'?'ציון <b>'+(Number(sc)||0)+'</b>':s==='pending'?'⏳ נשלח, ממתין לאימות (כמה דקות)':s==='rejected'?'❌ לא עבר אימות':'בתהליך'}
+function chSt(s,sc){return s==='verified'?'ציון <b>'+(Number(sc)||0)+'</b>':s==='pending'?'⏳ נשלח, ממתין לאימות (כמה דקות)':s==='rejected'?'❌ לא עבר אימות':s==='review'?'🔍 בבדיקה · הקריירה שמורה':'בתהליך'}
 function chBack(t){return `<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="chClose()">⬅ חזרה</button><h2 style="margin:0">${t}</h2></div>`}
 function chClose(){setView('home')}
 function chWarn(){return chBusyCareer()?'<div class="card c" style="border-color:#e0a030">יש לך קריירה פעילה. סיים אותה או פרוש ממנה לפני שמתחילים אתגר חדש.</div>':''}
@@ -4218,8 +4219,8 @@ function chHero(club,label){const C=CLUBS.find(x=>x.id===club);if(!C)return '';r
 function homeCh(){
   const D=window._ch||{},I=D.info;let sd=I&&I.seed!=null?I.seed:null;if(sd==null){try{const q=JSON.parse(localStorage.getItem('owner_dayc')||'null'),td=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Jerusalem'});if(q&&String(q.d).slice(0,10)===td)sd=q.s}catch(e){}}const C=sd!=null?CLUBS.find(x=>x.id===acChClubId(sd)):null;
   let st='';
-  if(I)st=I.played?(I.my_status==='verified'?'✅ שיחקת · ציון '+(Number(I.my_score)||0):I.my_status==='pending'?'⏳ שיחקת · ממתין לאימות':I.my_status==='rejected'?'❌ לא עבר אימות':'▶ הקריירה בתהליך'):'🎯 עוד לא שיחקת היום';
-  return `<button class="hch hd" onclick="dayOpen()"><div class="hcr">${C?crest(C.n,44,0,C):'<span style="font-size:38px">📅</span>'}</div><div class="hct"><div class="tag">📅 האתגר היומי</div><div class="nm">${C?esc(C.n):'מועדון חדש בכל יום'}</div><div class="sub">${C?esc(C.lb)+' · ':''}20 עונות · ניסיון אחד · אותו מועדון לכולם</div>${st?`<span class="hst">${st}</span>`:''}</div><span class="go">‹</span></button><button class="hch hf" onclick="duelOpen()"><div class="hcr"><span style="font-size:38px">⚔️</span></div><div class="hct"><div class="tag">אתגר נגד חבר</div><div class="nm">מי הבעלים הטוב יותר?</div><div class="sub">יוצרים קוד, החבר מצטרף, ושניכם מנהלים את אותו מועדון ל-20 עונות. הציון הגבוה מנצח.</div></div><span class="go">‹</span></button>`;
+  if(I)st=I.played?(I.my_status==='verified'?'✅ שיחקת · ציון '+(Number(I.my_score)||0):I.my_status==='pending'?'⏳ שיחקת · ממתין לאימות':I.my_status==='rejected'?'❌ לא עבר אימות':I.my_status==='review'?'🔍 בבדיקה · הקריירה שמורה':'▶ הקריירה בתהליך'):'🎯 עוד לא שיחקת היום';
+  return `<button class="hch hd" onclick="dayOpen()"><div class="hcr">${C?crest(C.n,44,0,C):'<span style="font-size:38px">📅</span>'}</div><div class="hct"><div class="tag">📅 האתגר היומי</div><div class="nm">${C?esc(C.n):'מועדון חדש בכל יום'}</div><div class="sub">${C?esc(C.lb)+' · ':''}20 עונות · ניסיון אחד · אותו מועדון לכולם</div>${st?`<span class="hst">${st}</span>`:''}</div><span class="go">‹</span></button><button class="hch hf" onclick="duelOpen()"><div class="hcr"><span style="font-size:38px">⚔️</span></div><div class="hct"><div class="tag">אתגר נגד חבר</div><div class="nm">מי הבעלים הטוב יותר?</div><div class="sub">יוצרים קוד, החבר מצטרף, ושניכם מנהלים את אותו מועדון ל-10 או 20 עונות, לפי בחירת היוצר. הציון הגבוה מנצח.</div></div><span class="go">‹</span></button>`;
 }
 async function homeLoad(){
   const D=window._ch=window._ch||{};
@@ -4329,12 +4330,15 @@ async function duelShare(){
 }
 function duInfoH(i){
   if(!i)return '';
-  const me=i.my_status==='verified'?String(Number(i.my_score)||0):i.my_status==='pending'?'⏳ ממתין<br>לאימות':i.my_status==='rejected'?'❌ לא עבר<br>אימות':(i.code&&chDoneFind('duel',i.code))?'🏁 סיימת<br>לא התקבל בשרת':'עוד לא<br>סיימת';
-  const op=!i.opp_joined?'עוד לא<br>הצטרף':i.opp_score!=null?String(Number(i.opp_score)||0):i.opp_status==='verified'||i.opp_status==='pending'?'שיחק ✔️<br>הציון יוצג בקרוב':i.opp_status==='rejected'?'❌ לא עבר<br>אימות':'עוד לא<br>שיחק';
+  const me=i.my_status==='verified'?String(Number(i.my_score)||0):i.my_status==='pending'?'⏳ ממתין<br>לאימות':i.my_status==='rejected'?'❌ לא עבר<br>אימות':i.my_status==='review'?'🔍 בבדיקה<br>הקריירה שמורה':(i.code&&chDoneFind('duel',i.code))?'🏁 סיימת<br>לא התקבל בשרת':'עוד לא<br>סיימת';
+  const op=!i.opp_joined?'עוד לא<br>הצטרף':i.opp_score!=null?String(Number(i.opp_score)||0):i.opp_status==='verified'||i.opp_status==='pending'?'שיחק ✔️<br>הציון יוצג בקרוב':i.opp_status==='rejected'?'❌ לא עבר<br>אימות':i.opp_status==='review'?'🔍 בבדיקה':'עוד לא<br>שיחק';
   const big=x=>/^\d+$/.test(x);
   let h=`<div class="card"><div class="vs"><div><div class="vn">אתה</div><div class="vsc${big(me)?'':' sm'}">${me}</div></div><b>VS</b><div><div class="vn">${esc(i.opp_name||'חבר')}</div><div class="vsc${big(op)?'':' sm'}">${op}</div></div></div>`;
   if(i.opp_score!=null&&i.my_status==='verified')h+=`<div class="c" style="margin-top:10px;font-weight:800;font-size:18px;color:#2eea8a">${i.my_score>i.opp_score?'🏆 ניצחת!':i.my_score<i.opp_score?'😬 הפסדת':'🤝 תיקו'}</div>`;
-  else if(i.my_status==='verified'&&i.opp_joined)h+='<div class="mut c" style="font-size:12px;margin-top:8px">הציון של החבר יוצג כשהוא יסיים והציון שלו יאומת.</div>';
+  if(i.h2h_w!=null){const n=i.h2h_w+i.h2h_l+i.h2h_t;h+=`<div class="c" style="margin-top:8px;font-size:13px">⚖️ מאזן בינכם: <b>${i.h2h_w}–${i.h2h_l}</b>${i.h2h_t?' · '+i.h2h_t+' תיקו':''} <span class="mut">(${n} אתגרים מאומתים)</span></div>`}
+  if(i.my_summary||i.opp_summary){const D=window._du=window._du||{};h+=`<button class="btn sm" style="width:auto;margin:8px auto 0" onclick="window._du.card=${D.card?0:1};draw()">${D.card?'🔼 הסתר נתוני קריירה':'📋 פתח נתוני קריירה'}</button>`;if(D.card){h+=(i.my_summary?hofCardH(i.my_summary,0,'אתה'):'')+(i.opp_summary?hofCardH(i.opp_summary,0,esc(i.opp_name||'חבר')):'<div class="mut c" style="font-size:12px;margin-top:6px">נתוני היריב יוצגו כששני הציונים יאומתו.</div>')}}
+  if(!(i.opp_score!=null&&i.my_status==='verified')&&i.my_status==='verified'&&i.opp_joined)h+='<div class="mut c" style="font-size:12px;margin-top:8px">הציון של החבר יוצג כשהוא יסיים והציון שלו יאומת.</div>';
+  else if(i.my_status==='review'||i.opp_status==='review')h+='<div class="mut c" style="font-size:12px;margin-top:8px">קריירה שנמצאת בבדיקה לא נפסלת. התוצאה תתעדכן אוטומטית כשהבדיקה תסתיים.</div>';
   else if(!i.opp_joined)h+='<div class="mut c" style="font-size:12px;margin-top:8px">שלח לחבר את הקוד כדי שיצטרף.</div>';
   return h+'</div>';
 }
@@ -4370,7 +4374,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-10a';
+const BUILD='2026-11-11a';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';
