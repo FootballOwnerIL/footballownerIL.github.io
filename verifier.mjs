@@ -32,6 +32,8 @@ function validateLog(L){
   return null;
 }
 
+/* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
+const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(/;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
   const inp=JSON.parse(fs.readFileSync(0,'utf8'));
@@ -58,7 +60,8 @@ async function replayMain(){
   };
   let w=mk(null);
   w.eval('trkSel='+(log.tr|0));
-  const r={v:log.v,s:seed|0,id:runId,b:1,E:+log.E,n:0,T:0,lt:0,lt0:0,d:log.d,l:[]};
+  const r={v:log.v,s:seed|0,id:runId,b:1,E:+log.E,n:0,T:0,lt:0,lt0:0,d:log.d,l:[],ch:(kind!=='free'?{k:kind,c:dcode,d:null}:null)};
+  const INJL=Array.isArray(inp.inj)?inp.inj:[];
   let warn='';let k=0;
   for(const en of log.l){
     if(en[0]==='R'){
@@ -73,11 +76,13 @@ async function replayMain(){
     let ok=false;
     try{ok=w.acPlay(w.__r,en)}catch(e){return out({ok:false,err:'replay crashed at action '+k+': '+String(e&&e.message||e).slice(0,100)})}
     k++;
-    if(w.__mm){const m=w.__mm;if(!warn)warn='warning: state differed before action '+k+' ('+String(m.str).slice(0,30)+'): '+m.bad.slice(0,6).join(',');w.__mm=null}
-    if(!ok)return out({ok:false,err:'action '+k+' does not exist on the replayed screen'});
+    if(w.__mm){const m=w.__mm;if(INJL.length)return out({ok:false,err:'state differed before action '+k,failK:k,mm:1});if(!warn)warn='warning: state differed before action '+k+' ('+String(m.str).slice(0,30)+'): '+m.bad.slice(0,6).join(',');w.__mm=null}
+    for(const I of INJL)if(k===I[0]){const T0=w.__r.lt0;w.eval('(function(){const T='+(T0+I[1])+';acPump(T);AC.last=Math.max(AC.last,T);AC.L=T;AC.ent=1;AC.rp=1;try{draw()}finally{AC.ent=0;AC.rp=0}})()')}
+    if(!ok&&CLOUD_UI.test(String(w.__r.d[en[2]]))){ok=true}
+    if(!ok)return out({ok:false,err:'action '+k+' does not exist on the replayed screen',failK:k,miss:1});
   }
   try{const T=Math.max(Number(log.tend)||0,w.eval('AC.last'));w.eval('AC.rp=1;acPump('+Math.min(T,1e12)+');AC.rp=0')}catch(e){}
-  if(!result)return out({ok:false,err:'the replayed career did not reach a finished career'});
+  if(!result)return out({ok:false,err:'the replayed career did not reach a finished career',failK:k,noend:1});
   if(!Number.isFinite(result.score)||result.score<0||result.score>10000)return out({ok:false,err:'score out of range'});
   if(kind!=='free'){
     let exp=null;try{exp=w.eval('typeof acChClubId==="function"?acChClubId('+(seed|0)+'):null')}catch(e){}
@@ -91,7 +96,30 @@ async function replayMain(){
 function out(o){process.stdout.write(JSON.stringify(o));process.exit(0)}
 
 /* ================= parent: talks to Supabase with the service key ================= */
+/* Some old clients redrew the screen during a sponsor mini-game without logging it, which restarts the mini-game.
+   If the plain replay fails, try to re-create such a redraw after a nearby startMG. Accepted only if every action
+   exists and every state fingerprint matches, so it can never turn a wrong career into a verified one. */
+const INJ_TAU=[10,3000,6000,9500];
 export function replayInChild(payload){
+  const first=replayOnce(payload);
+  if(first.ok||!first.failK)return first;
+  const starts=[];payload.log.l.forEach((e,i)=>{if(/^startMG\(/.test(String(payload.log.d[e[2]])))starts.push(i+1)});
+  let budget=32;
+  const dfs=(inj,fail)=>{
+    const used=new Set(inj.map(x=>x[0]));
+    const cand=starts.filter(p=>p<=fail.failK&&!used.has(p)).reverse().slice(0,3);
+    for(const p of cand)for(const t of INJ_TAU){
+      if(budget--<=0)return null;
+      const ni=[...inj,[p,t]].sort((a,b)=>a[0]-b[0]);
+      const res=replayOnce({...payload,inj:ni});
+      if(res.ok)return {...res,warn:((res.warn||'')+' | recovered unlogged redraw at '+ni.map(x=>x.join('@')).join(',')).trim()};
+      if(res.failK&&res.failK>fail.failK&&inj.length<5){const d=dfs(ni,res);if(d)return d}
+    }
+    return null;
+  };
+  return dfs([],first)||first;
+}
+function replayOnce(payload){
   const r=spawnSync(process.execPath,['--max-old-space-size=1536',SELF,'--replay'],{input:JSON.stringify(payload),env:{PATH:process.env.PATH||''},encoding:'utf8',timeout:280000,maxBuffer:50*1024*1024});
   if(r.error)return {ok:false,err:'replay failed: '+String(r.error.message).slice(0,80)};
   try{return JSON.parse(r.stdout)}catch(e){return {ok:false,err:'replay produced no result'}}
