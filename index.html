@@ -209,7 +209,7 @@ body.kb .nav{display:none!important}
 <div id="app"></div>
 <script>
 /* ===== אנטי-רמאות: זמן ואקראיות דטרמיניסטיים + הקלטת פעולות השחקן (כדי שהשרת יוכל לשחזר קריירה ולאמת ניקוד) ===== */
-const AC_GV='a31';
+const AC_GV='a32';
 const _nT=window.setTimeout.bind(window),_nCT=window.clearTimeout.bind(window),_nDn=Date.now.bind(Date),_nRnd=Math.random.bind(Math);
 var AC={Q:[],id:1,L:0,ent:0,last:0,base:_nDn(),E0:_nDn(),nt:0,ntAt:0,prng:null,sp:null,pend:null,rp:0,pf:0,onBegin:null};
 function acReal(){return Math.max(AC.last,_nDn()-AC.base)}
@@ -1560,13 +1560,15 @@ function seasonPts(r){
   let eu=0;if(r.eu){const st=r.eu.st||'Q2',k=CS.EUK[r.eu.c]!=null?CS.EUK[r.eu.c]:.5;eu=(CS.EU[st]||CS.EU.Q2)*k}
   return{lg,pr,cu,to,eu};
 }
+/* a32: משקל אורך — קריירה קצרה מקבלת רק חלק יחסי מהניקוד; ייחוס: אורך המסלול, או 10 עונות לקריירה חופשית */
+const lenF=(p,ref)=>Math.pow(Math.max(.05,Math.min(1,p/Math.max(1,ref))),.9);
 function careerScore(h){const len=h.len||h.seasons.length||1,se=h.seasons.slice(0,len);let lg=0,pr=0,cu=0,to=0,eu=0;
   se.forEach(r=>{const p=seasonPts(r);lg+=p.lg;pr+=p.pr;cu+=p.cu;to+=p.to;eu+=p.eu});
-  const tot=Math.max(0,lg+pr+cu+to+eu),avg=tot/Math.max(1,se.length),base=avg*CS.C,last=se[se.length-1]||{},R0=h.R0||last.R||1,V0=h.V0||last.V||1;
+  const tot=Math.max(0,lg+pr+cu+to+eu),avg=tot/Math.max(1,se.length),lf=lenF(se.length,h.ref||len),base=avg*CS.C*lf,last=se[se.length-1]||{},R0=h.R0||last.R||1,V0=h.V0||last.V||1;
   const cl_=(x,a,b)=>Math.max(a,Math.min(b,x)),sc_=len/10,g1=cl_((last.R/R0-1)/sc_,0,1),g2=cl_(Math.log2(Math.max(1e-9,last.V/V0))/(5*sc_),0,1),growth=(g1+g2)/2,gb=CS.GROW*growth;
   const m=CS.MUL[len]||CS.MUL[10],t=cl_(((h.rank||1)-1)/Math.max(1,(h.n||2)-1),0,1),mult=t<=.5?m[2]+(m[1]-m[2])*(t/.5):m[1]+(m[0]-m[1])*((t-.5)/.5);
   const raw=base*(1+gb)*mult,score=Math.round(raw<=3000?raw:3000+6999*(1-Math.exp(-(raw-3000)/5000))),r1=x=>Math.round(x*10)/10;
-  return{score,len,played:se.length,pts:{league:r1(lg),promo:r1(pr),cup:r1(cu),toto:r1(to),europe:r1(eu),total:r1(tot)},avg:Math.round(avg*100)/100,base:Math.round(base),growth:Math.round(growth*100),gb:Math.round(gb*1000)/10,mult:Math.round(mult*100)/100}}
+  return{score,len,lf:Math.round(lf*100)/100,played:se.length,pts:{league:r1(lg),promo:r1(pr),cup:r1(cu),toto:r1(to),europe:r1(eu),total:r1(tot)},avg:Math.round(avg*100)/100,base:Math.round(base),growth:Math.round(growth*100),gb:Math.round(gb*1000)/10,mult:Math.round(mult*100)/100}}
 const ownW=()=>W()*(1-invSh());
 const fcb=()=>fc()*(1+invE('fac'));
 /* a16: דחיסת מחירים לארבעת שדרוגי הכוח (מגרש, אימון, סקאוטינג, אקדמיה): הפער בין קבוצה קטנה לגדולה יורד מפי ~21 לפי ~4.6 */
@@ -1577,7 +1579,7 @@ function facCap(){if(S.lv===2)return{n:3,w:'ליגה א׳',nx:'ליגה ב׳',up
 function genInv(){S.invO=[];S.inv=[]}
 function invH(){return''}
 let armSale=false;
-function curScore(){const t=trk(),st=S.st0||{},sh=S.sh||[];return careerScore({len:t?t.s:Math.max(1,sh.length),n:st.n||62,rank:st.rank||31,R0:st.R,V0:st.V,seasons:sh})}
+function curScore(){const t=trk(),st=S.st0||{},sh=S.sh||[];return careerScore({len:t?t.s:Math.max(1,sh.length),ref:t?t.s:10,n:st.n||62,rank:st.rank||31,R0:st.R,V0:st.V,seasons:sh})}
 function scoreH(){let c;try{c=curScore()}catch(e){return''}const t=trk();return `<div class="card" style="border-right:6px solid #f5b800"><b>🏅 ניקוד קריירה${t?' · מסלול '+t.n+' ('+t.s+' עונות)':''}</b><div class="big c" style="font-size:44px">${c.score.toLocaleString('en-US')}</div><div class="row"><span>הישגים (${c.played} עונות, ממוצע ${c.avg} לעונה)</span><b>${c.pts.total} נק׳</b></div><div class="mut" style="font-size:12px">ליגה ${c.pts.league} · עליה/ירידה ${c.pts.promo} · גביע ${c.pts.cup} · טוטו ${c.pts.toto} · אירופה ${c.pts.europe}</div><div class="row"><span>ממוצע × ${CS.C}</span><b>${c.base}</b></div><div class="row"><span>בונוס צמיחה (דירוג ושווי)</span><b>+${c.gb}%</b></div><div class="row"><span>מכפיל קושי (לפי כוח המועדון בפתיחה)</span><b>×${c.mult}</b></div></div>`}
 function careerGrade(){const w0=S.W00||1,g=(ownW()/w0-1)*2+(S.titles||0)*1.5+(S.cupWins||0)*.3+(S.totoWins||0)*.15+(S.season||1)*.1+((S.lowT||[]).length)*.5,gr=g>=9?'A+':g>=6?'A':g>=3.5?'B':g>=1.5?'C':g>=0?'D':'F';return{gr,g}}
 function sellClub(){if(!armSale){armSale=true;return draw()}armSale=false;S.saleW=saleVal();S.fate='sale';S.screen='final';view='game';save();draw()}
@@ -3773,7 +3775,7 @@ function navH(){if(view==='mg'||!S)return '';const T=[['game','🎮','משחק']
 /* ===== היכל תהילה, הישגים, הדרכה, שיתוף ===== */
 const MK='owner_meta1';
 let M=null;try{M=JSON.parse(localStorage.getItem(MK))}catch(e){}
-M=M||{};M.st=M.st||{};M.cl=M.cl||{};M.tc=M.tc||{};M.ach=M.ach||{};M.hof=M.hof||[];
+M=M||{};M.st=M.st||{};M.cl=M.cl||{};M.tc=M.tc||{};M.ach=M.ach||{};M.hof=M.hof||[];M.hof.forEach(e=>{if(e.ow||e.os==null)return;e.ow=1;const t=e.tk!=null?TRK[e.tk]:null,ref=t?t.s:10;e.os=Math.round(e.os*lenF(Math.min(e.se||1,ref),ref))});
 const msave=()=>{try{localStorage.setItem(MK,JSON.stringify(M))}catch(e){}try{cloudPush()}catch(e){}};
 const mst=k=>M.st[k]||0;
 const minc=k=>{M.st[k]=mst(k)+1;msave();achCheck()};
@@ -4069,7 +4071,7 @@ function metaSeason(){try{const g=S.games||[],sm=S.sum,w=g.filter(x=>x.out===0).
    mxs('pTen',Math.max(0,...S.ro.map(p=>S.season-(p.js==null?S.season:p.js))));
    if(S.f>=90&&S.c>=90&&S.s>=90)ek('tri90');if(S.f>80)ek('f80')}catch(e){console.error(e)}
   achCheck();msave()}catch(e){console.error(e)}}
-function metaCareer(){try{S.hofDone=1;const cg=careerGrade(),w1=S.saleW!=null?S.saleW:ownW(),e={id:gNow(),club:clubOf().n,lv0:clubOf().lv,se:S.season,ti:S.titles||0,lt:(S.lowT||[]).length,cu:S.cupWins||0,tt:S.totoWins||0,ec:(S.eCups||[]).slice(),w0:Math.round((S.W00||0)*10)/10,w1:Math.round(w1*10)/10,gr:cg.gr,sc:Math.round(cg.g*10)/10,os:(()=>{try{return curScore().score}catch(e){return 0}})(),fate:S.fate,sw:S.sw||0,tk:S.trk==null?null:S.trk,et:S.endTrk?1:0};if(S.cs){const c=S.cs;Object.assign(e,{W:c.W,D:c.D,L:c.L,gf:c.gf,ga:c.ga,cl:c.cl,ws:c.ws,us:c.us,pts:c.pts,bp:c.bp,bw:c.bw,bl:c.bl,pv:Math.max(0,...(S.wh||[0])),db:c.db||0,tsb:c.tsb||0,mg:c.mg||0,es:c.es||0,bs:c.bs||null,bpl:c.bpl||null})}
+function metaCareer(){try{S.hofDone=1;const cg=careerGrade(),w1=S.saleW!=null?S.saleW:ownW(),e={id:gNow(),club:clubOf().n,lv0:clubOf().lv,se:S.season,ti:S.titles||0,lt:(S.lowT||[]).length,cu:S.cupWins||0,tt:S.totoWins||0,ec:(S.eCups||[]).slice(),w0:Math.round((S.W00||0)*10)/10,w1:Math.round(w1*10)/10,gr:cg.gr,sc:Math.round(cg.g*10)/10,os:(()=>{try{return curScore().score}catch(e){return 0}})(),ow:1,fate:S.fate,sw:S.sw||0,tk:S.trk==null?null:S.trk,et:S.endTrk?1:0};if(S.cs){const c=S.cs;Object.assign(e,{W:c.W,D:c.D,L:c.L,gf:c.gf,ga:c.ga,cl:c.cl,ws:c.ws,us:c.us,pts:c.pts,bp:c.bp,bw:c.bw,bl:c.bl,pv:Math.max(0,...(S.wh||[0])),db:c.db||0,tsb:c.tsb||0,mg:c.mg||0,es:c.es||0,bs:c.bs||null,bpl:c.bpl||null})}
   S.hofId=e.id;M.st.ca=mst('ca')+1;if((S.prC||0)>=2)M.st.trf=mst('trf')+1;if(cg.gr==='A+'&&(S.titles||0)>0&&(S.cupWins||0)>0&&(S.eCups||[]).length>0)M.st.emp=mst('emp')+1;if(cg.gr==='A+')M.st.ap=mst('ap')+1;if(cg.gr==='A+'||cg.gr==='A')M.st.aa=mst('aa')+1;if(S.fate==='sale'&&w1>=e.w0*1.5)M.st.sold=mst('sold')+1;if(S.fate==='retired')M.st.ret=mst('ret')+1;M.hof.push(e);M.hof.sort((a,b)=>(b.os||0)-(a.os||0)||b.sc-a.sc);M.hof=M.hof.slice(0,12);achCheck();msave();save()}catch(e){console.error(e)}}
 /* הודעות קופצות ואנימציות */
 function toast(t){try{document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);gT(()=>e.remove(),2800)}catch(e){}}
@@ -4605,7 +4607,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-12x';
+const BUILD='2026-11-12y';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';
