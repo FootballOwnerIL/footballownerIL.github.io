@@ -10,7 +10,7 @@ const START_RE=/^start\('[A-Za-z0-9_-]{1,24}'\)$/;
 
 function validateLog(L){
   if(!L||typeof L!=='object'||!Array.isArray(L.l)||!Array.isArray(L.d))return 'bad shape';
-  if(L.l.length<1||L.l.length>40000||L.d.length>5000)return 'bad size';
+  if(L.l.length<1||L.l.length>200000||L.d.length>50000)return 'bad size';
   if(!Number.isFinite(+L.E))return 'bad E';
   if(L.tr!=null&&!(Number.isInteger(L.tr)&&L.tr>=0&&L.tr<=2))return 'bad track';
   for(const s of L.d)if(typeof s!=='string'||s.length>400)return 'bad dict';
@@ -19,7 +19,7 @@ function validateLog(L){
     if(!Array.isArray(e)||e.length<4||e.length>6)return 'bad entry';
     const [k,dt,di,fl,vals,tv]=e;
     if(!['c','i','k','p','R'].includes(k))return 'bad kind';
-    if(!Number.isInteger(dt)||dt<0||dt>864000000)return 'bad dt';
+    if(!Number.isInteger(dt)||dt<0||dt>31536000000)return 'bad dt';
     if(!Number.isInteger(di)||di<-1||di>=L.d.length)return 'bad index';
     if(fl!==0&&fl!==1)return 'bad flag';
     if(vals){if(typeof vals!=='object'||Array.isArray(vals))return 'bad vals';for(const x in vals)if(!/^[A-Za-z0-9_-]{1,20}$/.test(x)||typeof vals[x]!=='string'||vals[x].length>60)return 'bad vals'}
@@ -34,7 +34,7 @@ function validateLog(L){
 
 /* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
 /* עולה בכל שינוי בלוגיקת האימות: ריצות במצב review נבדקות מחדש אוטומטית כשהמספר הזה משתנה */
-export const VERIFIER_REV=2;
+export const VERIFIER_REV=4;
 const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(|^window\._du\./;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
@@ -105,7 +105,7 @@ const INJ_TAU=[10,3000,6000,9500];
 export function replayInChild(payload){
   const first=replayOnce(payload);
   if(first.ok||!first.failK)return first;
-  const starts=[];payload.log.l.forEach((e,i)=>{if(/^startMG\(/.test(String(payload.log.d[e[2]])))starts.push(i+1)});
+  const starts=[];{let kk=0;payload.log.l.forEach((e)=>{if(e[0]==='R')return;kk++;if(/^startMG\(/.test(String(payload.log.d[e[2]])))starts.push(kk)})}
   let budget=32;
   const dfs=(inj,fail)=>{
     const used=new Set(inj.map(x=>x[0]));
@@ -154,13 +154,13 @@ export async function verifyRun(run,deps){
   const ver=/^a\d{1,3}$/.test(String(lr.log&&lr.log.v))?lr.log.v:run.game_ver;
   const html=deps.html(ver);
   if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
-  const tp=timingProblem(run,lr);if(tp)return {status:/faster than a human/.test(tp)?'rejected':'review',note:tp};
+  const tp=timingProblem(run,lr);if(tp)return {status:'review',note:tp};
   const kind=run.kind||'free';
   const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});
   if(!res.ok){
     /* פסילה רק על הוכחה חזקה. כל כשל טכני של השחזור (פעולה חסרה, לא הגיע לסוף, קריסה) הוא 'review' ולא פסילה: הקריירה נשמרת ונבדקת שוב */
     const e=String(res.err);
-    const strong=/^(invalid log|score out of range|challenge club mismatch|challenge must use track)/.test(e);
+    const strong=/^(invalid log: bad shape)|^(challenge club mismatch|challenge must use track)/.test(e);
     return {status:strong?'rejected':'review',note:e.slice(0,900)};
   }
   const hof=res.row&&res.row.hof;const hs=hof?JSON.stringify(hof):null;
