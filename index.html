@@ -4152,9 +4152,10 @@ function lbClean(n){return String(n==null?'':n).replace(/[^A-Za-z0-9א-ת _.#()-
 const FKN=['נועם_ל','Yoav92','שירה.ב','TomerK','אורי_ה','Ron_S','מיכל','דורון77','Itay.G','עמית_כ','ליאור','Gal_R','אלון_ב','נטע.ד','Eden123','רועי_מ','הדר','Kfir_T','שחר_ו','Maya.S','יונתן','OmerB','תמר_ע','Guy_A','Daniel_K','חן.ר','Lior7','אביב_ג'];
 function fkRnd(seed){let x=seed>>>0;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296}}
 function fkNames(seed,n){const r=fkRnd(seed),a=FKN.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,n)}
-function lbFill(rows){rows=(rows||[]).slice();const need=10-rows.length;if(need<=0)return rows;const r=fkRnd(777),nm=fkNames(777,10),cn=CLUBS.map(c=>c.n),ref=rows.length?Math.max(1,Number(rows[0].score)||1):null,hi=ref?ref*1.25:2600,sz=[10,10,20,10,20,10,40,10,20,10];
-  for(let i=0;i<10;i++){const sc=Math.max(30,Math.round(hi*(1-i*.06)*(.94+r()*.12))),se=sz[i],f={career_id:'fk'+i,display_name:nm[i],club:cn[Math.floor(r()*cn.length)],score:sc,seasons:se,titles:Math.floor(r()*r()*se*.45),fake:1};rows.push(f)}
-  rows.sort((a,b)=>b.score-a.score);const keep=[];let fk=0;for(const x of rows){if(x.fake){if(keep.length>=10||fk>=need)continue;fk++}keep.push(x);if(keep.length>=10)break}return keep}
+function lbFill(rows){rows=(rows||[]).slice();const need=10-rows.length;if(need<=0)return rows;const r=fkRnd(777),nm=fkNames(777,10),cn=CLUBS.map(c=>c.n),ref=rows.length?Math.max(1,Number(rows[0].score)||1):null,fk=[];
+  for(let i=0;i<10;i++){let se;do{se=7+Math.floor(r()*32)}while(se%5===0);const rr=r(),ti=Math.floor(se*(.04+.34*rr*rr)),base=(se*24+ti*46)*(.82+.36*r());fk.push({career_id:'fk'+i,display_name:nm[i],club:cn[Math.floor(r()*cn.length)],score:Math.max(60,Math.round(base)),seasons:se,titles:ti,fake:1})}
+  fk.sort((a,b)=>b.score-a.score);if(ref)fk.forEach((f,i)=>{f.score=Math.min(f.score,Math.round(ref*(.88-i*.05)*(.94+((i*7)%5)*.02)))});
+  const all=rows.concat(fk).sort((a,b)=>b.score-a.score),keep=[];let n=0;for(const x of all){if(x.fake){if(keep.length>=10||n>=need)continue;n++}keep.push(x);if(keep.length>=10)break}return keep}
 function dayFill(top,day){const real=(top||[]).slice(),r=fkRnd(String(day||'').split('').reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7)),nm=fkNames(Math.floor(r()*1e6),5);let nowH=0;try{const t=new Date().toLocaleString('en-GB',{timeZone:'Asia/Jerusalem',hour12:false,hour:'2-digit',minute:'2-digit'}).split(':');nowH=+t[0]+(+t[1])/60}catch(e){nowH=new Date().getHours()}
   const ref=real.length?Math.max(1,Number(real[0].score)||1):null,hi=ref?ref*.95:600,T=[9.5,12,15,18,21.5].map(x=>x+(r()-.5)*2.4),fk=[];
   for(let i=0;i<5;i++)if(nowH>=T[i])fk.push({display_name:nm[i],score:Math.max(20,Math.round(hi*(1-i*.11)*(.9+r()*.2))),fake:1});
@@ -4463,7 +4464,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-12b';
+const BUILD='2026-11-12c';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';
