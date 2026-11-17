@@ -58,6 +58,8 @@ async function replayMain(){
     }});
     const w=dom.window;
     w.eval(`(function(){const _cs=cloudScore;cloudScore=function(){try{if(S&&S.hofId!=null&&S.hofDone===1)__report({career_id:S.hofId,club:String(clubOf().n).slice(0,40),score:Math.max(0,Math.round(curScore().score)),cid:String(clubOf().id).slice(0,40),hof:(()=>{try{return M.hof.find(x=>x.id===S.hofId)||null}catch(e){return null}})(),trk:S.trk,seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null})}catch(e){}return _cs.apply(this,arguments)}})()`);
+    /* rescore: ניקוד מחדש עם נוסחת הניקוד הנוכחית (מקור מהגרסה העדכנית ב-repo, לא מהמשתמש). המשחק עצמו משוחזר בגרסה המקורית */
+    if(inp.scoreSrc)w.eval('(function(){'+inp.scoreSrc+'\n;curScore=function(){const t=trk(),st=S.st0||{},sh=S.sh||[];return careerScore({len:t?t.s:Math.max(1,sh.length),ref:t?t.s:10,n:st.n||62,rank:st.rank||31,R0:st.R,V0:st.V,seasons:sh})}})()');
     return w;
   };
   let w=mk(null);
@@ -187,6 +189,7 @@ async function main(){
     console.log('pending:',n);return;
   }
   const SEL='select=id,user_id,seed,game_ver,kind,duel_id,started_at,created_at,run_logs(log,display_name,submitted_at)';
+  if(process.argv[2]==='--rescore')return rescore(api,SEL,process.argv.includes('--dry'));
   const runs=await api('runs?status=eq.pending&'+SEL+'&order=created_at.asc&limit=15',{headers:{Prefer:''}});
   /* ריצות שנשארו ב-review מהגרסה הקודמת של האימות: בדיקה מחדש (עד 6 בכל סבב) */
   try{const rv=await api('runs?status=eq.review&or=('+REVQ+')&'+SEL+'&order=created_at.asc&limit=6',{headers:{Prefer:''}});for(const x of rv||[])runs.push(x)}catch(e){}
@@ -211,6 +214,30 @@ async function main(){
       try{await api('runs?id=eq.'+run.id,{method:'PATCH',body:JSON.stringify({status:'review',verify_note:('r'+VERIFIER_REV+': save failed: '+e.message).slice(0,200),verified_at:new Date().toISOString()})})}catch(_){}
     }
   }
+}
+/* ניקוד מחדש של כל הקריירות בטבלת השיאים לפי נוסחת הניקוד העדכנית. --dry מדפיס בלי לשמור */
+export function scoreSrcFrom(html){const a=html.indexOf('const CS={'),b=html.indexOf('const ownW=');if(a<0||b<0||b<a)return null;const s=html.slice(a,b);return /function careerScore\(/.test(s)&&/function seasonPts\(/.test(s)?s:null}
+async function rescore(api,SEL,dry){
+  const cur=fs.readFileSync(new URL('./index.html',import.meta.url),'utf8'),src=scoreSrcFrom(cur);
+  if(!src){console.log('could not find the scoring code in index.html');process.exit(1)}
+  const lb=await api('leaderboard?select=id,run_id,score,display_name,club&order=score.desc&limit=1000',{headers:{Prefer:''}});
+  console.log('leaderboard rows:',lb.length,dry?'(dry run)':'');let ch=0,fail=0;
+  for(const row of lb){
+    try{
+      const rr=await api('runs?id=eq.'+row.run_id+'&'+SEL.replace('select=','select=status,'),{headers:{Prefer:''}});const run=rr&&rr[0];
+      if(!run){console.log(row.id,'run not found');fail++;continue}
+      if(run.kind==='duel'&&run.duel_id){try{const d=await api('duels?id=eq.'+run.duel_id+'&select=code',{headers:{Prefer:''}});run.duel_code=d&&d[0]&&d[0].code}catch(e){}}
+      const lr=Array.isArray(run.run_logs)?run.run_logs[0]:run.run_logs;if(!lr){console.log(row.id,'no log');fail++;continue}
+      const ver=/^a\d{1,3}$/.test(String(lr.log&&lr.log.v))?lr.log.v:run.game_ver,html=gameHtmlFor(ver);
+      if(!html){console.log(row.id,'version',ver,'not in history');fail++;continue}
+      const res=replayInChild({html,seed:run.seed,runId:run.id,log:lr.log,kind:run.kind||'free',code:run.duel_code||null,scoreSrc:src});
+      if(!res.ok){console.log(row.id,row.display_name,'replay failed:',String(res.err).slice(0,120));fail++;continue}
+      const ns=Math.max(0,Math.min(10000,Math.round(res.row.score)));
+      console.log(row.display_name,'|',row.club,'|',row.score,'->',ns,'('+ver+')');
+      if(ns!==row.score){ch++;if(!dry){await api('leaderboard?id=eq.'+row.id,{method:'PATCH',body:JSON.stringify({score:ns})});await api('runs?id=eq.'+row.run_id,{method:'PATCH',body:JSON.stringify({score:ns})})}}
+    }catch(e){console.log(row.id,'error',String(e.message).slice(0,120));fail++}
+  }
+  console.log('done. changed:',ch,'failed:',fail,dry?'(dry run, nothing saved)':'');
 }
 if(process.argv[2]==='--replay')await replayMain();
 else if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)await main();
