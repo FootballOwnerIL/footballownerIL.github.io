@@ -1,0 +1,30 @@
+name: rescore-leaderboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: 'בדיקה בלבד, בלי לשמור (true/false)'
+        default: 'true'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  rescore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save --no-audit --no-fund jsdom@31.0.0
+      - name: Rescore
+        run: node verifier.mjs --rescore ${{ inputs.dry == 'true' && '--dry' || '' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
