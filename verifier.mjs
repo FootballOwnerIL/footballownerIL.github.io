@@ -34,7 +34,7 @@ function validateLog(L){
 
 /* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
 /* עולה בכל שינוי בלוגיקת האימות: ריצות במצב review נבדקות מחדש אוטומטית כשהמספר הזה משתנה */
-export const VERIFIER_REV=4;
+export const VERIFIER_REV=5;
 const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(|^window\._du\./;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
@@ -141,6 +141,18 @@ export function gameHtmlFor(ver,git=(args)=>execFileSync('git',args,{encoding:'u
   }catch(e){}
   return htmlCache[ver]=found;
 }
+/* r5: כמה פרסומים שונים של המשחק יכולים לשאת את אותו מספר גרסה (AC_GV). הקריירה שוחקה באחד מהם, לא בהכרח בעדכני ביותר, ולכן מנסים כמה מהם (מהחדש לישן) */
+const htmlsCache={};
+export function gameHtmlsFor(ver,max=10,git=(args)=>execFileSync('git',args,{encoding:'utf8',maxBuffer:100*1024*1024})){
+  if(!VER_RE.test(ver))return [];
+  if(ver in htmlsCache)return htmlsCache[ver];
+  const marker="const AC_GV='"+ver+"';",out=[],seen=new Set();
+  try{
+    const shas=git(['log','--format=%H','-n','400','--','index.html']).split('\n').filter(Boolean);
+    for(const sha of shas){const h=git(['show',sha+':index.html']);if(h.includes(marker)){const k=h.length+':'+h.slice(0,200)+h.slice(-200)+':'+(h.match(/const BUILD='[^']*'/)||[''])[0];if(!seen.has(k)){seen.add(k);out.push(h)}if(out.length>=max)break}}
+  }catch(e){}
+  return htmlsCache[ver]=out;
+}
 /* plausibility: the career cannot have lasted longer than the wall clock between begin_run and submit_run, and no human plays faster than this */
 export function timingProblem(run,logRow){
   const L=logRow.log,last=L.l.slice(1).reduce((a,e)=>a+e[1],0);
@@ -158,7 +170,10 @@ export async function verifyRun(run,deps){
   if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
   const tp=timingProblem(run,lr);if(tp)return {status:'review',note:tp};
   const kind=run.kind||'free';
-  const res=deps.replay({html,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});
+  const cands=deps.htmls?(deps.htmls(ver)||[]):[];if(!cands.length||cands[0]!==html)cands.unshift(html);
+  let res=null,tried=0;
+  for(const h of cands){tried++;res=deps.replay({html:h,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});if(res.ok)break}
+  if(res.ok&&tried>1)res.warn=((res.warn||'')+' | replayed with older build #'+tried+' of this version').trim();
   if(!res.ok){
     /* פסילה רק על הוכחה חזקה. כל כשל טכני של השחזור (פעולה חסרה, לא הגיע לסוף, קריסה) הוא 'review' ולא פסילה: הקריירה נשמרת ונבדקת שוב */
     const e=String(res.err);
@@ -197,7 +212,7 @@ async function main(){
   for(const run of runs){
     const t0=Date.now();let v;
     if(run.kind==='duel'&&run.duel_id){try{const d=await api('duels?id=eq.'+run.duel_id+'&select=code',{headers:{Prefer:''}});run.duel_code=d&&d[0]&&d[0].code}catch(e){}}
-    try{v=await verifyRun(run,{html:gameHtmlFor,replay:replayInChild})}catch(e){v={status:'retry',note:'error '+String(e.message).slice(0,100)}}
+    try{v=await verifyRun(run,{html:gameHtmlFor,htmls:gameHtmlsFor,replay:replayInChild})}catch(e){v={status:'retry',note:'error '+String(e.message).slice(0,100)}}
     if(v.status==='retry'){
       if(Date.now()-new Date(run.created_at)>3*864e5)v={status:'review',note:v.note};
       else{console.log(run.id,'retry later:',v.note);continue}
