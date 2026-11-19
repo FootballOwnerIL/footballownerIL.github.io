@@ -4856,7 +4856,9 @@ function cloudScore(){
   if(r&&r.id&&r.ch)chDoneSet(r.id,{k:r.ch.k,c:r.ch.c||null,d:r.ch.d||null,t:Date.now(),nb:r.b?0:1});
   if(!r||!r.id||!r.b)return;
   try{const he=(M.hof||[]).find(e=>e.id===S.hofId);if(he&&!r.ch)lbMineAdd({id:r.id,name:cloudName(),club:he.club,score:Math.round(Number(he.os)||0),seasons:he.se||0,titles:he.ti||0,t:Date.now()})}catch(e){}
-  cloudSubmit({run_id:r.id,name:null,log:{v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()}});
+  /* a45: הציון שהמשחק חישב נשלח יחד עם הלוג. אם השחזור הטכני בשרת נכשל, הקריירה לא נתקעת: השרת מקבל את הציון אחרי בדיקות סבירות (אימות "סלחני"). שחזור מוצלח תמיד קובע את הציון במקום הציון הזה */
+  let sc=null;try{const he=(M.hof||[]).find(e=>e.id===S.hofId);if(he&&!r.ch)sc={cid:S.hofId,club:String(he.club).slice(0,40),score:Math.round(Number(he.os)||0),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null,cl:String(clubOf().id).slice(0,40)}}catch(e){}
+  cloudSubmit({run_id:r.id,name:null,log:Object.assign({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()},sc?{sc}:{})});
 }
 /* קריירה שנשלחה ועוד לא אומתה: מוצגת רק לשחקן עצמו, מסומנת "ממתין לאימות" */
 function lbMine(){try{return(JSON.parse(localStorage.getItem('owner_lbmine'))||[]).filter(x=>x&&x.id&&Date.now()-x.t<45*864e5)}catch(e){return[]}}
@@ -4911,6 +4913,12 @@ function chNameH(){
   try{if(localStorage.getItem('owner_name')||localStorage.getItem('owner_nskip'))return ''}catch(e){return ''}
   return lbNameH().replace('השם שלך בדירוג','איך לקרוא לך בטבלה? (אפשר לדלג)')+'<div class="c" style="margin:-4px 0 8px"><button class="btn sm" style="width:auto;margin:0 auto" onclick="try{localStorage.setItem(\'owner_nskip\',1)}catch(e){};draw()">דלג</button></div>';
 }
+/* a45: ייצוא הקריירות השמורות במכשיר (היכל תהילה + רשימת הבדיקה), לשליחה למפתח. עובד גם במובייל: טקסט שנבחר בלחיצה ומועתק */
+let lbxOn=false;
+function lbxData(){try{return JSON.stringify({m:(M.hof||[]).map(e=>({id:e.id,club:e.club,os:e.os,se:e.se,ti:e.ti,d:new Date(e.id).toISOString()})),r:lbMine()})}catch(e){return '[]'}}
+function lbxTog(){lbxOn=!lbxOn;draw()}
+function lbxCopy(){const t=document.getElementById('lbxt');if(!t)return;t.focus();t.select();try{t.setSelectionRange(0,t.value.length)}catch(e){}let ok=false;try{ok=document.execCommand('copy')}catch(e){}try{if(!ok&&navigator.clipboard)navigator.clipboard.writeText(t.value)}catch(e){}const b=document.getElementById('lbxb');if(b)b.textContent='הועתק. הדבק בצ׳אט'}
+function lbxH(){return lbxOn?'<div class="card c" style="margin-bottom:90px"><div class="mut" style="font-size:12px;margin-bottom:6px">נתוני הקריירות השמורים במכשיר הזה</div><textarea id="lbxt" readonly rows="6" style="width:100%;direction:ltr;font-size:11px;background:#0b1424;color:#cfe;border:1px solid #2a3a58;border-radius:8px;padding:6px" onfocus="this.select()">'+esc(lbxData())+'</textarea><button id="lbxb" class="btn sm" style="width:auto;margin:8px auto 0" onclick="lbxCopy()">העתק</button> <button class="btn sm" style="width:auto;margin:8px auto 0" onclick="lbxTog()">סגור</button></div>':'<div class="c" style="margin-bottom:90px"><a class="mut" style="font-size:12px;text-decoration:underline;cursor:pointer" onclick="lbxTog()">ייצוא הקריירות השמורות במכשיר</a></div>'}
 function lbH(){
   const L=window._lb||{},own=new Set(L.own||[]);
   let h=`<div class="cc" style="margin-top:8px"><button class="btn sm" onclick="setView('home')">⬅ חזרה</button><h2 style="margin:0">🌍 טופ 10 קריירות</h2></div><p class="mut" style="font-size:12px">הקריירות הכי טובות במשחק, לפי ציון קריירה. קריירות נבדקות בשרת לפני שהן נראות לשאר השחקנים. הקריירה שלך מופיעה כאן מיד עם הסימון ⏳, ואחרי האימות (בדרך כלל כדקה-שתיים) היא נכנסת רשמית.</p>`+lbNameH();
@@ -4930,7 +4938,7 @@ function lbH(){
     const me=own.has(r.career_id)||r.pend,md=['🥇','🥈','🥉'][i]||'';
     return `<div class="card" style="display:flex;align-items:center;gap:10px;padding:10px 12px;${r.pend?'border:1px dashed #e0a030':me?'border-color:#2eea8a':''}"><b style="min-width:34px;text-align:center;font-size:${md?22:15}px">${md||i+1}</b><div style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.display_name)}${me?' (אתה)':''}${r.pend?(((L.st||{})[r.career_id]==='review')?' <span style="color:#e0a030;font-size:12px">🔍 בבדיקה · שמורה, הציון יופיע אחרי האימות</span>':' <span style="color:#e0a030;font-size:12px">⏳ ממתין לאימות</span>'):''}</b><span class="mut" style="font-size:12px">${esc(r.club)} · ${r.nos?'ציון אחרי האימות':(Number(r.seasons)||0)+' עונות'}${Number(r.titles)>0?' · 🏆 '+Number(r.titles):''}</span></div><b style="font-size:18px">${r.nos?'—':Number(r.score)||0}</b></div>`;
   }).join('');
-  return h+'<p class="mut c" style="font-size:12px;margin-bottom:90px">טופ 10 קריירות</p>';
+  return h+'<p class="mut c" style="font-size:12px;margin-bottom:14px">טופ 10 קריירות</p>'+lbxH();
 }
 /* ===== אתגר יומי ואתגר חבר ===== */
 function chClub(id){const c=CLUBS.find(x=>x.id===id);return c?c.n:'?'}
@@ -5104,7 +5112,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-19c';
+const BUILD='2026-11-19e';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';

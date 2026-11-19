@@ -34,7 +34,7 @@ function validateLog(L){
 
 /* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
 /* עולה בכל שינוי בלוגיקת האימות: ריצות במצב review נבדקות מחדש אוטומטית כשהמספר הזה משתנה */
-export const VERIFIER_REV=5;
+export const VERIFIER_REV=6;
 const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(|^window\._du\./;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
@@ -162,6 +162,16 @@ export function timingProblem(run,logRow){
   if(last<80*(L.l.length-1))return 'actions are faster than a human can play';
   return null;
 }
+/* הציון שהלקוח דיווח בלוג (log.sc). נבדק רק לסבירות: מספרים בטווח וקשרים פשוטים בין עונות, תארים וניקוד */
+export function softClaim(L){
+  const c=L&&L.sc;if(!c||typeof c!=='object')return null;
+  const score=Number(c.score),seasons=Number(c.seasons),titles=Number(c.titles);
+  if(!Number.isFinite(score)||score<=0||score>9999)return null;
+  if(!Number.isInteger(seasons)||seasons<1||seasons>60)return null;
+  if(!Number.isInteger(titles)||titles<0||titles>seasons*6)return null;
+  const cid=Number(c.cid);if(!Number.isFinite(cid))return null;
+  return {career_id:cid,club:String(c.club||'?').slice(0,40),score:Math.round(score),cid:String(c.cl||'').slice(0,40),hof:null,trk:L.tr|0,seasons,titles,fate:c.fate?String(c.fate).slice(0,20):null};
+}
 export async function verifyRun(run,deps){
   const rows=run.run_logs;const lr=Array.isArray(rows)?rows[0]:rows;
   if(!lr)return {status:'rejected',note:'no log'};
@@ -178,6 +188,8 @@ export async function verifyRun(run,deps){
     /* פסילה רק על הוכחה חזקה. כל כשל טכני של השחזור (פעולה חסרה, לא הגיע לסוף, קריסה) הוא 'review' ולא פסילה: הקריירה נשמרת ונבדקת שוב */
     const e=String(res.err);
     const strong=/^(invalid log: bad shape)|^(challenge club mismatch|challenge must use track)/.test(e);
+    /* r6: אימות סלחני. קריירה חופשית שהשחזור שלה נכשל טכנית (לא פסילה חזקה) מתקבלת עם הציון שהמשחק עצמו חישב, אם הוא עובר בדיקות סבירות. אתגרים (יומי/דו־קרב) נשארים מחמירים. סומן 'soft' בהערה, וניתן לסנן אותו אחר כך */
+    if(!strong&&kind==='free'){const sc=softClaim(lr.log);if(sc)return {status:'verified',kind,summary:null,row:sc,name:lr.display_name,note:'soft: replay failed ('+e.slice(0,160)+'), accepted the game-reported score '+sc.score};}
     return {status:strong?'rejected':'review',note:e.slice(0,900)};
   }
   const hof=res.row&&res.row.hof;const hs=hof?JSON.stringify(hof):null;
