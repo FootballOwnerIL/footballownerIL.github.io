@@ -5196,7 +5196,7 @@ function cloudScore(){
   cloudSubmit({run_id:r.id,name:null,log:Object.assign({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()},sc?{sc}:{})});
 }
 /* r10: הציון שהמשחק חישב נשלח תמיד, גם בקריירות אתגר, כדי שהאימות הסלחני יוכל לקבל אותו */
-function scClaim(r){try{const he=(M.hof||[]).find(e=>e.id===S.hofId);let score=he&&!r.ch?Number(he.os):null;if(score==null||!Number.isFinite(score)){try{score=curScore().score}catch(e){score=null}}if(score==null||!Number.isFinite(score))return null;return{cid:S.hofId!=null?S.hofId:Math.floor(Date.now()/1000),club:String(he?he.club:clubOf().n).slice(0,40),score:Math.max(1,Math.round(score)),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null,cl:String(clubOf().id).slice(0,40)}}catch(e){return null}}
+function scClaim(r){try{const he=(M.hof||[]).find(e=>e.id===S.hofId);let score=he&&!r.ch?Number(he.os):null;if(score==null||!Number.isFinite(score)){try{score=curScore().score}catch(e){score=null}}if(score==null||!Number.isFinite(score))score=1;return{cid:S.hofId!=null?S.hofId:Math.floor(Date.now()/1000),club:String(he?he.club:clubOf().n).slice(0,40),score:Math.max(1,Math.round(score)),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null,cl:String(clubOf().id).slice(0,40)}}catch(e){return null}}
 /* קריירה שנשלחה ועוד לא אומתה: מוצגת רק לשחקן עצמו, מסומנת "ממתין לאימות" */
 function lbMine(){try{return(JSON.parse(localStorage.getItem('owner_lbmine'))||[]).filter(x=>x&&x.id&&Date.now()-x.t<45*864e5)}catch(e){return[]}}
 function lbMineSet(a){try{localStorage.setItem('owner_lbmine',JSON.stringify(a.slice(-20)))}catch(e){}}
@@ -5449,7 +5449,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-23z15';
+const BUILD='2026-11-23z16';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';
