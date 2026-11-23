@@ -5169,7 +5169,7 @@ async function cloudQueueFlush(){
 async function chResend(id){
   const f=lbFail(),row=f.find(x=>x.run_id===id);
   if(row){lbFailSet(f.filter(x=>x.run_id!==id));const q=cloudQueue().filter(x=>x.run_id!==id);q.push(row);cloudQueueSet(q)}
-  else if(S&&S.ac&&S.ac.id===id&&S.screen==='final'){const r=S.ac;const q=cloudQueue().filter(x=>x.run_id!==id);q.push({run_id:r.id,name:null,log:lbSlim({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()})});cloudQueueSet(q)}
+  else if(S&&S.ac&&S.ac.id===id&&S.screen==='final'){const r=S.ac;const q=cloudQueue().filter(x=>x.run_id!==id);{const sc=scClaim(r);q.push({run_id:r.id,name:null,log:lbSlim(Object.assign({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()},sc?{sc}:{}))})}cloudQueueSet(q)}
   chDoneSet(id,{err:null,net:null,try:Date.now()});
   window._chrs=1;draw();
   try{if(!_cl)await chWait();await cloudQueueFlush()}catch(e){}
@@ -5192,9 +5192,11 @@ function cloudScore(){
   if(!r||!r.id||!r.b)return;
   try{const he=(M.hof||[]).find(e=>e.id===S.hofId);if(he&&!r.ch)lbMineAdd({id:r.id,name:cloudName(),club:he.club,score:Math.round(Number(he.os)||0),seasons:he.se||0,titles:he.ti||0,t:Date.now()})}catch(e){}
   /* a45: הציון שהמשחק חישב נשלח יחד עם הלוג. אם השחזור הטכני בשרת נכשל, הקריירה לא נתקעת: השרת מקבל את הציון אחרי בדיקות סבירות (אימות "סלחני"). שחזור מוצלח תמיד קובע את הציון במקום הציון הזה */
-  let sc=null;try{const he=(M.hof||[]).find(e=>e.id===S.hofId);if(he&&!r.ch)sc={cid:S.hofId,club:String(he.club).slice(0,40),score:Math.round(Number(he.os)||0),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null,cl:String(clubOf().id).slice(0,40)}}catch(e){}
+  const sc=scClaim(r);
   cloudSubmit({run_id:r.id,name:null,log:Object.assign({v:r.v,E:r.E,tr:r.tr|0,d:r.d,l:r.l,tend:acNowL()},sc?{sc}:{})});
 }
+/* r10: הציון שהמשחק חישב נשלח תמיד, גם בקריירות אתגר, כדי שהאימות הסלחני יוכל לקבל אותו */
+function scClaim(r){try{const he=(M.hof||[]).find(e=>e.id===S.hofId);let score=he&&!r.ch?Number(he.os):null;if(score==null||!Number.isFinite(score)){try{score=curScore().score}catch(e){score=null}}if(score==null||!Number.isFinite(score))return null;return{cid:S.hofId!=null?S.hofId:Math.floor(Date.now()/1000),club:String(he?he.club:clubOf().n).slice(0,40),score:Math.max(1,Math.round(score)),seasons:Math.max(1,Math.min(60,S.season|0)),titles:Math.max(0,Math.min(100,S.titles|0)),fate:S.fate||null,cl:String(clubOf().id).slice(0,40)}}catch(e){return null}}
 /* קריירה שנשלחה ועוד לא אומתה: מוצגת רק לשחקן עצמו, מסומנת "ממתין לאימות" */
 function lbMine(){try{return(JSON.parse(localStorage.getItem('owner_lbmine'))||[]).filter(x=>x&&x.id&&Date.now()-x.t<45*864e5)}catch(e){return[]}}
 function lbMineSet(a){try{localStorage.setItem('owner_lbmine',JSON.stringify(a.slice(-20)))}catch(e){}}
@@ -5447,7 +5449,7 @@ try{document.addEventListener('visibilitychange',()=>{if(document.visibilityStat
 cloudInit();
 /* ===== עדכון גרסה: בכל העלאה מעדכנים את BUILD כאן וגם בקובץ version.json באותו ערך =====
    אם בשרת יש גרסה חדשה יותר, מוצג חלון שאי אפשר לסגור, והכפתור טוען את הדף מכתובת חדשה כדי לעקוף את המטמון (עובד גם בנייד) */
-const BUILD='2026-11-23z14';
+const BUILD='2026-11-23z15';
 function verShow(b){
   if(document.getElementById('updw'))return;
   const d=document.createElement('div');d.id='updw';

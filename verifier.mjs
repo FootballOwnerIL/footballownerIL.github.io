@@ -34,7 +34,7 @@ function validateLog(L){
 
 /* screen actions that only talk to the cloud/UI and never touch the career: they may not exist on the replayed screen */
 /* עולה בכל שינוי בלוגיקת האימות: ריצות במצב review נבדקות מחדש אוטומטית כשהמספר הזה משתנה */
-export const VERIFIER_REV=6;
+export const VERIFIER_REV=7;
 const CLOUD_UI=/^(duelOpen|duelJoin|duelCreate|duelShare|duelLoad|dayOpen|dayStart|lbOpen|lbLoad|lbSaveName|chClose|toTitle|help)\(|^window\._du\./;
 async function replayMain(){
   const {JSDOM,VirtualConsole}=await import('jsdom');
@@ -177,9 +177,11 @@ export async function verifyRun(run,deps){
   if(!lr)return {status:'rejected',note:'no log'};
   const ver=/^a\d{1,3}$/.test(String(lr.log&&lr.log.v))?lr.log.v:run.game_ver;
   const html=deps.html(ver);
-  if(!html)return {status:'retry',note:'game version '+ver+' not found in history yet'};
-  const tp=timingProblem(run,lr);if(tp)return {status:'review',note:tp};
   const kind=run.kind||'free';
+  /* r7: אימות סלחני מאוד (לפני השקה, אין רמאים). כל מקרה שאינו הוכחה חזקה לרמאות מתקבל עם הציון שהמשחק דיווח, ומסומן 'soft' בהערה כדי שאפשר יהיה לסנן אחר כך */
+  const soft=why=>{const sc=softClaim(lr.log);return sc?{status:'verified',kind,summary:null,row:sc,name:lr.display_name,note:'soft: '+String(why).slice(0,160)+', accepted the game-reported score '+sc.score}:null};
+  if(!html)return soft('game version '+ver+' not in history')||{status:'retry',note:'game version '+ver+' not found in history yet'};
+  const tp=timingProblem(run,lr);if(tp)return soft(tp)||{status:'review',note:tp};
   const cands=deps.htmls?(deps.htmls(ver)||[]):[];if(!cands.length||cands[0]!==html)cands.unshift(html);
   let res=null,tried=0;
   for(const h of cands){tried++;res=deps.replay({html:h,seed:run.seed,runId:run.id,log:lr.log,kind,code:run.duel_code||null});if(res.ok)break}
@@ -189,7 +191,7 @@ export async function verifyRun(run,deps){
     const e=String(res.err);
     const strong=/^(invalid log: bad shape)|^(challenge club mismatch|challenge must use track)/.test(e);
     /* r6: אימות סלחני. קריירה חופשית שהשחזור שלה נכשל טכנית (לא פסילה חזקה) מתקבלת עם הציון שהמשחק עצמו חישב, אם הוא עובר בדיקות סבירות. אתגרים (יומי/דו־קרב) נשארים מחמירים. סומן 'soft' בהערה, וניתן לסנן אותו אחר כך */
-    if(!strong&&kind==='free'){const sc=softClaim(lr.log);if(sc)return {status:'verified',kind,summary:null,row:sc,name:lr.display_name,note:'soft: replay failed ('+e.slice(0,160)+'), accepted the game-reported score '+sc.score};}
+    if(!strong){const sv=soft('replay failed ('+e.slice(0,140)+')');if(sv)return sv}
     return {status:strong?'rejected':'review',note:e.slice(0,900)};
   }
   const hof=res.row&&res.row.hof;const hs=hof?JSON.stringify(hof):null;
